@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-quote program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-quote program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-quote quote" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-quote</tt> program </h1>
+
+<p>
+ s6-quote quotes a string and writes it to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-quote [ -n ] [ -u ] [ -d <em>delim</em> ] <em>string</em>
+</pre>
+
+<ul>
+ <li> s6-quote quotes <em>string</em>, putting it inside double quotes
+and escaping all dubious characters </li>
+ <li> It writes the quoted string to stdout and exits 0 </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-n</tt>&nbsp;: do not print a trailing newline </li>
+ <li> <tt>-u</tt>&nbsp;: do not put <em>string</em> inside double quotes, only escape
+characters if needed </li>
+ <li> <tt>-d</tt>&nbsp;<em>delim</em>&nbsp;: use the first character of <em>delim</em>
+as a quote character, instead of double quotes </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> Quoted strings are guaranteed to be pure printable ASCII, without control characters. </li>
+ <li> Quoted strings can be unquoted via the <a href="s6-unquote.html">s6-unquote</a> or
+<a href="s6-unquote-filter.html">s6-unquote-filter</a> programs. </li>
+ <li> Quoted strings are suitable for interpretation by
+<a href="http://skarnet.org/software/execline/execlineb.html">execlineb</a>. </li>
+</ul>
+
+</body>
+</html>

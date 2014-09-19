@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-update-symlinks program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-update-symlinks program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-update-symlinks update-symlinks symlinks" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-update-symlinks</tt> program </h1>
+
+<p>
+ <tt>s6-update-symlinks</tt> links the content of several similar directory trees
+under a single tree. Its main use is to replace search paths like $PATH
+or $MANPATH, by creating a unique access tree based on the source trees.
+Name conflicts are solved by giving precedence to the last named directory.
+Subdirectories are created exactly as needed ; what can be shared is
+shared.
+</p>
+
+<p>
+<tt>s6-update-symlinks</tt> is useful when one wants to combine
+a logical package system, like Dan Bernstein's
+<a href="http://cr.yp.to/slashpackage.html"><tt>/package</tt></a> and
+<a href="http://cr.yp.to/slashcommand.html"><tt>/command</tt></a>, with
+physical filesystem constraints, like <tt>/</tt>, <tt>/usr</tt> and
+<tt>/usr/local</tt> on separate filesystems.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-update-symlinks <em>d</em> <em>src1</em> <em>src2</em> ...
+</pre>
+
+<ul>
+ <li> <em>d</em> is the destination directory. It will be created if it doesn't
+exist. </li>
+ <li> <em>src1</em>, <em>src2</em>, ... are the directory containing the files
+to be linked.</li>
+ <li> <em>d</em> and <em>srcn</em> <strong>must</strong> be
+<strong>absolute</strong> paths, else s6-update-symlinks refuses to run. Using
+relative paths doesn't make sense here, anyway. </li>
+ <li> If <em>src2</em> is empty, then <em>d</em> becomes a link to <em>src1</em>. </li>
+ <li> If <em>src1</em> is empty or entirely overridden by <em>src2</em>, then
+<em>d</em> becomes a link to <em>src2</em>.</li>
+ <li> If <em>src1/file</em> exists but not <em>src2/file</em>, then <em>d</em>
+becomes a real directory and <em>d/file</em> a link to <em>src1/file</em>.
+Then if <em>src2/file2</em> exists, <em>d/file2</em> links to it. </li>
+ <li> And so on with other <em>src</em> directories, and subdirs. </li>
+ <li> If <tt>s6-update-symlinks</tt> manages to performs all the requested
+tasks, it exits 0. If it encounters a hard error, it exits 111. If it is
+unable to resolve a conflict between given sources, it exits 100. </li>
+</ul>
+
+<h2> Examples </h2>
+
+<ul>
+ <li>
+<tt>s6-update-symlinks /command /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin</tt>
+<br> makes all files under <tt>/bin</tt>, ..., <tt>/usr/local/sbin</tt>
+available under <tt>/command</tt>. The programs linked are the same as the ones
+that would be accessed with PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin".
+ </li>
+ <li>
+<tt>s6-update-symlinks /package /initrd/package /slash/package /usr/package /usr/local/package</tt>
+<br /> builds a <tt>/package</tt> hierarchy with what it finds in the listed
+directories. This allows oddities like, for instance, having the daemontools
+sources in <tt>/usr/package/admin/daemontools/src</tt>, and the daemontools
+binaries in <tt>/initrd/package/admin/daemontools/bin</tt>, but accessing
+both through <tt>/package/admin/daemontools/</tt>. </li>
+</ul>
+
+</body>
+</html>

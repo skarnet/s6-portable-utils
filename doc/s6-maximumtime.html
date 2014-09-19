@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-maximumtime program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-maximumtime program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-maximumtime maximumtime timelimit time limit" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-maximumtime</tt> program </h1>
+
+<p>
+ s6-maximumtime executes a program with a time limit.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-maximumtime [ -0 | -a | -b | -i | -k | -q | -t | -x | -1 | -2 ] <em>milli</em> <em>prog...</em>
+</pre>
+
+<ul>
+ <li> s6-maximumtime forks and execs <em>prog...</em> as a child. </li>
+ <li> If <em>milli</em> milliseconds elapse before <em>prog</em> exits,
+s6-maximumtime sends it a signal and exits 99 with a message. </li>
+ <li> Else s6-maximumtime exits with the same exit code as <em>prog</em>. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-0</tt>&nbsp;: on timeout, do not send any signal, just exit </li>
+ <li> <tt>-a</tt>&nbsp;: on timeout, send a SIGALRM </li>
+ <li> <tt>-b</tt>&nbsp;: on timeout, send a SIGABRT </li>
+ <li> <tt>-i</tt>&nbsp;: on timeout, send a SIGINT </li>
+ <li> <tt>-k</tt>&nbsp;: on timeout, send a SIGKILL </li>
+ <li> <tt>-q</tt>&nbsp;: on timeout, send a SIGQUIT </li>
+ <li> <tt>-t</tt>&nbsp;: on timeout, send a SIGTERM - this is the default </li>
+ <li> <tt>-x</tt>&nbsp;: on timeout, send a SIGXCPU </li>
+ <li> <tt>-1</tt>&nbsp;: on timeout, send a SIGUSR1 </li>
+ <li> <tt>-2</tt>&nbsp;: on timeout, send a SIGUSR2 </li>
+</ul>
+
+</body>
+</html>

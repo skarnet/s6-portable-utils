@@ -1,0 +1,25 @@
+s6-portable-utils - tiny general Unix utilities
+-----------------------------------------------
+
+s6-portable-utils is a set of tiny general Unix utilities,
+often performing well-known tasks such as cut and grep
+ but optimized for simplicity and small size. They were
+designed for embedded systems and other constrained
+environments, but they work everywhere.
+
+ See http://skarnet.org/software/s6-portable-utils/ for details.
+
+
+* Installation
+  ------------
+
+ See the INSTALL file.
+
+
+* Contact information
+  -------------------
+
+ Laurent Bercot <ska-skaware at skarnet.org>
+
+ Please use the <skaware at list.skarnet.org> mailing-list for
+questions about s6-portable-utils.

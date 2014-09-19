@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-unquote program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-unquote program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-unquote quote" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-unquote</tt> program </h1>
+
+<p>
+ s6-unquote unquotes a quoted string and writes it to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-unquote [ -n ] [ -d <em>delim</em> ] <em>string</em>
+</pre>
+
+<ul>
+ <li> s6-unquote unquotes <em>string</em>, which must follow the
+syntax of <a href="s6-quote.html">s6-quote</a>'s output strings </li>
+ <li> It prints various warning or error messages to stderr if it
+cannot unquote <em>string</em> properly </li>
+ <li> If successful, it prints the result to stdout and exits 0 </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-n</tt>&nbsp;: do not print a trailing newline. </li>
+ <li> <tt>-d</tt>&nbsp;<em>delim</em>&nbsp;: a list of characters that
+will be considered as delimitors (to start and end the quoted string).
+By default, only the double quote is such a character. If <em>delim</em>
+is the empty string, s6-unquote interprets <em>string</em> as
+non-delimited, only escaped (i.e. the result of some
+<tt>s6-quote -u</tt> operation). </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> Quoted strings can be produced via the <a href="s6-quote.html">s6-quote</a> or
+<a href="s6-quote-filter.html">s6-quote-filter</a> programs. </li>
+</ul>
+
+</body>
+</html>

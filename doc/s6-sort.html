@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-sort program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-sort program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-sort sort" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-sort</tt> program </h1>
+
+<p>
+ s6-sort sorts its input.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-sort [ -b ] [ -c ] [ -f ] [ -r ] [ -u ] [ -0 ]
+</pre>
+
+<ul>
+ <li> s6-sort reads its stdin until EOF </li>
+ <li> It sorts all the lines it read alphanumerically </li>
+ <li> It prints the sorted lines to stdout and exits 0 </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-b</tt>&nbsp;: ignore leading spaces and tabs at the beginning of each
+line when sorting </li>
+ <li> <tt>-c</tt>&nbsp;: suppresses normal output, just returns 0 if the output
+would have been the same as the input and 1 otherwise </li>
+ <li> <tt>-f</tt>&nbsp;: ignore case when sorting </li>
+ <li> <tt>-r</tt>&nbsp;: reverse sort </li>
+ <li> <tt>-u</tt>&nbsp;: suppresses duplicate lines </li>
+ <li> <tt>-0</tt>&nbsp;: input and output lines are separated by null characters
+instead of newlines </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-sort <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sort.html">sort</a>
+program.
+</p>
+
+</body>
+</html>

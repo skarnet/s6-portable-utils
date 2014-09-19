@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-nuke program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-nuke program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-nuke signal kill" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-nuke</tt> program </h1>
+
+<p>
+ s6-nuke sends signals to every process it is allowed to send.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-nuke [ -h | -t | -k ]
+</pre>
+
+<ul>
+ <li> Depending on the options it is given, s6-nuke sends signals to
+all processes; depending on s6-nuke's rights, not all processes may
+receive them. </li>
+ <li> s6-nuke protects itself against the signals it sends (which
+doesn't do much good against SIGKILL). If it survives the blast,
+it exits 0. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-h</tt>&nbsp;: send a SIGHUP </li>
+ <li> <tt>-t</tt>&nbsp;: send a SIGTERM then a SIGCONT </li>
+ <li> <tt>-k</tt>&nbsp;: send a SIGKILL </li>
+</ul>
+
+<h2> Usage notes </h2>
+
+<p>
+ s6-nuke can be used during the shutdown procedure of a system, which is
+described
+<a href="http://skarnet.org/software/s6/s6-svscan-1.html#stage3">here</a>.
+</p>
+
+</body>
+</html>

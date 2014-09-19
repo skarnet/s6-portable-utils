@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-ls program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-ls program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-ls ls directory list" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-ls</tt> program </h1>
+
+<p>
+ s6-ls lists the contents of a directory.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-ls [ -0 ] [ -a | -A ] [ -x <em>exclude</em> ] <em>dir</em>
+</pre>
+
+<p>
+ s6-ls lists the contents of <em>dir</em>, one file per line. It
+omits files starting with a dot.
+</p>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-0</tt>&nbsp;: separate file names with a null character
+instead of a newline. </li>
+ <li> <tt>-a</tt>&nbsp;: do not omit files starting with a dot. Do
+not list <tt>.</tt> or <tt>..</tt> though. </li>
+ <li> <tt>-A</tt>&nbsp;: do not omit files starting with a dot, even
+<tt>.</tt> and <tt>..</tt> </li>
+ <li> <tt>-x</tt>&nbsp;<em>exclude</em>&nbsp;: if a file name is
+<em>exclude</em>, do not print it. </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-ls <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html">ls</a>
+program.
+</p>
+
+</body>
+</html>

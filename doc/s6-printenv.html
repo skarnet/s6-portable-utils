@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-printenv program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-printenv program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-printenv environment variables" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-printenv</tt> program </h1>
+
+<p>
+ s6-printenv prints its environment variables.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-printenv [ -n ] [ -0 | -d <em>delim</em> ]
+</pre>
+
+<p>
+ s6-printenv prints its environment on stdout, like
+<a href="s6-env.html">s6-env</a>.
+</p>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-0</tt>&nbsp;: separate file names with a null character
+instead of a newline. </li>
+ <li> <tt>-d</tt>&nbsp;<em>delim</em>&nbsp;: separate file names with the
+first character of <em>delim</em> instead of a newline </li>
+ <li> <tt>-n</tt>&nbsp;: omit the last delimiter character </li>
+</ul>
+
+</body>
+</html>

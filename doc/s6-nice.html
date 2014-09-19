@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-nice program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-nice program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-nice nice" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">www.skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-nice</tt> program </h1>
+
+<p>
+ s6-nice executes into a program with an altered nice value.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-nice [ -I | -i ] [ -n <em>value</em> ] [ <em>prog...</em> ]
+</pre>
+
+<p>
+ s6-nice acts as the generic
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/nice.html">nice</a> utility.
+</p>
+
+<h2> Extra options </h2>
+
+<ul>
+ <li> <tt>-I</tt>&nbsp;: loose. If the nice value cannot be set to <em>value</em>,
+print a warning message and exec into <em>prog...</em> anyway. This is the default. </li>
+ <li> <tt>-i</tt>&nbsp;: strict. If the nice value cannot be set to <em>value</em>,
+exit 111 with an error message.
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-nice <strong>is</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/nice.html">nice</a>
+program.
+</p>
+
+</body>
+</html>

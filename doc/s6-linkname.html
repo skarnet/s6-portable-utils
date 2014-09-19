@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-linkname program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-linkname program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-linkname linkname readlink" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-linkname</tt> program </h1>
+
+<p>
+ s6-linkname gives the content of a symbolic link or resolves a path.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-linkname [ -f ] <em>path</em>
+</pre>
+
+<ul>
+ <li> If <em>path</em> is a symbolic link, s6-linkname prints its
+content then exits 0. </li>
+ <li> Else it prints an error message and exits 111. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-f</tt>&nbsp;: s6-linkname fully resolves <em>path</em> then
+prints the result on stdout. <em>path</em> does not have to be a symbolic
+link. </li>
+</ul>
+
+</body>
+</html>

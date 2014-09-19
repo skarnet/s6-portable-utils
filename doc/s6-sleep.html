@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-sleep program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-sleep program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-sleep sleep" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-sleep</tt> program </h1>
+
+<p>
+ s6-sleep sleeps for a given time.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-sleep [ -m ] <em>time</em>
+</pre>
+
+<p>
+ s6-sleep acts as the generic
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html">sleep</a> utility.
+It ignores non-lethal signals.
+</p>
+
+<h2> Extra options </h2>
+
+<ul>
+ <li> <tt>-m</tt>&nbsp;: Interpret <em>time</em> as milliseconds instead of seconds. </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-sleep <strong>is</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html">sleep</a>
+program.
+</p>
+
+</body>
+</html>

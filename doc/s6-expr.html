@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-expr program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-expr program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-expr expr" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-expr</tt> program </h1>
+
+<p>
+ s6-expr evaluates an expression and writes the result to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-expr <em>expression...</em>
+</pre>
+
+<p>
+ s6-expr acts as the generic
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/expr.html">expr</a> utility,
+except that the <strong>:</strong> operator (pattern matching) is not supported.
+</p>
+
+<p>
+ s6-expr accepts an arbitrary number of arguments.
+</p>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-expr <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/expr.html">expr</a>
+program; however, if you are never using the pattern matching functionality, s6-expr
+scrupulously follows the rest of the specification.
+</p>
+
+</body>
+</html>

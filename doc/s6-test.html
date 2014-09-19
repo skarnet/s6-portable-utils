@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-test program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-test program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-test test" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-test</tt> program </h1>
+
+<p>
+ s6-test evaluates an expression and indicates the result via its
+exit status.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-test <em>expression...</em>
+</pre>
+
+<p>
+ s6-test acts as the generic
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">test</a> utility,
+but it diverges from the specification on one point: if an argument starts with a backslash,
+this backslash is ignored (and the argument cannot be an operation). This is a simple
+disambiguation technique that has unfortunately not been chosen by the standard.
+</p>
+
+<p>
+ s6-test accepts an arbitrary number of arguments.
+</p>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-test <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">test</a>
+program; however, if your arguments never start with a backslash, it exhibits the
+exact same behaviour.
+</p>
+
+</body>
+</html>

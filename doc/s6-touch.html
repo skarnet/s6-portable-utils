@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-touch program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-touch program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-touch touch" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-touch</tt> program </h1>
+
+<p>
+ s6-touch changes the modification and access times of a file, creating it if it does
+not exist.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-touch <em>file...</em>
+</pre>
+
+<p>
+ s6-touch touches every <em>file</em> in the list by opening them for appending
+then closing them.
+</p>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-touch <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html">touch</a>
+program.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-format-filter program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-format-filter program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-format filter printf format" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-format-filter</tt> program </h1>
+
+<p>
+s6-format-filter processes lines according to its arguments, and
+prints the result.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-format-filter <em>format</em> [ <em>args...</em> ]
+</pre>
+
+<ul>
+ <li> <em>format</em> is a format string that can contain the following special sequences:
+<tt>%%</tt>, <tt>%s</tt>, and <tt>%0</tt> to <tt>%9</tt>. </li>
+ <li> For every line it reads on stdin, s6-format-filter prints <em>format</em> on
+stdout, replacing <tt>%%</tt> with <tt>%</tt>, <tt>%0</tt> with the command name
+(probably <tt>s6-format-filter</tt>), <tt>%1</tt> to <tt>%9</tt> with the first
+to the ninth argument in <em>args</em>, and <tt>%s</tt> with the input line. </li>
+ <li> s6-format-filter exits 0 when it reads EOF. </li>
+</ul>
+
+</body>
+</html>

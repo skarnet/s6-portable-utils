@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-chown program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-chown program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-chown chown" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-chown</tt> program </h1>
+
+<p>
+ s6-chown changes the owner and/or group of a file.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-chown [ -U ] [ -u uid ] [ -g gid ] file
+</pre>
+
+<ul>
+ <li> s6-chown changes <em>file</em>'s owner to (numeric) <em>uid</em> and group
+to (numeric) <em>gid</em>. </li>
+ <li> If <em>uid</em> isn't provided, the owner remains the same; if <em>gid</em>
+isn't provided, the group remains the same. </li>
+ <li> The <tt>-U</tt> option sets <em>uid</em> to the value of the UID
+environment variable and <em>gid</em> to the value of the GID environment variable.
+This makes s6-chown easily usable with
+<a href="http://www.skarnet.org/software/s6/s6-envuidgid.html">s6-envuidgid</a>:
+<tt> s6-envuidgid account s6-chown -U file </tt> changes <em>file</em>'s uid and
+gid to <em>account</em>'s. </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-chown <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chown.html">chown</a>
+program.
+</p>
+
+</body>
+</html>

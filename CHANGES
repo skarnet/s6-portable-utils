@@ -1,0 +1,62 @@
+20110701
+	version: 0.10
+20110809
+	bug: s6-head didn't handle chars properly
+	  fix: rewrote variable management
+	version: 0.11
+20110822
+	bug: s6-pause was incorrectly linked with libstddjb
+	  impact: did not run when linked with libstddjb.so because of PROG
+	  fix: :>deps-exe/s6-pause
+	version: 0.12
+20110929
+	code: added s6-memoryhog
+	version: 0.13
+20111108
+	bug: s6-ln.c did not define _ATFILE_SOURCE when needed
+	  fix: trivial
+	version: 0.14
+20120110
+	bug: s6-tail did not work with non-positive lines
+	  fix: trivial
+	version: 0.15
+20120215
+	internal: changed all bools from unsigned char to int
+20120220
+	version: 0.16
+20120327
+	bug: potential crash (and wrong results) with s6-tail -c n when input is < n chars
+	  impact: m( How many bugs can I leave in those stupid utilities ?
+	  fix: added guard so n is never greater than the input length
+	version: 0.17
+20120929
+	code: s6-update-symlinks accepts trailing slashes in dst
+	doc: fixed s6-update-symlinks.html
+20130206
+	build: switched to non-sp supporting build
+20130212
+	version: 1.0.0
+20130518
+	bug: some binaries didn't link with flag-usert
+	  fix: add `cat taianow.lib` to their deps-obj
+	version: 1.0.1
+20130913
+	internal: removed deprecated calls
+20130926
+	version: 1.0.2
+20140327
+	bug: s6-mkfifo respected umask
+	  fix: add umask(0111)
+	version: 1.0.3
+20140409
+	bug: segfault in s6-cut when passing dash filenames
+	  fix: trivial
+20140411
+	build: changed to 4-number versioning
+	deps: moved to skalibs-1.6.0.0
+20140514
+	version: 1.0.3.1
+20140604
+	bug: wrong libexec directory in package/export
+	  fix: trivial
+	version: 1.0.3.2

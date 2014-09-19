@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-echo program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-echo program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-echo echo" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-echo</tt> program </h1>
+
+<p>
+ s6-echo writes its arguments to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-echo [ -n ] [ -s sep ] <em>args...</em>
+</pre>
+
+<p>
+ s6-echo writes its arguments <em>args</em> to stdout, separated with spaces.
+</p>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-n</tt>&nbsp;: do not output a trailing newline. </li>
+ <li> <tt>-s</tt>&nbsp;<em>sep</em>&nbsp;: separate arguments with the <em>sep</em>
+character instead of a space. </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-echo <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/echo.html">echo</a>
+program.
+</p>
+
+</body>
+</html>

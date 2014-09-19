@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-unquote-filter program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-unquote-filter program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-unquote-filter unquote filter" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-unquote-filter</tt> program </h1>
+
+<p>
+ s6-unquote acts as a filter, reading quoted strings on stdin,
+unquoting them and writing the results to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-unquote-filter [ -q | -Q | -v | -w ] [ -d <em>delim</em> ]
+</pre>
+
+<ul>
+ <li> s6-unquote-filter reads lines on stdin. It exits 0 on EOF. </li>
+ <li> It expects read lines to follow the
+syntax of <a href="s6-quote.html">s6-quote</a>'s output strings </li>
+ <li> Depending on the strictness options, it prints various warning
+or error messages to stderr if it cannot properly unquote lines. In
+the very strict mode, it exits 100 on the first unquoting error. </li>
+ <li> If it is successful at unquoting, it prints the resulting
+lines to stdout. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-d</tt>&nbsp;<em>delim</em>&nbsp;: a list of characters that
+will be considered as delimitors (to start and end the quoted string).
+By default, only the double quote is such a character. If <em>delim</em>
+is the empty string, s6-unquote-filter interprets <em>string</em> as
+non-delimited, only escaped (i.e. for instance the result of some
+<tt>s6-quote-filter -u</tt> operation). </li>
+ <li> <tt>-q</tt>&nbsp;: loose/quiet mode. s6-unquote-filter will
+silently accommodate errors. </li>
+ <li> <tt>-Q</tt>&nbsp;: normal mode. This is the default. s6-unquote-filter
+will warn on errors. </li>
+ <li> <tt>-v</tt>&nbsp;: strict/verbose mode. s6-unquote-filter will
+warn loudly on errors, with many details. </li>
+ <li> <tt>-w</tt>&nbsp;: very strict mode. s6-unquote-filter will complain
+and die on the first unquoting error it encounters. </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> Quoted strings can be produced via the <a href="s6-quote.html">s6-quote</a> or
+<a href="s6-quote-filter.html">s6-quote-filter</a> programs. </li>
+</ul>
+
+</body>
+</html>

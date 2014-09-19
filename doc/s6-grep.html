@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-grep program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-grep program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-grep grep" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-grep</tt> program </h1>
+
+<p>
+ s6-grep matches its input against a pattern.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-grep [ -E | -F ] [ -i ] [ -c ] [ -n ] [ -q ] [ -v ] <em>pattern</em>
+</pre>
+
+<ul>
+ <li> s6-grep compiles <em>pattern</em> as an
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_03">Basic
+Regular Expression</a> </li>
+ <li> It reads stdin and matches every line against this regexp </li>
+ <li> If the line matches, it prints it to stdout </li>
+ <li> It exits on EOF with code 0 if one or more lines matched and 1
+otherwise. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-F</tt>&nbsp;: <em>pattern</em> is not compiled as a BRE, but is
+interpreted as a literal string. </li>
+ <li> <tt>-E</tt>&nbsp;: <em>pattern</em> is not compiled as a BRE, but as an
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">Extended
+Regular Expression</a> (ERE). </li>
+ <li> <tt>-i</tt>&nbsp;: ignore case during the match </li>
+ <li> <tt>-c</tt>&nbsp;: do not write normal output; only write the number of
+lines that have matched <em>pattern</em> after EOF is received </li>
+ <li> <tt>-n</tt>&nbsp;: precede every output line by its number and a colon.
+The first input line has number 1. </li>
+ <li> <tt>-q</tt>&nbsp;: do not write anything to stdout </li>
+ <li> <tt>-v</tt>&nbsp;: invert the pattern matching (select lines that do not
+match <em>pattern</em>). </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-grep <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html">grep</a>
+program.
+</p>
+
+</body>
+</html>

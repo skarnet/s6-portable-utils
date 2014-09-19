@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-cat program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-cat program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-cat cat" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-cat</tt> program </h1>
+
+<p>
+ s6-cat copies stdin to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-cat
+</pre>
+
+<p>
+ s6-cat transfers data from stdin to stdout, until it receives EOF or
+gets killed.
+</p>
+
+<h2> Notes </h2>
+
+<p>
+ On systems that support it (as of 2.0.0.0, only Linux 2.6.17 or later),
+s6-cat performs zero-copy transfer.
+</p>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-cat <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html">cat</a>
+program.
+</p>
+
+</body>
+</html>

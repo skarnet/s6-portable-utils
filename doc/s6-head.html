@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-head program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-head program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-head head" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-head</tt> program </h1>
+
+<p>
+ s6-head prints the first lines of its input files.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-head [ -S ] [ -1..9 | -n <em>lines</em> | -c <em>chars</em> ] <em>file...</em>
+</pre>
+
+<p>
+ s6-head acts as the generic
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/head.html">head</a> utility.
+</p>
+
+<h2> Extra options </h2>
+
+<ul>
+ <li> <tt>-S</tt>&nbsp;: safe mode. s6-head stops reading its input files <em>right after</em>
+getting all the lines it needs. The rest of the stream can then be handled by other
+utilities without any data loss. </li>
+ <li> <tt>-1..9</tt>&nbsp;: equivalent to <tt>-n 1</tt> .. <tt>-n 9</tt>. </li>
+ <li> <tt>-c</tt>&nbsp;<em>chars</em>&nbsp;: cuts after <em>chars</em> characters instead
+of <em>lines</em> lines. </li>
+</ul>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-head <strong>is</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/head.html">head</a>
+program.
+</p>
+
+</body>
+</html>

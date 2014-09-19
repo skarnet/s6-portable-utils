@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-uniquename program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-uniquename program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-uniquename uniquename random" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-uniquename</tt> program </h1>
+
+<p>
+ s6-uniquename creates a guaranteed unique file name and prints it to stdout.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-uniquename [ -n <em>randomlen</em> ] <em>prefix</em>
+</pre>
+
+<ul>
+ <li> s6-uniquename creates a unique filename starting with <em>prefix</em>
+involving a TAI64N timestamp, the machine's FQDN and the process' PID. </li>
+ <li> It prints it to stdout and exits 0. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-n</tt>&nbsp;<em>randomlen</em>&nbsp;: for added security, also
+add a random readable string of <em>randomlen</em> characters to the
+created pathname. </li>
+</ul>
+
+</body>
+</html>

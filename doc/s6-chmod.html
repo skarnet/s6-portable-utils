@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-chmod program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-chmod program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-chmod chmod" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-chmod</tt> program </h1>
+
+<p>
+ s6-chmod changes the permissions of a file.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-chmod perms file
+</pre>
+
+<p>
+ s6-chmod changes <em>file</em>'s permissions to <em>perms</em>, which
+must be an absolute octal number such as 0755 for
+<tt>rwxr-xr-x</tt> or 2700 for <tt>rwx--S---</tt>.
+</p>
+
+<h2> Posixness </h2>
+
+<p>
+ s6-chmod <strong>is not</strong> suitable as a Single Unix
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/chmod.html">chmod</a>
+program.
+</p>
+
+</body>
+</html>
