@@ -56,12 +56,8 @@ int main (int argc, char const *const *argv)
     stralloc line = STRALLOC_ZERO ;
     regex_t re ;
     unsigned int num = 0 ;
-    unsigned int arglen ;
-    if (flags.fixed)
-    {
-      if (flags.ignorecase) arglen = str_len(argv[0]) ;
-    }
-    else
+    unsigned int arglen = str_len(argv[0]) ;
+    if (!flags.fixed)
     {
       register int e = regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
       if (e)

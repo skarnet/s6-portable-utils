@@ -1,4 +1,4 @@
-BIN_TARGETS = \
+BIN_TARGETS := \
 s6-basename \
 s6-cat \
 s6-chmod \
@@ -39,7 +39,5 @@ s6-unquote \
 s6-unquote-filter \
 s6-update-symlinks
 
-SBIN_TARGETS =
-LIBEXEC_TARGETS =
-SHARED_LIBS =
-STATIC_LIBS =
+SBIN_TARGETS :=
+LIBEXEC_TARGETS :=
