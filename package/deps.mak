@@ -41,6 +41,7 @@ src/skaembutils/s6-uniquename.o src/skaembutils/s6-uniquename.lo: src/skaembutil
 src/skaembutils/s6-unquote-filter.o src/skaembutils/s6-unquote-filter.lo: src/skaembutils/s6-unquote-filter.c
 src/skaembutils/s6-unquote.o src/skaembutils/s6-unquote.lo: src/skaembutils/s6-unquote.c
 src/skaembutils/s6-update-symlinks.o src/skaembutils/s6-update-symlinks.lo: src/skaembutils/s6-update-symlinks.c
+src/skaembutils/seekablepipe.o src/skaembutils/seekablepipe.lo: src/skaembutils/seekablepipe.c
 
 s6-basename: private EXTRA_LIBS :=
 s6-basename: src/skaembutils/s6-basename.o -lskarnet
@@ -120,3 +121,5 @@ s6-unquote-filter: private EXTRA_LIBS :=
 s6-unquote-filter: src/skaembutils/s6-unquote-filter.o -lskarnet
 s6-update-symlinks: private EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
 s6-update-symlinks: src/skaembutils/s6-update-symlinks.o -lskarnet
+seekablepipe: private EXTRA_LIBS :=
+seekablepipe: src/skaembutils/seekablepipe.o -lskarnet

@@ -37,7 +37,8 @@ s6-true \
 s6-uniquename \
 s6-unquote \
 s6-unquote-filter \
-s6-update-symlinks
+s6-update-symlinks \
+seekablepipe
 
 SBIN_TARGETS :=
 LIBEXEC_TARGETS :=
