@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-hiercopy program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-hiercopy program" />
+    <meta name="Keywords" content="s6 linux administration root utilities hiercopy cp -a" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-hiercopy</tt> program </h1>
+
+<p>
+<tt>s6-hiercopy</tt> copies a directory structure recursively.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-hiercopy <em>source</em> <em>destination</em>
+</pre>
+
+<ul>
+ <li> <tt>s6-hiercopy</tt> recursively copies <em>source</em> to
+<em>destination</em>, which is created if it doesn't exist.
+The permissions are preserved. The owner and group are preserved
+if the user is the superuser. </li>
+ <li> It exits 0 on success and 111 on temporary failure. </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> Copying files and browsing through directories is one of Unix's
+weakest points, and <tt>s6-hiercopy</tt> is not meant to work around
+the problem; it's only a quick hack that I needed to boot my embedded
+platform. I originally planned to write the ultimate <tt>cp</tt> utility,
+portable and reliable and featureful and everything - while needing
+approximately a hundred times less resources than GNU <tt>cp</tt> does,
+of course. But I eventually dropped the idea: it's impossible to
+design, much less write, such a utility. Notably,
+ you cannot make it reliable because Unix's set of filesystem
+management primitives is just too weak. It lacks a lot of atomic
+operations, and filesystem transactions. As a result, <tt>s6-hiercopy</tt>
+is a walking race condition and should <strong>absolutely not</strong>
+be considered instant when used in a multitasking environment.
+But then, <tt>cp</tt> shouldn't either. </li>
+ <li> There is no standard way of creating device nodes on a
+filesystem, so any <tt>cp</tt>-like utility is inherently
+non-portable. Fortunately, most systems still agree on the non-portable usages of
+<a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/mknod.html">mknod
+specification</a>, so things should work in practice. Consequently,
+the s6-hiercopy utility has been moved from
+<a href="http://skarnet.org/software/s6-linux-utils/">s6-linux-utils</a>
+to s6-portable-utils. </li>
+</ul>
+
+</body>
+</html>

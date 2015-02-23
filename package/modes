@@ -12,6 +12,7 @@ s6-false		0755
 s6-format-filter	0755
 s6-grep			0755
 s6-head			0755
+s6-hiercopy		0755
 s6-linkname		0755
 s6-ln			0755
 s6-ls			0755

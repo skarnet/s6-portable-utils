@@ -16,6 +16,7 @@ src/skaembutils/s6-false.o src/skaembutils/s6-false.lo: src/skaembutils/s6-false
 src/skaembutils/s6-format-filter.o src/skaembutils/s6-format-filter.lo: src/skaembutils/s6-format-filter.c
 src/skaembutils/s6-grep.o src/skaembutils/s6-grep.lo: src/skaembutils/s6-grep.c
 src/skaembutils/s6-head.o src/skaembutils/s6-head.lo: src/skaembutils/s6-head.c
+src/skaembutils/s6-hiercopy.o src/skaembutils/s6-hiercopy.lo: src/skaembutils/s6-hiercopy.c
 src/skaembutils/s6-linkname.o src/skaembutils/s6-linkname.lo: src/skaembutils/s6-linkname.c
 src/skaembutils/s6-ln.o src/skaembutils/s6-ln.lo: src/skaembutils/s6-ln.c
 src/skaembutils/s6-ls.o src/skaembutils/s6-ls.lo: src/skaembutils/s6-ls.c
@@ -71,6 +72,8 @@ s6-grep: private EXTRA_LIBS :=
 s6-grep: src/skaembutils/s6-grep.o -lskarnet
 s6-head: private EXTRA_LIBS :=
 s6-head: src/skaembutils/s6-head.o -lskarnet
+s6-hiercopy: private EXTRA_LIBS :=
+s6-hiercopy: src/skaembutils/s6-hiercopy.o -lskarnet
 s6-linkname: private EXTRA_LIBS :=
 s6-linkname: src/skaembutils/s6-linkname.o -lskarnet
 s6-ln: private EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}

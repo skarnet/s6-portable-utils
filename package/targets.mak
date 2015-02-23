@@ -13,6 +13,7 @@ s6-false \
 s6-format-filter \
 s6-grep \
 s6-head \
+s6-hiercopy \
 s6-linkname \
 s6-ln \
 s6-ls \
