@@ -6,6 +6,7 @@ s6-chown \
 s6-clock \
 s6-cut \
 s6-dirname \
+s6-dumpenv \
 s6-echo \
 s6-env \
 s6-expr \

@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-dumpenv program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-dumpenv program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-dumpenv environment variables" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-dumpenv</tt> program </h1>
+
+<p>
+ s6-dumpenv stores its environment variables into a directory.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-dumpenv [ -m <em>mode</em> ] <em>dir</em>
+</pre>
+
+<ul>
+ <li> s6-dumpenv creates the directory <em>dir</em> if it does not exist
+yet. </li>
+ <li> For every environment variable <em>x</em> with value <em>y</em>
+that it has, it creates a file <em>dir</em>/<em>x</em> containing
+<em>y</em>. </li>
+ <li> It then exits 0. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-m</tt>&nbsp;<em>mode</em>&nbsp;: create <em>dir</em> with
+mode <em>mode</em> if it doesn't exist yet. Default is 0755. </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> A program <em>prog</em> can be run with the environment in dir
+by using <tt><a href="http://skarnet.org/software/s6/s6-envdir.html">s6-envdir</a>
+-fn -- <em>dir</em> <em>prog</em></tt>. </li>
+</ul>
+
+</body>
+</html>

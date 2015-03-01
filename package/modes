@@ -5,6 +5,7 @@ s6-chown		0755
 s6-clock		0755
 s6-cut			0755
 s6-dirname		0755
+s6-dumpenv		0755
 s6-echo			0755
 s6-env			0755
 s6-expr			0755

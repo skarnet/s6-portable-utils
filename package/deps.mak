@@ -9,6 +9,7 @@ src/skaembutils/s6-chown.o src/skaembutils/s6-chown.lo: src/skaembutils/s6-chown
 src/skaembutils/s6-clock.o src/skaembutils/s6-clock.lo: src/skaembutils/s6-clock.c
 src/skaembutils/s6-cut.o src/skaembutils/s6-cut.lo: src/skaembutils/s6-cut.c
 src/skaembutils/s6-dirname.o src/skaembutils/s6-dirname.lo: src/skaembutils/s6-dirname.c
+src/skaembutils/s6-dumpenv.o src/skaembutils/s6-dumpenv.lo: src/skaembutils/s6-dumpenv.c
 src/skaembutils/s6-echo.o src/skaembutils/s6-echo.lo: src/skaembutils/s6-echo.c
 src/skaembutils/s6-env.o src/skaembutils/s6-env.lo: src/skaembutils/s6-env.c src/include/s6-portable-utils/config.h
 src/skaembutils/s6-expr.o src/skaembutils/s6-expr.lo: src/skaembutils/s6-expr.c
@@ -58,6 +59,8 @@ s6-cut: private EXTRA_LIBS :=
 s6-cut: src/skaembutils/s6-cut.o -lskarnet
 s6-dirname: private EXTRA_LIBS :=
 s6-dirname: src/skaembutils/s6-dirname.o -lskarnet
+s6-dumpenv: private EXTRA_LIBS :=
+s6-dumpenv: src/skaembutils/s6-dumpenv.o -lskarnet
 s6-echo: private EXTRA_LIBS :=
 s6-echo: src/skaembutils/s6-echo.o -lskarnet
 s6-env: private EXTRA_LIBS :=
