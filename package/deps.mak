@@ -94,7 +94,7 @@ s6-nice: src/skaembutils/s6-nice.o -lskarnet
 s6-nuke: private EXTRA_LIBS :=
 s6-nuke: src/skaembutils/s6-nuke.o -lskarnet
 s6-pause: private EXTRA_LIBS :=
-s6-pause: src/skaembutils/s6-pause.o
+s6-pause: src/skaembutils/s6-pause.o -lskarnet
 s6-printenv: private EXTRA_LIBS :=
 s6-printenv: src/skaembutils/s6-printenv.o -lskarnet
 s6-quote: private EXTRA_LIBS :=

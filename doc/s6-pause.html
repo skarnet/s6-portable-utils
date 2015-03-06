@@ -24,16 +24,31 @@
 <h2> Interface </h2>
 
 <pre>
-     s6-pause
+     s6-pause [ -t ] [ -h ] [ -a ] [ -q ] [ -b ] [ -i ] [ -p <em>signals</em> ]
 </pre>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-t</tt>&nbsp;: ignore SIGTERM </li>
+ <li> <tt>-h</tt>&nbsp;: ignore SIGHUP </li>
+ <li> <tt>-a</tt>&nbsp;: ignore SIGALRM </li>
+ <li> <tt>-q</tt>&nbsp;: ignore SIGQUIT </li>
+ <li> <tt>-b</tt>&nbsp;: ignore SIGABRT </li>
+ <li> <tt>-i</tt>&nbsp;: ignore SIGINT </li>
+ <li> <tt>-p&nbsp;<em>signals</em></tt>&nbsp;: ignore the signals
+listed in <em>signals</em>, which must be a comma-separated list of
+signal numbers. </li>
+</ul>
 
 <h2> Usage notes </h2>
 
-<p>
- s6-pause is one of the smallest possible long-lived programs. It can be
-used to emulate a running service with the least possible resource
-consumption.
-</p>
+<ul>
+ <li> s6-pause is one of the smallest possible long-lived programs. It uses
+as few resources as the kernel will allow. </li>
+ <li> The options can be used to wait for a specific signal without being
+killed by others. </li>
+</ul>
 
 </body>
 </html>
