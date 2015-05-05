@@ -1,10 +1,11 @@
 /* ISC license. */
 
+#include <sys/types.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
@@ -14,19 +15,14 @@
 
 #define USAGE "s6-sort [ -bcfru0 ]"
 
-typedef int strncmp_t (char const *, unsigned int, char const *) ;
+typedef int strncmp_t (char const *, char const *, size_t) ;
 typedef strncmp_t *strncmp_t_ref ;
 typedef int qsortcmp_t (void const *, void const *) ;
 typedef qsortcmp_t *qsortcmp_t_ref ;
 
 static int flagnoblanks = 0, flagreverse = 0, flaguniq = 0 ;
 
-static int str_diffb_f (register char const *s1, register unsigned int n, register char const *s2)
-{
-  return str_diffb(s1, n, s2) ;
-}
-
-static strncmp_t_ref comp = &str_diffb_f ;
+static strncmp_t_ref comp = &strncmp ;
 
 static int compit (register char const *s1, register unsigned int n1, register char const *s2, register unsigned int n2)
 {
@@ -36,7 +32,7 @@ static int compit (register char const *s1, register unsigned int n1, register c
     while ((*s1 == ' ') || (*s1 == '\t')) (s1++, n1--) ;
     while ((*s2 == ' ') || (*s2 == '\t')) (s2++, n2--) ;
   }
-  r = (*comp)(s1, n1 < n2 ? n1 : n2, s2) ;
+  r = (*comp)(s1, s2, n1 < n2 ? n1 : n2) ;
   if (!r) r = n1 - n2 ;
   return flagreverse ? -r : r ;
 }
@@ -103,7 +99,7 @@ int main (int argc, char const *const *argv)
       {
         case 'b' : flagnoblanks = 1 ; break ;
         case 'c' : flagcheck = 1 ; break ;
-        case 'f' : comp = &case_diffb ; break ;
+        case 'f' : comp = &strncasecmp ; break ;
         case 'r' : flagreverse = 1 ; break ;
         case 'u' : flaguniq = 1 ; break ;
         case '0' : sep = '\0' ; break ;
