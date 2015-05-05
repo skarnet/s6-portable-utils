@@ -29,6 +29,7 @@ s6-quote \
 s6-quote-filter \
 s6-rename \
 s6-rmrf \
+s6-seq \
 s6-sleep \
 s6-sort \
 s6-sync \

@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-seq program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-seq program" />
+    <meta name="Keywords" content="s6-portable-utils command s6-seq seq numbers loop" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="http://skarnet.org/software/">Software</a><br />
+<a href="http://skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-seq</tt> program </h1>
+
+<p>
+ s6-seq prints a sequence of numbers.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-seq [ -w ] [ -s separator ] <em>limits</em>
+</pre>
+
+<ul>
+ <li> <em>limits</em> can be one, two or three arguments.
+ <ul>
+  <li> Three arguments are interpreted as <em>first</em>,
+<em>increment</em> and <em>last</em>, in this order. </li>
+  <li> Two arguments are interpreted as <em>first</em> and
+<em>last</em>, and <em>increment</em> defaults to 1. </li>
+  <li> One argument is interpreted as <em>last</em>, and
+<em>first</em> and <em>increment</em> both default to 1. </li>
+ </ul> </li>
+ <li> s6-seq prints all unsigned integers from <em>first</em>
+to <em>last</em> inclusive, with a step of <em>increment</em>,
+with a newline after each integer.
+It then exits 0. </li>
+</ul>
+
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-w</tt>&nbsp;: fixed width. The numbers will all be printed
+with the same width; smaller numbers will have leading <tt>0</tt>
+characters. </li>
+ <li> <tt>-s</tt>&nbsp;<em>sep</em>&nbsp;: print <em>sep</em> after
+each number. Default is a newline. If <em>sep</em>
+is the empty string, a null character will be printed. </li>
+</ul>
+
+<h2> Notes </h2>
+
+<p>
+ s6-seq is similar to the GNU <tt>seq</tt> program. However, it
+does not handle negative numbers, floating point numbers or
+printf-style formatting.
+</p>
+
+</body>
+</html>

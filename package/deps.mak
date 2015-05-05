@@ -32,6 +32,7 @@ src/skaembutils/s6-quote-filter.o src/skaembutils/s6-quote-filter.lo: src/skaemb
 src/skaembutils/s6-quote.o src/skaembutils/s6-quote.lo: src/skaembutils/s6-quote.c
 src/skaembutils/s6-rename.o src/skaembutils/s6-rename.lo: src/skaembutils/s6-rename.c
 src/skaembutils/s6-rmrf.o src/skaembutils/s6-rmrf.lo: src/skaembutils/s6-rmrf.c
+src/skaembutils/s6-seq.o src/skaembutils/s6-seq.lo: src/skaembutils/s6-seq.c
 src/skaembutils/s6-sleep.o src/skaembutils/s6-sleep.lo: src/skaembutils/s6-sleep.c
 src/skaembutils/s6-sort.o src/skaembutils/s6-sort.lo: src/skaembutils/s6-sort.c
 src/skaembutils/s6-sync.o src/skaembutils/s6-sync.lo: src/skaembutils/s6-sync.c
@@ -105,6 +106,8 @@ s6-rename: private EXTRA_LIBS :=
 s6-rename: src/skaembutils/s6-rename.o -lskarnet
 s6-rmrf: private EXTRA_LIBS :=
 s6-rmrf: src/skaembutils/s6-rmrf.o -lskarnet
+s6-seq: private EXTRA_LIBS :=
+s6-seq: src/skaembutils/s6-seq.o -lskarnet
 s6-sleep: private EXTRA_LIBS := ${TAINNOW_LIB}
 s6-sleep: src/skaembutils/s6-sleep.o -lskarnet
 s6-sort: private EXTRA_LIBS :=

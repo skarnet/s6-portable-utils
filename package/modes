@@ -28,6 +28,7 @@ s6-quote		0755
 s6-quote-filter		0755
 s6-rename		0755
 s6-rmrf			0755
+s6-seq			0755
 s6-sleep		0755
 s6-sort			0755
 s6-sync			0755
