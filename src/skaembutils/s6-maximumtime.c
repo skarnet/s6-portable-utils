@@ -19,11 +19,11 @@
 
 int main (int argc, char const *const *argv, char const *const *envp)
 {
-  unsigned int timeout ;
-  tain_t stamp, deadline ;
+  tain_t deadline ;
   iopause_fd x[1] = { { .fd = -1, .events = IOPAUSE_READ, .revents = 0 } } ;
   pid_t pid = 0 ;
   int tosend = SIGTERM ;
+  unsigned int timeout ;
   PROG = "s6-maximumtime" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
@@ -50,9 +50,8 @@ int main (int argc, char const *const *argv, char const *const *envp)
   }
 
   if ((argc < 2) || !uint0_scan(argv[0], &timeout)) strerr_dieusage(100, USAGE) ;
-  if (!timeout) timeout = 1 ;
-  if (!tain_from_millisecs(&deadline, timeout))
-    strerr_diefu1sys(111, "taia_from_millisecs") ;
+  if (timeout) tain_from_millisecs(&deadline, timeout) ;
+  else deadline = tain_infinite_relative ;
 
   x[0].fd = selfpipe_init() ;
   if (x[0].fd < 0) strerr_diefu1sys(111, "selfpipe_init") ;
@@ -60,13 +59,13 @@ int main (int argc, char const *const *argv, char const *const *envp)
   if (selfpipe_trap(SIGCHLD) < 0) strerr_diefu1sys(111, "selfpipe_trap") ;
 
   pid = child_spawn0(argv[1], argv+1, envp) ;
-  if (!pid)  strerr_diefu2sys(111, "spawn ", argv[1]) ;
-  tain_now(&stamp) ;
-  tain_add(&deadline, &deadline, &stamp) ;
+  if (!pid) strerr_diefu2sys(111, "spawn ", argv[1]) ;
+  tain_now_g() ;
+  tain_add_g(&deadline, &deadline) ;
 
   for (;;)
   {
-    int r = iopause_stamp(x, 1, &deadline, &stamp) ;
+    int r = iopause_g(x, 1, &deadline) ;
     if (r < 0) strerr_diefu1sys(111, "iopause") ;
     if (!r) break ;
     if (x[0].revents & IOPAUSE_READ)
