@@ -46,89 +46,89 @@ src/skaembutils/s6-unquote.o src/skaembutils/s6-unquote.lo: src/skaembutils/s6-u
 src/skaembutils/s6-update-symlinks.o src/skaembutils/s6-update-symlinks.lo: src/skaembutils/s6-update-symlinks.c
 src/skaembutils/seekablepipe.o src/skaembutils/seekablepipe.lo: src/skaembutils/seekablepipe.c
 
-s6-basename: private EXTRA_LIBS :=
+s6-basename: EXTRA_LIBS :=
 s6-basename: src/skaembutils/s6-basename.o -lskarnet
-s6-cat: private EXTRA_LIBS :=
+s6-cat: EXTRA_LIBS :=
 s6-cat: src/skaembutils/s6-cat.o -lskarnet
-s6-chmod: private EXTRA_LIBS :=
+s6-chmod: EXTRA_LIBS :=
 s6-chmod: src/skaembutils/s6-chmod.o -lskarnet
-s6-chown: private EXTRA_LIBS :=
+s6-chown: EXTRA_LIBS :=
 s6-chown: src/skaembutils/s6-chown.o -lskarnet
-s6-clock: private EXTRA_LIBS := ${SYSCLOCK_LIB}
+s6-clock: EXTRA_LIBS := ${SYSCLOCK_LIB}
 s6-clock: src/skaembutils/s6-clock.o -lskarnet
-s6-cut: private EXTRA_LIBS :=
+s6-cut: EXTRA_LIBS :=
 s6-cut: src/skaembutils/s6-cut.o -lskarnet
-s6-dirname: private EXTRA_LIBS :=
+s6-dirname: EXTRA_LIBS :=
 s6-dirname: src/skaembutils/s6-dirname.o -lskarnet
-s6-dumpenv: private EXTRA_LIBS :=
+s6-dumpenv: EXTRA_LIBS :=
 s6-dumpenv: src/skaembutils/s6-dumpenv.o -lskarnet
-s6-echo: private EXTRA_LIBS :=
+s6-echo: EXTRA_LIBS :=
 s6-echo: src/skaembutils/s6-echo.o -lskarnet
-s6-env: private EXTRA_LIBS :=
+s6-env: EXTRA_LIBS :=
 s6-env: src/skaembutils/s6-env.o -lskarnet
-s6-expr: private EXTRA_LIBS :=
+s6-expr: EXTRA_LIBS :=
 s6-expr: src/skaembutils/s6-expr.o -lskarnet
-s6-false: private EXTRA_LIBS :=
+s6-false: EXTRA_LIBS :=
 s6-false: src/skaembutils/s6-false.o
-s6-format-filter: private EXTRA_LIBS :=
+s6-format-filter: EXTRA_LIBS :=
 s6-format-filter: src/skaembutils/s6-format-filter.o -lskarnet
-s6-grep: private EXTRA_LIBS :=
+s6-grep: EXTRA_LIBS :=
 s6-grep: src/skaembutils/s6-grep.o -lskarnet
-s6-head: private EXTRA_LIBS :=
+s6-head: EXTRA_LIBS :=
 s6-head: src/skaembutils/s6-head.o -lskarnet
-s6-hiercopy: private EXTRA_LIBS :=
+s6-hiercopy: EXTRA_LIBS :=
 s6-hiercopy: src/skaembutils/s6-hiercopy.o -lskarnet
-s6-linkname: private EXTRA_LIBS :=
+s6-linkname: EXTRA_LIBS :=
 s6-linkname: src/skaembutils/s6-linkname.o -lskarnet
-s6-ln: private EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-ln: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
 s6-ln: src/skaembutils/s6-ln.o -lskarnet
-s6-ls: private EXTRA_LIBS :=
+s6-ls: EXTRA_LIBS :=
 s6-ls: src/skaembutils/s6-ls.o -lskarnet
-s6-maximumtime: private EXTRA_LIBS := ${TAINNOW_LIB}
+s6-maximumtime: EXTRA_LIBS := ${TAINNOW_LIB}
 s6-maximumtime: src/skaembutils/s6-maximumtime.o -lskarnet
-s6-mkdir: private EXTRA_LIBS :=
+s6-mkdir: EXTRA_LIBS :=
 s6-mkdir: src/skaembutils/s6-mkdir.o -lskarnet
-s6-mkfifo: private EXTRA_LIBS :=
+s6-mkfifo: EXTRA_LIBS :=
 s6-mkfifo: src/skaembutils/s6-mkfifo.o -lskarnet
-s6-nice: private EXTRA_LIBS :=
+s6-nice: EXTRA_LIBS :=
 s6-nice: src/skaembutils/s6-nice.o -lskarnet
-s6-nuke: private EXTRA_LIBS :=
+s6-nuke: EXTRA_LIBS :=
 s6-nuke: src/skaembutils/s6-nuke.o -lskarnet
-s6-pause: private EXTRA_LIBS :=
+s6-pause: EXTRA_LIBS :=
 s6-pause: src/skaembutils/s6-pause.o -lskarnet
-s6-printenv: private EXTRA_LIBS :=
+s6-printenv: EXTRA_LIBS :=
 s6-printenv: src/skaembutils/s6-printenv.o -lskarnet
-s6-quote: private EXTRA_LIBS :=
+s6-quote: EXTRA_LIBS :=
 s6-quote: src/skaembutils/s6-quote.o -lskarnet
-s6-quote-filter: private EXTRA_LIBS :=
+s6-quote-filter: EXTRA_LIBS :=
 s6-quote-filter: src/skaembutils/s6-quote-filter.o -lskarnet
-s6-rename: private EXTRA_LIBS :=
+s6-rename: EXTRA_LIBS :=
 s6-rename: src/skaembutils/s6-rename.o -lskarnet
-s6-rmrf: private EXTRA_LIBS :=
+s6-rmrf: EXTRA_LIBS :=
 s6-rmrf: src/skaembutils/s6-rmrf.o -lskarnet
-s6-seq: private EXTRA_LIBS :=
+s6-seq: EXTRA_LIBS :=
 s6-seq: src/skaembutils/s6-seq.o -lskarnet
-s6-sleep: private EXTRA_LIBS := ${TAINNOW_LIB}
+s6-sleep: EXTRA_LIBS := ${TAINNOW_LIB}
 s6-sleep: src/skaembutils/s6-sleep.o -lskarnet
-s6-sort: private EXTRA_LIBS :=
+s6-sort: EXTRA_LIBS :=
 s6-sort: src/skaembutils/s6-sort.o -lskarnet
-s6-sync: private EXTRA_LIBS :=
+s6-sync: EXTRA_LIBS :=
 s6-sync: src/skaembutils/s6-sync.o
-s6-tail: private EXTRA_LIBS :=
+s6-tail: EXTRA_LIBS :=
 s6-tail: src/skaembutils/s6-tail.o -lskarnet
-s6-test: private EXTRA_LIBS :=
+s6-test: EXTRA_LIBS :=
 s6-test: src/skaembutils/s6-test.o -lskarnet
-s6-touch: private EXTRA_LIBS :=
+s6-touch: EXTRA_LIBS :=
 s6-touch: src/skaembutils/s6-touch.o -lskarnet
-s6-true: private EXTRA_LIBS :=
+s6-true: EXTRA_LIBS :=
 s6-true: src/skaembutils/s6-true.o
-s6-uniquename: private EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-uniquename: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
 s6-uniquename: src/skaembutils/s6-uniquename.o -lskarnet
-s6-unquote: private EXTRA_LIBS :=
+s6-unquote: EXTRA_LIBS :=
 s6-unquote: src/skaembutils/s6-unquote.o -lskarnet
-s6-unquote-filter: private EXTRA_LIBS :=
+s6-unquote-filter: EXTRA_LIBS :=
 s6-unquote-filter: src/skaembutils/s6-unquote-filter.o -lskarnet
-s6-update-symlinks: private EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-update-symlinks: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
 s6-update-symlinks: src/skaembutils/s6-update-symlinks.o -lskarnet
-seekablepipe: private EXTRA_LIBS :=
+seekablepipe: EXTRA_LIBS :=
 seekablepipe: src/skaembutils/seekablepipe.o -lskarnet
