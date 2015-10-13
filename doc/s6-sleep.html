@@ -19,20 +19,22 @@
 <h1> The <tt>s6-sleep</tt> program </h1>
 
 <p>
- s6-sleep sleeps for a given time.
+ s6-sleep sleeps for a given time, then optionally executes a program.
 </p>
 
 <h2> Interface </h2>
 
 <pre>
-     s6-sleep [ -m ] <em>time</em>
+     s6-sleep [ -m ] <em>time</em> [ <em>prog...</em> ]
 </pre>
 
-<p>
- s6-sleep acts as the generic
+<ul>
+ <li> s6-sleep acts as the generic
 <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/sleep.html">sleep</a> utility.
-It ignores non-lethal signals.
-</p>
+It ignores non-lethal signals. </li>
+ <li> If there are <em>prog...</em> arguments, then s6-sleep executes
+into <em>prog...</em> after sleeping. Else, it exits 0. </li>
+</ul>
 
 <h2> Extra options </h2>
 
