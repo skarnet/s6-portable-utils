@@ -25,12 +25,12 @@ int main (int argc, char const *const *argv)
       if (opt == -1) break ;
       switch (opt)
       {
-        case 't' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGTERM ;
-        case 'h' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGHUP ;
-        case 'a' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGALRM ;
-        case 'q' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGQUIT ;
-        case 'b' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGABRT ;
-        case 'i' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGINT ;
+        case 't' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGTERM ; break ;
+        case 'h' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGHUP ; break ;
+        case 'a' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGALRM ; break ;
+        case 'q' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGQUIT ; break ;
+        case 'b' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGABRT ; break ;
+        case 'i' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGINT ; break ;
         case 'p' :
         {
           unsigned int n ;
