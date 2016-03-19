@@ -53,7 +53,8 @@ enum opnum
   T_NUMGREATER,
   T_NUMGREATERE,
   T_NUMLESSER,
-  T_NUMLESSERE
+  T_NUMLESSERE,
+  T_ENV
 } ;
 
 struct token
@@ -74,7 +75,7 @@ struct node
 
 static unsigned int lex (struct node *tree, char const *const *argv)
 {
-  static struct token const tokens[44] =
+  static struct token const tokens[45] =
   {
     { "-n", T_NONZERO, 2 },
     { "-z", T_ZERO, 2 },
@@ -119,6 +120,7 @@ static unsigned int lex (struct node *tree, char const *const *argv)
     { "<=", T_STRLESSERE, 3 },
     { ">", T_STRGREATER, 3 },
     { ">=", T_STRGREATERE, 3 },
+    { "-v", T_ENV, 2 },
     { 0, 0, 0 }
   } ;
   register unsigned int pos = 0 ;
@@ -274,16 +276,16 @@ static unsigned int parse (struct node *tree, unsigned int n)
   return stack[1] ;
 }
 
-static int run (struct node const *tree, unsigned int root)
+static int run (struct node const *tree, unsigned int root, char const *const *envp)
 {
   switch (tree[root].op)
   {
     case T_NOT :
-      return !run(tree, tree[root].arg1) ;
+      return !run(tree, tree[root].arg1, envp) ;
     case T_AND :
-      return run(tree, tree[root].arg1) && run(tree, tree[root].arg2) ;
+      return run(tree, tree[root].arg1, envp) && run(tree, tree[root].arg2, envp) ;
     case T_OR :
-      return run(tree, tree[root].arg1) || run(tree, tree[root].arg2) ;
+      return run(tree, tree[root].arg1, envp) || run(tree, tree[root].arg2, envp) ;
     case T_EXIST :
     {
       struct stat st ;
@@ -489,6 +491,10 @@ static int run (struct node const *tree, unsigned int root)
         goto errorint ;
       return n1 <= n2 ;
     }
+    case T_ENV :
+    {
+      return env_get2(envp, tree[tree[root].arg1].data) ? 1 : 0 ;
+    }
     default:
       strerr_dief1x(111, "operation not implemented") ;
   }
@@ -497,12 +503,12 @@ errorint:
   strerr_dief2x(100, tree[root].data, " requires integer arguments") ;
 }
 
-int main (int argc, char const *const *argv)
+int main (int argc, char const *const *argv, char const *const *envp)
 {
   PROG = "s6-test" ;
   if (argc <= 1) return 1 ;
   {
-    struct node tree[argc + 2] ;    
+    struct node tree[argc + 2] ;
     unsigned int n = lex(tree, argv+1) ;
     if ((argv[0][0] == '[') && !argv[0][1])
     {
@@ -510,6 +516,6 @@ int main (int argc, char const *const *argv)
         n-- ;
       else strerr_dief1x(100, "parse error: missing closing bracket") ;
     }
-    return !run(tree, parse(tree, n)) ;
+    return !run(tree, parse(tree, n), envp) ;
   }
 }
