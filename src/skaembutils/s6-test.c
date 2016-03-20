@@ -7,9 +7,10 @@
 #include <skalibs/bytestr.h>
 #include <skalibs/fmtscan.h>
 #include <skalibs/strerr2.h>
+#include <skalibs/env.h>
 #include <skalibs/djbunix.h>
 
-#define USAGE "s6-test expression  or  [ expression ]"
+#define USAGE "s6-test expression...  or  [ expression... ]"
 
 enum opnum
 {
@@ -276,16 +277,16 @@ static unsigned int parse (struct node *tree, unsigned int n)
   return stack[1] ;
 }
 
-static int run (struct node const *tree, unsigned int root, char const *const *envp)
+static int run (struct node const *tree, unsigned int root)
 {
   switch (tree[root].op)
   {
     case T_NOT :
-      return !run(tree, tree[root].arg1, envp) ;
+      return !run(tree, tree[root].arg1) ;
     case T_AND :
-      return run(tree, tree[root].arg1, envp) && run(tree, tree[root].arg2, envp) ;
+      return run(tree, tree[root].arg1) && run(tree, tree[root].arg2) ;
     case T_OR :
-      return run(tree, tree[root].arg1, envp) || run(tree, tree[root].arg2, envp) ;
+      return run(tree, tree[root].arg1) || run(tree, tree[root].arg2) ;
     case T_EXIST :
     {
       struct stat st ;
@@ -492,9 +493,7 @@ static int run (struct node const *tree, unsigned int root, char const *const *e
       return n1 <= n2 ;
     }
     case T_ENV :
-    {
-      return env_get2(envp, tree[tree[root].arg1].data) ? 1 : 0 ;
-    }
+      return !!env_get(tree[tree[root].arg1].data) ;
     default:
       strerr_dief1x(111, "operation not implemented") ;
   }
@@ -503,7 +502,7 @@ errorint:
   strerr_dief2x(100, tree[root].data, " requires integer arguments") ;
 }
 
-int main (int argc, char const *const *argv, char const *const *envp)
+int main (int argc, char const *const *argv)
 {
   PROG = "s6-test" ;
   if (argc <= 1) return 1 ;
@@ -516,6 +515,6 @@ int main (int argc, char const *const *argv, char const *const *envp)
         n-- ;
       else strerr_dief1x(100, "parse error: missing closing bracket") ;
     }
-    return !run(tree, parse(tree, n), envp) ;
+    return !run(tree, parse(tree, n)) ;
   }
 }
