@@ -84,7 +84,7 @@ s6-ln: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
 s6-ln: src/skaembutils/s6-ln.o -lskarnet
 s6-ls: EXTRA_LIBS :=
 s6-ls: src/skaembutils/s6-ls.o -lskarnet
-s6-maximumtime: EXTRA_LIBS := ${TAINNOW_LIB}
+s6-maximumtime: EXTRA_LIBS := ${TAINNOW_LIB} ${SPAWN_LIB}
 s6-maximumtime: src/skaembutils/s6-maximumtime.o -lskarnet
 s6-mkdir: EXTRA_LIBS :=
 s6-mkdir: src/skaembutils/s6-mkdir.o -lskarnet
