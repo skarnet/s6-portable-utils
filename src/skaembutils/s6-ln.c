@@ -55,7 +55,7 @@ static void force (char const *old, char const *new, linkfunc_t_ref doit)
     if (errno != EEXIST)
       strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
     if (!stralloc_catb(&satmp, new, str_len(new))
-     || (random_sauniquename(&satmp, 8) == -1)
+     || !random_sauniquename(&satmp, 8)
      || !stralloc_0(&satmp))
       strerr_diefu2sys(111, "make a unique name for ", old) ;
     if ((*doit)(old, satmp.s + base) == -1)
@@ -98,6 +98,8 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (argc < 2) strerr_dieusage(100, USAGE) ;
+  if (!random_init())
+    strerr_diefu1sys(111, "init random generator") ;
   if (argc > 2)
   {
     stralloc sa = STRALLOC_ZERO ;

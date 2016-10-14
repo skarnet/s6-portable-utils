@@ -51,7 +51,7 @@ static int makeuniquename (stralloc *sa, char const *path, char const *magic)
   int wasnull = !sa->s ;
   if (!stralloc_cats(sa, path)) return 0 ;
   if (!stralloc_cats(sa, magic)) goto err ;
-  if (random_sauniquename(sa, 8) == -1) goto err ;
+  if (!random_sauniquename(sa, 8)) goto err ;
   if (!stralloc_0(sa)) goto err ;
   return 1 ;
 
@@ -307,6 +307,8 @@ int main (int argc, char *const *argv)
     while (i && (argv[1][i-1] == '/')) argv[1][--i] = 0 ;
     if (!i) strerr_diefu1x(100, "replace root directory") ;
   }
+  if (!random_init())
+    strerr_diefu1sys(111, "init random generator") ;
   if (!makeuniquename(&blah.dst, argv[1], MAGICNEW))
     strerr_diefu2sys(111, "make random unique name based on ", argv[1]) ;
   if ((unlink(blah.dst.s) == -1) && (errno != ENOENT))
