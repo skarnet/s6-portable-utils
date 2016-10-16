@@ -43,5 +43,4 @@ s6-unquote-filter \
 s6-update-symlinks \
 seekablepipe
 
-SBIN_TARGETS :=
 LIBEXEC_TARGETS :=
