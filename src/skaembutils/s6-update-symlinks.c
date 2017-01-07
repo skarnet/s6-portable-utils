@@ -67,16 +67,16 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
   if (errno != EEXIST) return ERROR ;
 
   {
-    unsigned int dstbase = blah->dst.len ;
-    unsigned int srcbase = blah->src.len ;
-    unsigned int tmpbase = blah->tmp.len ;
-    unsigned int dststop ;
-    unsigned int srcstop ;
+    size_t dstbase = blah->dst.len ;
+    size_t srcbase = blah->src.len ;
+    size_t tmpbase = blah->tmp.len ;
+    size_t dststop ;
+    size_t srcstop ;
     signed int diffsize = 0 ;
     int collect = 1 ;
 
     {
-      register unsigned int n = str_len(blah->dst.s + dstpos) ;
+      register size_t n = str_len(blah->dst.s + dstpos) ;
       if (!stralloc_readyplus(&blah->dst, n+1)) return ERROR ;
       stralloc_catb(&blah->dst, blah->dst.s + dstpos, n) ;
     }
@@ -178,7 +178,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
 
     blah->src.len = srcbase ;
     {
-      register unsigned int n = str_len(blah->src.s + srcpos) ;
+      register size_t n = str_len(blah->src.s + srcpos) ;
       if (!stralloc_readyplus(&blah->src, n+1))
       {
         blah->dst.len = dstbase ;
@@ -241,14 +241,14 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
    /* recurse */
 
     {
-      unsigned int i = tmpbase ;
+      size_t i = tmpbase ;
       while (i < blah->tmp.len)
       {
         diffsize++ ;
         blah->dst.len = dststop ;
         blah->src.len = srcstop ;
         {
-          register unsigned int n = str_len(blah->tmp.s + i) + 1 ;
+          register size_t n = str_len(blah->tmp.s + i) + 1 ;
           if (!stralloc_catb(&blah->dst, blah->tmp.s + i, n)
            || !stralloc_catb(&blah->src, blah->tmp.s + i, n))
           {
@@ -303,7 +303,7 @@ int main (int argc, char *const *argv)
     for (; *p ; p++) if (**p != '/') strerr_dieusage(100, USAGE) ;
   }
   {
-    register unsigned int i = str_len(argv[1]) ;
+    register size_t i = str_len(argv[1]) ;
     while (i && (argv[1][i-1] == '/')) argv[1][--i] = 0 ;
     if (!i) strerr_diefu1x(100, "replace root directory") ;
   }

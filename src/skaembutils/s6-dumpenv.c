@@ -15,7 +15,7 @@
 int main (int argc, char const *const *argv, char const *const *envp)
 {
   mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH ;
-  unsigned int dirlen ;
+  size_t dirlen ;
 
   PROG = "s6-dumpenv" ;
   {
@@ -50,7 +50,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     
   for (; *envp ; envp++)
   {
-    unsigned int varlen = str_chr(*envp, '=') ;
+    size_t varlen = str_chr(*envp, '=') ;
     char fn[dirlen + varlen + 2] ;
     byte_copy(fn, dirlen, argv[0]) ;
     fn[dirlen] = '/' ;

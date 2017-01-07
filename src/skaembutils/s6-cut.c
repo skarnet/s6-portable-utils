@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <skalibs/sgetopt.h>
@@ -22,8 +23,8 @@ static int diuint_cmpleft (void const *a, void const *b)
 
 static void diuintalloc_normalize (genalloc *list)
 {
-  unsigned int i = 1, cur = 0 ;
-  unsigned int len = genalloc_len(diuint, list) ;
+  size_t i = 1, cur = 0 ;
+  size_t len = genalloc_len(diuint, list) ;
   register diuint *const s = genalloc_s(diuint, list) ;
   qsort(s, len, sizeof(diuint), &diuint_cmpleft) ;
   for (; i < len ; i++)
@@ -36,7 +37,7 @@ static void diuintalloc_normalize (genalloc *list)
 
 static void scanlist (genalloc *list, char const *s)
 {
-  register unsigned int i = 0 ;
+  register size_t i = 0 ;
   genalloc_setlen(diuint, list, 0) ;
   while (s[i])
   {
@@ -45,14 +46,14 @@ static void scanlist (genalloc *list, char const *s)
     if (s[i] == '-') iv.left = 1 ;
     else
     {
-      unsigned int j = uint_scan(s+i, &iv.left) ;
+      size_t j = uint_scan(s+i, &iv.left) ;
       if (!j || !iv.left) strerr_dief2x(100, "invalid list argument: ", s) ;
       i += j ;
     }
     if (s[i] != '-') iv.right = iv.left ;
     else
     {
-      unsigned int j = uint_scan(s + ++i, &iv.right) ;
+      size_t j = uint_scan(s + ++i, &iv.right) ;
       if (!j) iv.right = 0 ;
       else if (iv.right < iv.left)
         strerr_dief2x(100, "invalid list argument: ", s) ;
@@ -72,7 +73,7 @@ static void scanlist (genalloc *list, char const *s)
   }
 }
 
-static int doit (int fd, diuint const *s, unsigned int len, unsigned int flags, char delim)
+static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char delim)
 {
   char buf[BUFFER_INSIZE] ;
   buffer b = BUFFER_INIT(&buffer_flush1read, fd, buf, BUFFER_INSIZE) ;
@@ -85,10 +86,10 @@ static int doit (int fd, diuint const *s, unsigned int len, unsigned int flags, 
     if (!r) break ;
     if (flags & 2)
     {
-      register unsigned int i = 0 ;
+      register size_t i = 0 ;
       for (; i < len ; i++)
       {
-        register unsigned int j = s[i].right ;
+        register size_t j = s[i].right ;
         if (s[i].left >= satmp.len) break ;
         if (!j || (j > satmp.len))
         {
@@ -101,7 +102,7 @@ static int doit (int fd, diuint const *s, unsigned int len, unsigned int flags, 
     }
     else
     {
-      register unsigned int i = 0, j = 0, count = 1 ;
+      register size_t i = 0, j = 0, count = 1 ;
       for (; i < len ; i++)
       {
         for (; count < s[i].left ; count++)
@@ -122,7 +123,7 @@ static int doit (int fd, diuint const *s, unsigned int len, unsigned int flags, 
         }
         for (; !s[i].right || (count <= s[i].right) ; count++)
         {
-          register unsigned int k = byte_chr(satmp.s + j, satmp.len - j, delim) ;
+          register size_t k = byte_chr(satmp.s + j, satmp.len - j, delim) ;
           if ((count > s[0].left) && (buffer_put(buffer_1, &delim, 1) < 0)) return 0 ;
           if (buffer_put(buffer_1, satmp.s + j, k) < 0) return 0 ;
           j += k ;

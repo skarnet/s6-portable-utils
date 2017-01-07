@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/sgetopt.h>
@@ -13,10 +14,10 @@
 #define USAGE "s6-head [ -S ] [ -1..9 | -n lines | -c chars ] [ file... ]"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-typedef int headfunc_t (int, unsigned int) ;
+typedef int headfunc_t (int, size_t) ;
 typedef headfunc_t *headfunc_t_ref ;
 
-static int dolines (int fd, unsigned int lines)
+static int dolines (int fd, size_t lines)
 {
   char buf[BUFFER_INSIZE] ;
   buffer in = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
@@ -24,15 +25,15 @@ static int dolines (int fd, unsigned int lines)
   siovec_t v[2] ;
   while (lines)
   {
-    unsigned int w = 0 ;
-    register int r = buffer_fill(&in) ;
+    size_t w = 0 ;
+    ssize_t r = buffer_fill(&in) ;
     if (r <= 0) return !r ;
     out.c.n = in.c.n ; out.c.p = in.c.p ;
     buffer_rpeek(&in, v) ;
     for (;;)
     {
-      unsigned int n = siovec_len(v, 2) ;
-      register unsigned int i ;
+      size_t n = siovec_len(v, 2) ;
+      size_t i ;
       if (!n) break ;
       i = siovec_bytechr(v, 2, '\n') ;
       if (i < n)
@@ -53,12 +54,12 @@ static int dolines (int fd, unsigned int lines)
   return 1 ;
 }
 
-static int safedolines (int fd, unsigned int lines)
+static int safedolines (int fd, size_t lines)
 {
   char tmp[lines] ;
   while (lines)
   {
-    unsigned int r = allread(fd, tmp, lines) ;
+    size_t r = allread(fd, tmp, lines) ;
     if ((r < lines) && (errno != EPIPE)) return 0 ;
     lines -= byte_count(tmp, r, '\n') ;
     if (buffer_put(buffer_1, tmp, r) < (int)r) return 0 ;
@@ -67,7 +68,7 @@ static int safedolines (int fd, unsigned int lines)
   return 1 ;
 }
 
-static int safedochars (int fd, unsigned int chars)
+static int safedochars (int fd, size_t chars)
 {
   return (fd_catn(fd, 1, chars) >= chars) ;
 }

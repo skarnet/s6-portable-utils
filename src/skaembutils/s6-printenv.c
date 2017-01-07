@@ -40,7 +40,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     }
     else
     {
-      unsigned int written = 0 ;
+      unsigned int written = 0 ; /* XXX */
       if (!netstring_put(buffer_1, *envp, str_len(*envp), &written))
         strerr_diefu1sys(111, "write a netstring to stdout") ;
     }

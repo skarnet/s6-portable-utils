@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/bytestr.h>
@@ -13,11 +14,11 @@
 
 static unsigned int strictness = 1 ;
 static char const *delim = "\"" ;
-static unsigned int delimlen = 1 ;
+static size_t delimlen = 1 ;
 
-static void fillfmt (char *fmt, char const *s, unsigned int len)
+static void fillfmt (char *fmt, char const *s, size_t len)
 {
-  register unsigned int n = len < 39 ? len+1 : 36 ;
+  register size_t n = len < 39 ? len+1 : 36 ;
   byte_copy(fmt, n, s) ;
   if (len >= 39)
   {
@@ -27,7 +28,7 @@ static void fillfmt (char *fmt, char const *s, unsigned int len)
   fmt[n] = 0 ;
 }
 
-static int doit (char const *s, unsigned int len)
+static int doit (char const *s, size_t len)
 {
   if (delimlen)
   {
@@ -73,7 +74,7 @@ static int doit (char const *s, unsigned int len)
     }
   }
   {
-    unsigned int r, w ;
+    unsigned int r, w ; /* XXX */
     char d[len] ;
     if (!string_unquote_withdelim(d, &w, s + !!delimlen, len - !!delimlen, &r, delim, delimlen))
     {

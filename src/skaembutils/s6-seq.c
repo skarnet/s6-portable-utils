@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <skalibs/uint.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
@@ -11,8 +12,8 @@
 int main (int argc, char const *const *argv)
 {
   char const *sep = "\n" ;
-  unsigned int fixed = 0, seplen = 1, i = 1, increment = 1 ;
-  unsigned int last ;
+  size_t fixed = 0, seplen = 1 ;
+  unsigned int i = 1, increment = 1, last ;
   char fmt[UINT_FMT] ;
   PROG = "s6-seq" ;
   {

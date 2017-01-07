@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <regex.h>
 #include <string.h>
@@ -56,7 +57,7 @@ int main (int argc, char const *const *argv)
     stralloc line = STRALLOC_ZERO ;
     regex_t re ;
     unsigned int num = 0 ;
-    unsigned int arglen = str_len(argv[0]) ;
+    size_t arglen = str_len(argv[0]) ;
     if (!flags.fixed)
     {
       register int e = regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
@@ -106,7 +107,7 @@ int main (int argc, char const *const *argv)
           if (flags.num)
           {
             char fmt[UINT_FMT] ;
-            register unsigned int n = uint_fmt(fmt, num) ;
+            register size_t n = uint_fmt(fmt, num) ;
             fmt[n++] = ':' ;
             if (buffer_put(buffer_1, fmt, n) < (int)n)
               strerr_diefu1sys(111, "write to stdout") ;
@@ -123,9 +124,9 @@ int main (int argc, char const *const *argv)
   if (flags.count)
   {
     char fmt[UINT_FMT] ;
-    register unsigned int n = uint_fmt(fmt, count) ;
+    register size_t n = uint_fmt(fmt, count) ;
     fmt[n++] = '\n' ;
-    if (buffer_put(buffer_1, fmt, n) < (int)n)
+    if (buffer_put(buffer_1, fmt, n) < (ssize_t)n)
       strerr_diefu1sys(111, "write to stdout") ;
   }
   return !count ;

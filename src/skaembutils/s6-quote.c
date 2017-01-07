@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/allreadwrite.h>
@@ -12,9 +13,9 @@ int main (int argc, char const *const *argv)
 {
   stralloc sa = STRALLOC_ZERO ;
   char const *delim = "\"" ;
-  unsigned int delimlen ;
+  size_t delimlen ;
+  size_t startquote = 1 ;
   int nl = 1 ;
-  int startquote = 1 ;
   PROG = "s6-quote" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;

@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/bytestr.h>
@@ -33,7 +34,7 @@ int main (int argc, char const *const *argv)
     strerr_diefu2sys(111, "get basename of ", argv[0]) ;
   if (argc >= 2)
   {
-    unsigned int n = str_len(argv[1]) ;
+    size_t n = str_len(argv[1]) ;
     if ((n < sa.len) && !byte_diff(argv[1], n, sa.s + sa.len - n))
       sa.len -= n ;
   }

@@ -25,7 +25,7 @@ static int flagnoblanks = 0, flagreverse = 0, flaguniq = 0 ;
 
 static strncmp_t_ref comp = &strncmp ;
 
-static int compit (register char const *s1, register unsigned int n1, register char const *s2, register unsigned int n2)
+static int compit (register char const *s1, register size_t n1, register char const *s2, register size_t n2)
 {
   register int r ;
   if (flagnoblanks)
@@ -43,9 +43,9 @@ static int sacmp (stralloc const *a, stralloc const *b)
   return compit(a->s, a->len - 1, b->s, b->len - 1) ;
 }
 
-static int slurplines (genalloc *lines, char sep)
+static ssize_t slurplines (genalloc *lines, char sep)
 {
-  unsigned int i = 0 ;
+  ssize_t i = 0 ;
   for (;; i++)
   {
     stralloc sa = STRALLOC_ZERO ;
@@ -56,29 +56,29 @@ static int slurplines (genalloc *lines, char sep)
     stralloc_shrink(&sa) ;
     if (!genalloc_append(stralloc, lines, &sa)) return -1 ;
   }
-  return (int)i ;
+  return i ;
 }
 
 static void uniq (genalloc *lines)
 {
-  unsigned int len = genalloc_len(stralloc, lines) ;
+  size_t len = genalloc_len(stralloc, lines) ;
   register stralloc *s = genalloc_s(stralloc, lines) ;
-  register unsigned int i = 1 ;
+  register size_t i = 1 ;
   for (; i < len ; i++)
     if (!sacmp(s+i-1, s+i)) stralloc_free(s+i-1) ;
 }
 
-static int outputlines (stralloc const *s, unsigned int len)
+static ssize_t outputlines (stralloc const *s, size_t len)
 {
-  register unsigned int i = 0 ;
+  register size_t i = 0 ;
   for (; i < len ; i++)
     if (buffer_put(buffer_1, s[i].s, s[i].len) < 0) return 0 ;
   return buffer_flush(buffer_1) ;
 }
 
-static int check (stralloc const *s, unsigned int len)
+static int check (stralloc const *s, size_t len)
 {
-  register unsigned int i = 1 ;
+  register size_t i = 1 ;
   for (; i < len ; i++)
     if (sacmp(s+i-1, s+i) >= !flaguniq) return 0 ;
   return 1 ;

@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/allreadwrite.h>
@@ -13,10 +14,10 @@
 
 #define USAGE "s6-tail [ -c chars | -n lines | -1..9 ] [ file ]"
 
-typedef int tailfunc_t (int, unsigned int) ;
+typedef int tailfunc_t (int, size_t) ;
 typedef tailfunc_t *tailfunc_t_ref ;
 
-static int pluslines (int fd, unsigned int n)
+static int pluslines (int fd, size_t n)
 {
   if (n) n-- ;
   {
@@ -25,12 +26,12 @@ static int pluslines (int fd, unsigned int n)
     unsigned int count = 0 ;
     while (count < n)
     {
-      register int r = buffer_fill(&b) ;
+      register ssize_t r = buffer_fill(&b) ;
       if (r <= 0) return !r ;
       while (!buffer_isempty(&b) && (count < n))
       {
         siovec_t v[2] ;
-        unsigned int i ;
+        size_t i ;
         buffer_rpeek(&b, v) ;
         i = siovec_bytechr(v, 2, '\n') ;
         if (i < buffer_len(&b))
@@ -47,7 +48,7 @@ static int pluslines (int fd, unsigned int n)
   return (fd_cat(fd, 1) >= 0) ;
 }
 
-static int pluschars (int fd, unsigned int n)
+static int pluschars (int fd, size_t n)
 {
   if (n-- > 1)
   {
@@ -65,11 +66,11 @@ static int pluschars (int fd, unsigned int n)
   return (fd_cat(fd, 1) >= 0) ;
 }
 
-static int minuslines (int fd, unsigned int n)
+static int minuslines (int fd, size_t n)
 {
   char buf[BUFFER_INSIZE] ;
   buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
-  unsigned int head = 0, tail = 0 ;
+  size_t head = 0, tail = 0 ;
   stralloc tab[n+1] ;
   for (; head <= n ; head++) tab[head] = stralloc_zero ;
   head = 0 ;
@@ -103,13 +104,13 @@ static int minuslines (int fd, unsigned int n)
   return 0 ;
 }
 
-static int minuschars (int fd, unsigned int n)
+static int minuschars (int fd, size_t n)
 {
   char buf[BUFFER_INSIZE + n] ;
   buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE + n) ;
   for (;;)
   {
-    register int r = buffer_fill(&b) ;
+    register ssize_t r = buffer_fill(&b) ;
     if (!r) break ;
     if (r < 0) return 0 ;
     buffer_rseek(&b, buffer_len(&b)) ;

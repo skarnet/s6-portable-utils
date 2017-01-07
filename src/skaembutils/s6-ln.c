@@ -51,7 +51,7 @@ static void force (char const *old, char const *new, linkfunc_t_ref doit)
 {
   if ((*doit)(old, new) == -1)
   {
-    unsigned int base = satmp.len ;
+    size_t base = satmp.len ;
     if (errno != EEXIST)
       strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
     if (!stralloc_catb(&satmp, new, str_len(new))
@@ -104,7 +104,7 @@ int main (int argc, char const *const *argv)
   {
     stralloc sa = STRALLOC_ZERO ;
     unsigned int i = 0 ;
-    unsigned int base ;
+    size_t base ;
     if (!stralloc_cats(&sa, argv[argc-1]) || !stralloc_catb(&sa, "/", 1))
       strerr_diefu1sys(111, "stralloc_cats") ;
     base = sa.len ;

@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/bytestr.h>
 #include <skalibs/uint.h>
@@ -12,9 +13,9 @@
 int main (int argc, char const *const *argv)
 {
   char const *delim = "\"" ;
-  unsigned int len, delimlen ;
-  int nl = 1 ;
   char const *string ;
+  size_t len, delimlen ;
+  int nl = 1 ;
   PROG = "s6-unquote" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
@@ -42,7 +43,7 @@ int main (int argc, char const *const *argv)
       strerr_dief1x(100, "invalid starting quote character") ;
   }
   {
-    unsigned int r = 0, w = 0 ;
+    unsigned int r = 0, w = 0 ; /* XXX */
     char buf[len+1] ;
     if (!string_unquote_withdelim(buf, &w, string, len, &r, delim, delimlen))
     {

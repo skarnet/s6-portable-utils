@@ -34,7 +34,7 @@ static int doit (char const *s, unsigned int mode, int verbose, int ee)
 
 static int doparents (char const *s, unsigned int mode, int verbose)
 {
-  unsigned int n = str_len(s), i = 0 ;
+  size_t n = str_len(s), i = 0 ;
   char tmp[n+1] ;
   for (; i < n ; i++)
   {

@@ -1,5 +1,6 @@
 /* ISC license. */
 
+#include <sys/types.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
@@ -14,8 +15,8 @@ int main (int argc, char const *const *argv)
   stralloc src = STRALLOC_ZERO ;
   stralloc dst = STRALLOC_ZERO ;
   char const *delim = "\"" ;
-  unsigned int delimlen ;
-  unsigned int startquote = 1 ;
+  size_t delimlen ;
+  size_t startquote = 1 ;
   PROG = "s6-quote-filter" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;

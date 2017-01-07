@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <skalibs/sgetopt.h>
+#include <skalibs/uint64.h>
+#include <skalibs/gidstuff.h>
 #include <skalibs/uint.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/djbunix.h>
@@ -11,7 +13,8 @@
 
 int main (int argc, char const *const *argv, char const *const *envp)
 {
-  int uid = -1, gid = -1 ;
+  uid_t uid = -1 ;
+  gid_t gid = -1 ;
   PROG = "s6-chown" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
@@ -23,29 +26,26 @@ int main (int argc, char const *const *argv, char const *const *envp)
       {
         case 'u':
         {
-          unsigned int u ;
-          if (!uint0_scan(l.arg, &u)) strerr_dieusage(100, USAGE) ;
+          uint64 u ;
+          if (!uint640_scan(l.arg, &u)) strerr_dieusage(100, USAGE) ;
           uid = u ;
           break ;
         }
         case 'g':
         {
-          unsigned int g ;
-          if (!uint0_scan(l.arg, &g)) strerr_dieusage(100, USAGE) ;
-          gid = g ;
+          if (!gid0_scan(l.arg, &gid)) strerr_dieusage(100, USAGE) ;
           break ;
         }
         case 'U':
         {
-          unsigned int x ;
+          uint64 u ;
           char const *s = env_get2(envp, "UID") ;
           if (!s) strerr_dienotset(100, "UID") ;
-          if (!uint0_scan(s, &x)) strerr_dieinvalid(100, "UID") ;
-          uid = x ;
+          if (!uint640_scan(s, &u)) strerr_dieinvalid(100, "UID") ;
+          uid = u ;
           s = env_get2(envp, "GID") ;
           if (!s) strerr_dienotset(100, "GID") ;
-          if (!uint0_scan(s, &x)) strerr_dieinvalid(100, "GID") ;
-          gid = x ;
+          if (!gid0_scan(s, &gid)) strerr_dieinvalid(100, "GID") ;
           break ;
         }
         default : strerr_dieusage(100, USAGE) ;
