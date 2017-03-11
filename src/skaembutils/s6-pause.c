@@ -2,7 +2,7 @@
 
 #include <unistd.h>
 #include <signal.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/sig.h>
@@ -16,12 +16,12 @@ int main (int argc, char const *const *argv)
 {
   PROG = "s6-pause" ;
   unsigned int sigs[MAX] ;
-  unsigned int nsig = 0 ;
+  size_t nsig = 0 ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "thaqbip:", &l) ;
+      int opt = subgetopt_r(argc, argv, "thaqbip:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -33,7 +33,7 @@ int main (int argc, char const *const *argv)
         case 'i' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGINT ; break ;
         case 'p' :
         {
-          unsigned int n ;
+          size_t n ;
           if (!uint_scanlist(sigs + nsig, MAX - nsig, l.arg, &n)) dieusage() ;
           nsig += n ;
           break ;

@@ -1,8 +1,8 @@
 /* ISC license. */
 
+#include <string.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/allreadwrite.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/djbunix.h>
@@ -18,7 +18,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "n", &l) ;
+      int opt = subgetopt_r(argc, argv, "n", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -30,7 +30,7 @@ int main (int argc, char const *const *argv)
   }
 
   if (!argc) strerr_dieusage(100, USAGE) ;
-  if (!sadirname(&sa, argv[0], str_len(argv[0])))
+  if (!sadirname(&sa, argv[0], strlen(argv[0])))
     strerr_diefu2sys(111, "get dirname of ", argv[0]) ;
   if (nl && !stralloc_catb(&sa, "\n", 1))
     strerr_diefu2sys(111, "get dirname of ", argv[0]) ;

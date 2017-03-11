@@ -1,12 +1,11 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
 
@@ -34,13 +33,13 @@ static int doit (char const *s, unsigned int mode, int verbose, int ee)
 
 static int doparents (char const *s, unsigned int mode, int verbose)
 {
-  size_t n = str_len(s), i = 0 ;
+  size_t n = strlen(s), i = 0 ;
   char tmp[n+1] ;
   for (; i < n ; i++)
   {
     if ((s[i] == '/') && i)
     {
-      register int e ;
+      int e ;
       tmp[i] = 0 ;
       e = doit(tmp, mode, verbose, 0) ;
       if (e) return e ;
@@ -60,7 +59,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "pvm:", &l) ;
+      int opt = subgetopt_r(argc, argv, "pvm:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

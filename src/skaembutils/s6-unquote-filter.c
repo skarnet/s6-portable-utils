@@ -1,10 +1,9 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/buffer.h>
 #include <skalibs/stralloc.h>
@@ -18,11 +17,11 @@ static size_t delimlen = 1 ;
 
 static void fillfmt (char *fmt, char const *s, size_t len)
 {
-  register size_t n = len < 39 ? len+1 : 36 ;
-  byte_copy(fmt, n, s) ;
+  size_t n = len < 39 ? len+1 : 36 ;
+  memcpy(fmt, s, n) ;
   if (len >= 39)
   {
-    byte_copy(fmt+n, 3, "...") ;
+    memcpy(fmt+n, "...", 3) ;
     n += 3 ;
   }
   fmt[n] = 0 ;
@@ -47,7 +46,7 @@ static int doit (char const *s, size_t len)
       }
       return 1 ;
     }
-    if (byte_chr(delim, delimlen, *s) >= delimlen)
+    if (!memchr(delim, delimlen, *s))
     {
       switch (strictness)
       {
@@ -74,7 +73,7 @@ static int doit (char const *s, size_t len)
     }
   }
   {
-    unsigned int r, w ; /* XXX */
+    size_t r, w ;
     char d[len] ;
     if (!string_unquote_withdelim(d, &w, s + !!delimlen, len - !!delimlen, &r, delim, delimlen))
     {
@@ -134,16 +133,16 @@ static int doit (char const *s, size_t len)
       }
       else if ((r+2 < len) && (strictness >= 2))
       {
-        char fmtnum[UINT_FMT] ;
-        char fmtden[UINT_FMT] ;
+        char fmtnum[SIZE_FMT] ;
+        char fmtden[SIZE_FMT] ;
         char fmt[40] ;
         fillfmt(fmt, s, len) ;
-        fmtnum[uint_fmt(fmtnum, r+1)] = 0 ;
-        fmtden[uint_fmt(fmtden, len-1)] = 0 ;
+        fmtnum[size_fmt(fmtnum, r+1)] = 0 ;
+        fmtden[size_fmt(fmtden, len-1)] = 0 ;
         strerr_warnw7x("found ending quote character at position ", fmtnum, "/", fmtden, ", ignoring remainder of ", "line: ", fmt) ;
       }
     }
-    if (buffer_put(buffer_1, d, w) < (int)w)
+    if (buffer_put(buffer_1, d, w) < (ssize_t)w)
       strerr_diefu1sys(111, "write to stdout") ;
   }
   return 1 ;
@@ -158,7 +157,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "qQvwd:", &l) ;
+      int opt = subgetopt_r(argc, argv, "qQvwd:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -172,7 +171,7 @@ int main (int argc, char const *const *argv)
     }
     argc -= l.ind ; argv += l.ind ;
   }
-  delimlen = str_len(delim) ;
+  delimlen = strlen(delim) ;
   for (;;)
   {
     int r ;
@@ -186,7 +185,7 @@ int main (int argc, char const *const *argv)
     else src.len-- ;
     if (!doit(src.s, src.len))
     {
-      if (buffer_put(buffer_1, src.s, src.len) < (int)src.len)
+      if (buffer_put(buffer_1, src.s, src.len) < (ssize_t)src.len)
         strerr_diefu1sys(111, "write to stdout") ;
     }
     if (r > 0)

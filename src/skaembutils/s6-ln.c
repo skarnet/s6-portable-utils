@@ -6,14 +6,13 @@
 #include <skalibs/nonposix.h>
 #endif
 
-#include <sys/types.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/djbunix.h>
@@ -54,7 +53,7 @@ static void force (char const *old, char const *new, linkfunc_t_ref doit)
     size_t base = satmp.len ;
     if (errno != EEXIST)
       strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
-    if (!stralloc_catb(&satmp, new, str_len(new))
+    if (!stralloc_cats(&satmp, new)
      || !random_sauniquename(&satmp, 8)
      || !stralloc_0(&satmp))
       strerr_diefu2sys(111, "make a unique name for ", old) ;
@@ -84,7 +83,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "sfLP", &l) ;
+      int opt = subgetopt_r(argc, argv, "sfLP", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -111,7 +110,7 @@ int main (int argc, char const *const *argv)
     for (; i < (unsigned int)(argc-1) ; i++)
     {
       sa.len = base ;
-      if (!sabasename(&sa, argv[i], str_len(argv[i])))
+      if (!sabasename(&sa, argv[i], strlen(argv[i])))
         strerr_diefu1sys(111, "sabasename") ;
       if (!stralloc_0(&sa)) strerr_diefu1sys(111, "stralloc_0") ;
       (*f)(argv[i], sa.s, mylink) ;
@@ -138,7 +137,7 @@ int main (int argc, char const *const *argv)
     stralloc sa = STRALLOC_ZERO ;
     if (!stralloc_cats(&sa, argv[1])
       || !stralloc_catb(&sa, "/", 1)
-      || !sabasename(&sa, argv[0], str_len(argv[0]))
+      || !sabasename(&sa, argv[0], strlen(argv[0]))
       || !stralloc_0(&sa))
         strerr_diefu1sys(111, "stralloc_catb") ;
       (*f)(argv[0], sa.s, mylink) ;

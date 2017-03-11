@@ -1,8 +1,8 @@
 /* ISC license. */
 
+#include <string.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/env.h>
 #include <skalibs/djbunix.h>
@@ -20,7 +20,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "i", &l) ;
+      int opt = subgetopt_r(argc, argv, "i", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -32,7 +32,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
   }
   for (; argc ; argc--, argv++)
   {
-    if (!(*argv)[str_chr(*argv, '=')]) break ;
+    if (!strchr(*argv, '=')) break ;
     if (!stralloc_cats(&modifs, *argv) || !stralloc_0(&modifs))
       strerr_diefu1sys(111, "stralloc_cats") ;
   }

@@ -1,12 +1,11 @@
 /* ISC license. */
 
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/error.h>
 #include <skalibs/sig.h>
 #include <skalibs/tai.h>
@@ -29,7 +28,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "0abikqtx12", &l) ;
+      int opt = subgetopt_r(argc, argv, "0abikqtx12", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

@@ -1,6 +1,5 @@
 /* ISC license. */
 
-#include <unistd.h>
 #include <stdio.h>
 #include <skalibs/strerr2.h>
 

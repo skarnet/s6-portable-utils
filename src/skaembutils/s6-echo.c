@@ -15,7 +15,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "ns:", &l) ;
+      int opt = subgetopt_r(argc, argv, "ns:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -28,9 +28,9 @@ int main (int argc, char const *const *argv)
   }
   for ( ; *argv ; argv++)
     if ((buffer_puts(buffer_1small, *argv) < 0)
-     || (argv[1] && (buffer_put(buffer_1small, &sep, 1) == -1)))
+     || (argv[1] && (buffer_put(buffer_1small, &sep, 1) < 0)))
       goto err ;
-  if (donl && (buffer_put(buffer_1small, "\n", 1) == -1)) goto err ;
+  if (donl && (buffer_put(buffer_1small, "\n", 1) < 0)) goto err ;
   if (!buffer_flush(buffer_1small)) goto err ;
   return 0 ;
 err:

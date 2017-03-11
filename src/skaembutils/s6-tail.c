@@ -1,11 +1,11 @@
 /* ISC license. */
 
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/allreadwrite.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/djbunix.h>
@@ -23,14 +23,14 @@ static int pluslines (int fd, size_t n)
   {
     char buf[BUFFER_INSIZE] ;
     buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
-    unsigned int count = 0 ;
+    size_t count = 0 ;
     while (count < n)
     {
-      register ssize_t r = buffer_fill(&b) ;
+      ssize_t r = buffer_fill(&b) ;
       if (r <= 0) return !r ;
       while (!buffer_isempty(&b) && (count < n))
       {
-        siovec_t v[2] ;
+        struct iovec v[2] ;
         size_t i ;
         buffer_rpeek(&b, v) ;
         i = siovec_bytechr(v, 2, '\n') ;
@@ -56,7 +56,7 @@ static int pluschars (int fd, size_t n)
     if (nil < 0) return 0 ;
     if (!fd_catn(fd, nil, n))
     {
-      register int e = errno ;
+      int e = errno ;
       fd_close(nil) ;
       errno = e ;
       return 0 ;
@@ -76,7 +76,7 @@ static int minuslines (int fd, size_t n)
   head = 0 ;
   for (;;)
   {
-    register int r ;
+    int r ;
     r = skagetln(&b, tab + tail, '\n') ;
     if (!r) break ;
     if (r < 0)
@@ -110,7 +110,7 @@ static int minuschars (int fd, size_t n)
   buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE + n) ;
   for (;;)
   {
-    register ssize_t r = buffer_fill(&b) ;
+    ssize_t r = buffer_fill(&b) ;
     if (!r) break ;
     if (r < 0) return 0 ;
     buffer_rseek(&b, buffer_len(&b)) ;
@@ -131,7 +131,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "123456789n:c:", &l) ;
+      int opt = subgetopt_r(argc, argv, "123456789n:c:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

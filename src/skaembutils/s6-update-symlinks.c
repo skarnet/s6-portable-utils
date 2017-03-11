@@ -1,11 +1,10 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/direntry.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
@@ -39,7 +38,7 @@ struct stralloc3
 
 static void cleanup (stralloc *sa, unsigned int pos)
 {
-  register int e = errno ;
+  int e = errno ;
   rm_rf_in_tmp(sa, pos) ;
   errno = e ;
 }
@@ -47,7 +46,7 @@ static void cleanup (stralloc *sa, unsigned int pos)
 
 static int makeuniquename (stralloc *sa, char const *path, char const *magic)
 {
-  unsigned int base = sa->len ;
+  size_t base = sa->len ;
   int wasnull = !sa->s ;
   if (!stralloc_cats(sa, path)) return 0 ;
   if (!stralloc_cats(sa, magic)) goto err ;
@@ -76,7 +75,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
     int collect = 1 ;
 
     {
-      register size_t n = str_len(blah->dst.s + dstpos) ;
+      size_t n = strlen(blah->dst.s + dstpos) ;
       if (!stralloc_readyplus(&blah->dst, n+1)) return ERROR ;
       stralloc_catb(&blah->dst, blah->dst.s + dstpos, n) ;
     }
@@ -98,7 +97,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
       r = sareadlink(&blah->src, blah->dst.s + dstpos) ;
       if ((r == -1) && (errno != EINVAL))
       {
-        register int e = errno ;
+        int e = errno ;
         blah->dst.len = dstbase ;
         dir_close(dir) ;
         errno = e ;
@@ -108,7 +107,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
       {
         for (;;)
         {
-          register direntry *d ;
+          direntry *d ;
           errno = 0 ;
           d = readdir(dir) ;
           if (!d) break ;
@@ -118,7 +117,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         }
         if (errno)
         {
-          register int e = errno ;
+          int e = errno ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
           dir_close(dir) ;
@@ -130,7 +129,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
             || (mkdir(blah->dst.s + dstpos, 0777) == -1)
             || !stralloc_catb(&blah->src, "/", 1))
       {
-        register int e = errno ;
+        int e = errno ;
         blah->src.len = srcbase ;
         blah->dst.len = dstbase ;
         dir_close(dir) ;
@@ -142,7 +141,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         srcstop = blah->src.len ;
         for (;;)
         {
-          register direntry *d ;
+          direntry *d ;
           errno = 0 ;
           d = readdir(dir) ;
           if (!d) break ;
@@ -155,7 +154,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
            || !stralloc_cats(&blah->src, d->d_name) || !stralloc_0(&blah->src)
            || (symlink(blah->src.s + srcbase, blah->dst.s + dstbase) == -1))
           {
-            register int e = errno ;
+            int e = errno ;
             blah->src.len = srcbase ;
             blah->dst.len = dstbase ;
             dir_close(dir) ;
@@ -165,7 +164,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         }
         if (errno)
         {
-          register int e = errno ;
+          int e = errno ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
           dir_close(dir) ;
@@ -178,7 +177,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
 
     blah->src.len = srcbase ;
     {
-      register size_t n = str_len(blah->src.s + srcpos) ;
+      size_t n = strlen(blah->src.s + srcpos) ;
       if (!stralloc_readyplus(&blah->src, n+1))
       {
         blah->dst.len = dstbase ;
@@ -207,7 +206,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
       }
       for (;;)
       {
-        register direntry *d ;
+        direntry *d ;
         errno = 0 ;
         d = readdir(dir) ;
         if (!d) break ;
@@ -215,7 +214,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
           continue ;
         if (!stralloc_cats(&blah->tmp, d->d_name) || !stralloc_0(&blah->tmp))
         {
-          register int e = errno ;
+          int e = errno ;
           blah->tmp.len = tmpbase ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
@@ -226,7 +225,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
       }
       if (errno)
       {
-        register int e = errno ;
+        int e = errno ;
         blah->tmp.len = tmpbase ;
         blah->src.len = srcbase ;
         blah->dst.len = dstbase ;
@@ -248,7 +247,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         blah->dst.len = dststop ;
         blah->src.len = srcstop ;
         {
-          register size_t n = str_len(blah->tmp.s + i) + 1 ;
+          size_t n = strlen(blah->tmp.s + i) + 1 ;
           if (!stralloc_catb(&blah->dst, blah->tmp.s + i, n)
            || !stralloc_catb(&blah->src, blah->tmp.s + i, n))
           {
@@ -299,11 +298,11 @@ int main (int argc, char *const *argv)
   PROG = "s6-update-symlinks" ;
   if (argc < 3) strerr_dieusage(100, USAGE) ;
   {
-    register char *const *p = argv + 1 ;
+    char *const *p = argv + 1 ;
     for (; *p ; p++) if (**p != '/') strerr_dieusage(100, USAGE) ;
   }
   {
-    register size_t i = str_len(argv[1]) ;
+    size_t i = strlen(argv[1]) ;
     while (i && (argv[1][i-1] == '/')) argv[1][--i] = 0 ;
     if (!i) strerr_diefu1x(100, "replace root directory") ;
   }
@@ -318,7 +317,7 @@ int main (int argc, char *const *argv)
     char *const *p = argv + 2 ;
     for (; *p ; p++)
     {
-      register int r ;
+      int r ;
       blah.src.len = 0 ;
       if (!stralloc_cats(&blah.src, *p) || !stralloc_0(&blah.src))
         strerr_diefu1sys(111, "make stralloc") ;

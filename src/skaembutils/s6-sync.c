@@ -5,5 +5,5 @@
 int main (void)
 {
   sync() ;
-  return 0 ;
+  _exit(0) ;
 }

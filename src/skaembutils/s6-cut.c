@@ -1,12 +1,11 @@
 /* ISC license. */
 
-#include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
-#include <skalibs/diuint.h>
+#include <skalibs/types.h>
+#include <skalibs/disize.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
@@ -16,44 +15,44 @@
 
 #define USAGE "s6-cut [ -b list | -c list | -f list ] [ -d delim ] [ -n ] [ -s ] [ file... ]"
 
-static int diuint_cmpleft (void const *a, void const *b)
+static int disize_cmpleft (void const *a, void const *b)
 {
-  return ((diuint const *)a)->left - ((diuint const *)b)->left ;
+  return ((disize const *)a)->left - ((disize const *)b)->left ;
 }
 
-static void diuintalloc_normalize (genalloc *list)
+static void disizealloc_normalize (genalloc *list)
 {
   size_t i = 1, cur = 0 ;
-  size_t len = genalloc_len(diuint, list) ;
-  register diuint *const s = genalloc_s(diuint, list) ;
-  qsort(s, len, sizeof(diuint), &diuint_cmpleft) ;
+  size_t len = genalloc_len(disize, list) ;
+  disize *const s = genalloc_s(disize, list) ;
+  qsort(s, len, sizeof(disize), &disize_cmpleft) ;
   for (; i < len ; i++)
     if (!s[cur].right) break ;
     else if (s[i].left > s[cur].right) s[++cur] = s[i] ;
     else if (s[cur].right < s[i].right)
       s[cur].right = s[i].right ;
-  genalloc_setlen(diuint, list, cur+1) ;
+  genalloc_setlen(disize, list, cur+1) ;
 }
 
 static void scanlist (genalloc *list, char const *s)
 {
-  register size_t i = 0 ;
-  genalloc_setlen(diuint, list, 0) ;
+  size_t i = 0 ;
+  genalloc_setlen(disize, list, 0) ;
   while (s[i])
   {
     char const sep[4] = ", \t" ;
-    diuint iv ;
+    disize iv ;
     if (s[i] == '-') iv.left = 1 ;
     else
     {
-      size_t j = uint_scan(s+i, &iv.left) ;
+      size_t j = size_scan(s+i, &iv.left) ;
       if (!j || !iv.left) strerr_dief2x(100, "invalid list argument: ", s) ;
       i += j ;
     }
     if (s[i] != '-') iv.right = iv.left ;
     else
     {
-      size_t j = uint_scan(s + ++i, &iv.right) ;
+      size_t j = size_scan(s + ++i, &iv.right) ;
       if (!j) iv.right = 0 ;
       else if (iv.right < iv.left)
         strerr_dief2x(100, "invalid list argument: ", s) ;
@@ -68,12 +67,12 @@ static void scanlist (genalloc *list, char const *s)
       case 4 :
         strerr_dief2x(100, "invalid list argument: ", s) ;
     }
-    if (!genalloc_append(diuint, list, &iv))
+    if (!genalloc_append(disize, list, &iv))
       strerr_diefu1sys(111, "build interval list") ;
   }
 }
 
-static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char delim)
+static int doit (int fd, disize const *s, size_t len, unsigned int flags, char delim)
 {
   char buf[BUFFER_INSIZE] ;
   buffer b = BUFFER_INIT(&buffer_flush1read, fd, buf, BUFFER_INSIZE) ;
@@ -86,10 +85,10 @@ static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char d
     if (!r) break ;
     if (flags & 2)
     {
-      register size_t i = 0 ;
+      size_t i = 0 ;
       for (; i < len ; i++)
       {
-        register size_t j = s[i].right ;
+        size_t j = s[i].right ;
         if (s[i].left >= satmp.len) break ;
         if (!j || (j > satmp.len))
         {
@@ -102,7 +101,7 @@ static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char d
     }
     else
     {
-      register size_t i = 0, j = 0, count = 1 ;
+      size_t i = 0, j = 0, count = 1 ;
       for (; i < len ; i++)
       {
         for (; count < s[i].left ; count++)
@@ -123,7 +122,7 @@ static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char d
         }
         for (; !s[i].right || (count <= s[i].right) ; count++)
         {
-          register size_t k = byte_chr(satmp.s + j, satmp.len - j, delim) ;
+          size_t k = byte_chr(satmp.s + j, satmp.len - j, delim) ;
           if ((count > s[0].left) && (buffer_put(buffer_1, &delim, 1) < 0)) return 0 ;
           if (buffer_put(buffer_1, satmp.s + j, k) < 0) return 0 ;
           j += k ;
@@ -144,7 +143,7 @@ static int doit (int fd, diuint const *s, size_t len, unsigned int flags, char d
 
 int main (int argc, char const *const *argv)
 {
-  genalloc list = GENALLOC_ZERO ; /* array of diuint */
+  genalloc list = GENALLOC_ZERO ; /* array of disize */
   char delim = '\t' ;
   unsigned int what = 0 ;
   PROG = "s6-cut" ;
@@ -153,7 +152,7 @@ int main (int argc, char const *const *argv)
     int flagnodel = 1 ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "nsb:c:f:d:", &l) ;
+      int opt = subgetopt_r(argc, argv, "nsb:c:f:d:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -181,12 +180,12 @@ int main (int argc, char const *const *argv)
     what += flagnodel ;
     argc -= l.ind ; argv += l.ind ;
   }
-  if (!genalloc_len(diuint, &list)) strerr_dieusage(100, USAGE) ;
-  diuintalloc_normalize(&list) ;
+  if (!genalloc_len(disize, &list)) strerr_dieusage(100, USAGE) ;
+  disizealloc_normalize(&list) ;
 
   if (!argc)
   {
-    if (!doit(0, genalloc_s(diuint, &list), genalloc_len(diuint, &list), what, delim))
+    if (!doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
       strerr_diefu1sys(111, "cut stdin") ;
   }
   else
@@ -195,7 +194,7 @@ int main (int argc, char const *const *argv)
     {
       if ((argv[0][0] == '-') && !argv[0][1])
       {
-        if (!doit(0, genalloc_s(diuint, &list), genalloc_len(diuint, &list), what, delim))
+        if (!doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
           strerr_diefu1sys(111, "process stdin") ;
       }
       else
@@ -203,7 +202,7 @@ int main (int argc, char const *const *argv)
         int fd = open_readb(*argv) ;
         if (fd == -1)
           strerr_diefu3sys(111, "open ", *argv, " for reading") ;
-        if (!doit(fd, genalloc_s(diuint, &list), genalloc_len(diuint, &list), what, delim))
+        if (!doit(fd, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
           strerr_diefu2sys(111, "cut ", *argv) ;
         fd_close(fd) ;
       }

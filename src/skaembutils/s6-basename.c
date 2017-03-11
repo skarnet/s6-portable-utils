@@ -1,9 +1,8 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/allreadwrite.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/djbunix.h>
@@ -19,7 +18,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "n", &l) ;
+      int opt = subgetopt_r(argc, argv, "n", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -30,12 +29,12 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (!argc) strerr_dieusage(100, USAGE) ;
-  if (!sabasename(&sa, argv[0], str_len(argv[0])))
+  if (!sabasename(&sa, argv[0], strlen(argv[0])))
     strerr_diefu2sys(111, "get basename of ", argv[0]) ;
   if (argc >= 2)
   {
-    size_t n = str_len(argv[1]) ;
-    if ((n < sa.len) && !byte_diff(argv[1], n, sa.s + sa.len - n))
+    size_t n = strlen(argv[1]) ;
+    if ((n < sa.len) && !strncmp(argv[1], sa.s + sa.len - n, n))
       sa.len -= n ;
   }
   if (nl && !stralloc_catb(&sa, "\n", 1))

@@ -1,6 +1,8 @@
 /* ISC license. */
 
-int main ()
+#include <unistd.h>
+
+int main (void)
 {
-  return 0 ;
+  _exit(0) ;
 }

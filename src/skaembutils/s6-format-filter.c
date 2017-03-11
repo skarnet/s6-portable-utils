@@ -22,7 +22,7 @@ int main (int argc, char const *const *argv)
   if (argc > 9) argc = 9 ;
   vars[argc+2] = 0 ;
   {
-    register unsigned int i = 0 ;
+    unsigned int i = 0 ;
     for (; i < (unsigned int)argc ; i++) args[2+i] = argv[i] ;
   }
   if (!string_format(&dst, vars, format, args))
@@ -30,7 +30,7 @@ int main (int argc, char const *const *argv)
 
   for (;;)
   {
-    register int r ;
+    int r ;
     src.len = 0 ;
     dst.len = 0 ;
     r = skagetln(buffer_0f1, &src, '\n') ;

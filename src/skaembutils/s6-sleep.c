@@ -1,9 +1,8 @@
 /* ISC license. */
 
-#include <unistd.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/tai.h>
 #include <skalibs/djbunix.h>
 #include <skalibs/iopause.h>
@@ -19,7 +18,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "m", &l) ;
+      int opt = subgetopt_r(argc, argv, "m", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

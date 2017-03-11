@@ -1,6 +1,6 @@
 /* ISC license. */
 
-#include <skalibs/bytestr.h>
+#include <string.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
@@ -17,7 +17,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "nd:0", &l) ;
+      int opt = subgetopt_r(argc, argv, "nd:0", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -40,8 +40,8 @@ int main (int argc, char const *const *argv, char const *const *envp)
     }
     else
     {
-      unsigned int written = 0 ; /* XXX */
-      if (!netstring_put(buffer_1, *envp, str_len(*envp), &written))
+      size_t written = 0 ;
+      if (!netstring_put(buffer_1, *envp, strlen(*envp), &written))
         strerr_diefu1sys(111, "write a netstring to stdout") ;
     }
   }

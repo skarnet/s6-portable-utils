@@ -1,6 +1,6 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
@@ -22,7 +22,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "ud:", &l) ;
+      int opt = subgetopt_r(argc, argv, "ud:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -33,7 +33,7 @@ int main (int argc, char const *const *argv)
     }
     argc -= l.ind ; argv += l.ind ;
   }
-  delimlen = str_len(delim) ;
+  delimlen = strlen(delim) ;
   if (startquote)
   {
     if(!delimlen) strerr_dief1x(100, "no character to quote with!") ;

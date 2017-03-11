@@ -1,9 +1,8 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/skamisc.h>
@@ -21,7 +20,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "nd:", &l) ;
+      int opt = subgetopt_r(argc, argv, "nd:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -34,21 +33,21 @@ int main (int argc, char const *const *argv)
   }
   if (!argc) strerr_dieusage(100, USAGE) ;
   string = *argv ;
-  len = str_len(string) ;
-  delimlen = str_len(delim) ;
+  len = strlen(string) ;
+  delimlen = strlen(delim) ;
   if (delimlen)
   {
     if (!len--) strerr_dief1x(100, "the empty string isn't a quoted string") ;
-    if (byte_chr(delim, delimlen, *string++) >= delimlen)
+    if (!memchr(delim, *string++, delimlen))
       strerr_dief1x(100, "invalid starting quote character") ;
   }
   {
-    unsigned int r = 0, w = 0 ; /* XXX */
+    size_t r = 0, w = 0 ;
     char buf[len+1] ;
     if (!string_unquote_withdelim(buf, &w, string, len, &r, delim, delimlen))
     {
-      char fmt[UINT_FMT] ;
-      fmt[uint_fmt(fmt, r + !!delimlen)] = 0 ;
+      char fmt[SIZE_FMT] ;
+      fmt[size_fmt(fmt, r + !!delimlen)] = 0 ;
       strerr_diefu2sys(100, "unquote at character ", fmt) ;
     }
     if (delimlen)
@@ -56,10 +55,10 @@ int main (int argc, char const *const *argv)
       if (r == len) strerr_dief1x(100, "no ending quote character") ;
       else if (r < len - 1)
       {
-        char fmtnum[UINT_FMT] ;
-        char fmtden[UINT_FMT] ;
-        fmtnum[uint_fmt(fmtnum, r+1)] = 0 ;
-        fmtden[uint_fmt(fmtden, len)] = 0 ;
+        char fmtnum[SIZE_FMT] ;
+        char fmtden[SIZE_FMT] ;
+        fmtnum[size_fmt(fmtnum, r+1)] = 0 ;
+        fmtden[size_fmt(fmtden, len)] = 0 ;
         strerr_warnw5x("found ending quote character at position ", fmtnum, "/", fmtden, "; ignoring remainder") ;
       }
     }

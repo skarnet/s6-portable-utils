@@ -1,11 +1,12 @@
 /* ISC license. */
 
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <errno.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/bytestr.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/buffer.h>
 #include <skalibs/siovec.h>
 #include <skalibs/strerr2.h>
@@ -22,7 +23,7 @@ static int dolines (int fd, size_t lines)
   char buf[BUFFER_INSIZE] ;
   buffer in = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
   buffer out = BUFFER_INIT(&buffer_write, 1, buf, BUFFER_INSIZE) ;
-  siovec_t v[2] ;
+  struct iovec v[2] ;
   while (lines)
   {
     size_t w = 0 ;
@@ -62,7 +63,7 @@ static int safedolines (int fd, size_t lines)
     size_t r = allread(fd, tmp, lines) ;
     if ((r < lines) && (errno != EPIPE)) return 0 ;
     lines -= byte_count(tmp, r, '\n') ;
-    if (buffer_put(buffer_1, tmp, r) < (int)r) return 0 ;
+    if (buffer_put(buffer_1, tmp, r) < (ssize_t)r) return 0 ;
   }
   if (!buffer_flush(buffer_1)) return 0 ;
   return 1 ;
@@ -84,7 +85,7 @@ int main (int argc, char const *const *argv)
     int done = 0 ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "S123456789n:c:", &l) ;
+      int opt = subgetopt_r(argc, argv, "S123456789n:c:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

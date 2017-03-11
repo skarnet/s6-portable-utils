@@ -1,7 +1,7 @@
 /* ISC license. */
 
 #include <sys/stat.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 
 #define USAGE "s6-chmod mode file"

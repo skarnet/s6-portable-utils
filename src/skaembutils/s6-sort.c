@@ -1,6 +1,5 @@
 /* ISC license. */
 
-#include <sys/types.h>
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
@@ -25,9 +24,9 @@ static int flagnoblanks = 0, flagreverse = 0, flaguniq = 0 ;
 
 static strncmp_t_ref comp = &strncmp ;
 
-static int compit (register char const *s1, register size_t n1, register char const *s2, register size_t n2)
+static int compit (char const *s1, size_t n1, char const *s2, size_t n2)
 {
-  register int r ;
+  int r ;
   if (flagnoblanks)
   {
     while ((*s1 == ' ') || (*s1 == '\t')) (s1++, n1--) ;
@@ -62,15 +61,15 @@ static ssize_t slurplines (genalloc *lines, char sep)
 static void uniq (genalloc *lines)
 {
   size_t len = genalloc_len(stralloc, lines) ;
-  register stralloc *s = genalloc_s(stralloc, lines) ;
-  register size_t i = 1 ;
+  stralloc *s = genalloc_s(stralloc, lines) ;
+  size_t i = 1 ;
   for (; i < len ; i++)
     if (!sacmp(s+i-1, s+i)) stralloc_free(s+i-1) ;
 }
 
 static ssize_t outputlines (stralloc const *s, size_t len)
 {
-  register size_t i = 0 ;
+  size_t i = 0 ;
   for (; i < len ; i++)
     if (buffer_put(buffer_1, s[i].s, s[i].len) < 0) return 0 ;
   return buffer_flush(buffer_1) ;
@@ -78,7 +77,7 @@ static ssize_t outputlines (stralloc const *s, size_t len)
 
 static int check (stralloc const *s, size_t len)
 {
-  register size_t i = 1 ;
+  size_t i = 1 ;
   for (; i < len ; i++)
     if (sacmp(s+i-1, s+i) >= !flaguniq) return 0 ;
   return 1 ;
@@ -94,7 +93,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "bcfru0", &l) ;
+      int opt = subgetopt_r(argc, argv, "bcfru0", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {

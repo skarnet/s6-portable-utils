@@ -1,6 +1,6 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/allreadwrite.h>
@@ -21,7 +21,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "nud:", &l) ;
+      int opt = subgetopt_r(argc, argv, "nud:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -34,14 +34,14 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (!argc) strerr_dieusage(100, USAGE) ;
-  delimlen = str_len(delim) ;
+  delimlen = strlen(delim) ;
   if (startquote)
   {
     if (!delimlen) strerr_dief1x(100, "no character to quote with!") ;
     if (!stralloc_catb(&sa, delim, 1))
       strerr_diefu1sys(111, "stralloc_catb") ;
   }
-  if (!string_quote_nodelim_mustquote(&sa, *argv, str_len(*argv), delim, delimlen))
+  if (!string_quote_nodelim_mustquote(&sa, *argv, strlen(*argv), delim, delimlen))
     strerr_diefu1sys(111, "quote") ;
   if (startquote)
   {

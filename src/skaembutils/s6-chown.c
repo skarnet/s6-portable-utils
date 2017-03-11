@@ -1,11 +1,8 @@
 /* ISC license. */
 
-#include <sys/types.h>
 #include <unistd.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/uint64.h>
-#include <skalibs/gidstuff.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/djbunix.h>
 
@@ -20,15 +17,13 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "Uu:g:", &l) ;
+      int opt = subgetopt_r(argc, argv, "Uu:g:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
         case 'u':
         {
-          uint64 u ;
-          if (!uint640_scan(l.arg, &u)) strerr_dieusage(100, USAGE) ;
-          uid = u ;
+          if (!uid0_scan(l.arg, &uid)) strerr_dieusage(100, USAGE) ;
           break ;
         }
         case 'g':
@@ -38,11 +33,9 @@ int main (int argc, char const *const *argv, char const *const *envp)
         }
         case 'U':
         {
-          uint64 u ;
           char const *s = env_get2(envp, "UID") ;
           if (!s) strerr_dienotset(100, "UID") ;
-          if (!uint640_scan(s, &u)) strerr_dieinvalid(100, "UID") ;
-          uid = u ;
+          if (!uid0_scan(s, &uid)) strerr_dieinvalid(100, "UID") ;
           s = env_get2(envp, "GID") ;
           if (!s) strerr_dienotset(100, "GID") ;
           if (!gid0_scan(s, &gid)) strerr_dieinvalid(100, "GID") ;

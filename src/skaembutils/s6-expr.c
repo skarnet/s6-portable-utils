@@ -1,11 +1,8 @@
 /* ISC license. */
 
-#include <sys/types.h>
-#include <unistd.h>
+#include <string.h>
 #include <skalibs/allreadwrite.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/ulong.h>
-#include <skalibs/fmtscan.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 
 #define USAGE "s6-expr arithmetic expression"
@@ -68,13 +65,13 @@ static unsigned int lex (struct node *tree, char const *const *argv)
     { "&", T_AND, 5 },
     { 0, 0, 0 }
   } ;
-  register unsigned int pos = 0 ;
+  unsigned int pos = 0 ;
 
   for (; argv[pos] ; pos++)
   {
-    register unsigned int i = 0 ;
+    unsigned int i = 0 ;
     for (i = 0 ; tokens[i].string ; i++)
-      if (!str_diff(argv[pos], tokens[i].string))
+      if (!strcmp(argv[pos], tokens[i].string))
       {
         tree[pos].op = tokens[i].op ;
         tree[pos].type = tokens[i].type ;
@@ -90,7 +87,7 @@ static unsigned int lex (struct node *tree, char const *const *argv)
   return pos ;
 }
 
-static void reduce (struct node *tree, register unsigned int *stack, register unsigned int *sp, unsigned int type)
+static void reduce (struct node *tree, unsigned int *stack, unsigned int *sp, unsigned int type)
 {
   if (tree[stack[*sp-1]].type == type)
   {
@@ -191,7 +188,7 @@ static long run (struct node const *tree, unsigned int root)
 
 int main (int argc, char const *const *argv)
 {
-  char fmt[ULONG_FMT+1] ;
+  char fmt[LONG_FMT] ;
   long val ;
   size_t len ;
   PROG = "s6-expr" ;

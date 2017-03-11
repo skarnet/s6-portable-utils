@@ -1,9 +1,9 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/bytestr.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
@@ -22,7 +22,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "m:", &l) ;
+      int opt = subgetopt_r(argc, argv, "m:", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -46,17 +46,17 @@ int main (int argc, char const *const *argv, char const *const *envp)
       strerr_diefu2sys(111, "mkdir ", argv[0]) ;
     }
   }
-  dirlen = str_len(argv[0]) ;
+  dirlen = strlen(argv[0]) ;
     
   for (; *envp ; envp++)
   {
     size_t varlen = str_chr(*envp, '=') ;
     char fn[dirlen + varlen + 2] ;
-    byte_copy(fn, dirlen, argv[0]) ;
+    memcpy(fn, argv[0], dirlen) ;
     fn[dirlen] = '/' ;
-    byte_copy(fn + dirlen + 1, varlen, *envp) ;
+    memcpy(fn + dirlen + 1, *envp, varlen) ;
     fn[dirlen + 1 + varlen] = 0 ;
-    if (!openwritenclose_suffix(fn, *envp + varlen + 1, str_len(*envp + varlen + 1), "=.tmp"))
+    if (!openwritenclose_suffix(fn, *envp + varlen + 1, strlen(*envp + varlen + 1), "=.tmp"))
       strerr_diefu2sys(111, "open ", fn) ;
   }
   return 0 ;

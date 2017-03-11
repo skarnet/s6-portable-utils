@@ -1,11 +1,9 @@
 /* ISC license. */
 
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <skalibs/uint.h>
-#include <skalibs/bytestr.h>
-#include <skalibs/fmtscan.h>
+#include <string.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/env.h>
 #include <skalibs/djbunix.h>
@@ -124,14 +122,14 @@ static unsigned int lex (struct node *tree, char const *const *argv)
     { "-v", T_ENV, 2 },
     { 0, 0, 0 }
   } ;
-  register unsigned int pos = 0 ;
+  unsigned int pos = 0 ;
 
   for (; argv[pos] ; pos++)
   {
     unsigned int i = 0 ;
     tree[pos].data = argv[pos] ;
     for (i = 0 ; tokens[i].string ; i++)
-      if (!str_diff(argv[pos], tokens[i].string))
+      if (!strcmp(argv[pos], tokens[i].string))
       {
         tree[pos].op = tokens[i].op ;
         tree[pos].type = tokens[i].type ;
@@ -433,17 +431,17 @@ static int run (struct node const *tree, unsigned int root)
     case T_ZERO :
       return !tree[tree[root].arg1].data[0] ;
     case T_STREQUAL :
-      return !str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) ;
+      return !strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) ;
     case T_STRNEQUAL :
-      return !!str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) ;
+      return !!strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) ;
     case T_STRLESSER :
-      return str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) < 0 ;
+      return strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) < 0 ;
     case T_STRLESSERE :
-      return str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) <= 0 ;
+      return strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) <= 0 ;
     case T_STRGREATER :
-      return str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) > 0 ;
+      return strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) > 0 ;
     case T_STRGREATERE :
-      return str_diff(tree[tree[root].arg1].data, tree[tree[root].arg2].data) >= 0 ;
+      return strcmp(tree[tree[root].arg1].data, tree[tree[root].arg2].data) >= 0 ;
     case T_NUMEQUAL :
     {
       int n1, n2 ;

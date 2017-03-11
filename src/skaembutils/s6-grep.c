@@ -1,13 +1,13 @@
 /* ISC license. */
 
-#include <sys/types.h>
+#include <string.h>
 #include <errno.h>
 #include <regex.h>
 #include <string.h>
 #include <skalibs/bytestr.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
-#include <skalibs/uint.h>
+#include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/skamisc.h>
@@ -36,7 +36,7 @@ int main (int argc, char const *const *argv)
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      register int opt = subgetopt_r(argc, argv, "EFicnqv", &l) ;
+      int opt = subgetopt_r(argc, argv, "EFicnqv", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
@@ -57,10 +57,10 @@ int main (int argc, char const *const *argv)
     stralloc line = STRALLOC_ZERO ;
     regex_t re ;
     unsigned int num = 0 ;
-    size_t arglen = str_len(argv[0]) ;
+    size_t arglen = strlen(argv[0]) ;
     if (!flags.fixed)
     {
-      register int e = regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
+      int e = regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
       if (e)
       {
         char buf[256] ;
@@ -71,7 +71,7 @@ int main (int argc, char const *const *argv)
 
     for (;;)
     {
-      register int r ;
+      int r ;
       line.len = 0 ;
       r = skagetln(buffer_0f1, &line, '\n') ;
       if (!r) break ;
@@ -107,12 +107,12 @@ int main (int argc, char const *const *argv)
           if (flags.num)
           {
             char fmt[UINT_FMT] ;
-            register size_t n = uint_fmt(fmt, num) ;
+            size_t n = uint_fmt(fmt, num) ;
             fmt[n++] = ':' ;
-            if (buffer_put(buffer_1, fmt, n) < (int)n)
+            if (buffer_put(buffer_1, fmt, n) < (ssize_t)n)
               strerr_diefu1sys(111, "write to stdout") ;
           }
-          if (buffer_put(buffer_1, line.s, line.len) < (int)line.len)
+          if (buffer_put(buffer_1, line.s, line.len) < (ssize_t)line.len)
             strerr_diefu1sys(111, "write to stdout") ;
         }
       }
@@ -124,7 +124,7 @@ int main (int argc, char const *const *argv)
   if (flags.count)
   {
     char fmt[UINT_FMT] ;
-    register size_t n = uint_fmt(fmt, count) ;
+    size_t n = uint_fmt(fmt, count) ;
     fmt[n++] = '\n' ;
     if (buffer_put(buffer_1, fmt, n) < (ssize_t)n)
       strerr_diefu1sys(111, "write to stdout") ;
