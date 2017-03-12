@@ -1,7 +1,7 @@
 /* ISC license. */
 
+#include <string.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/bytestr.h>
 #include <skalibs/direntry.h>
 #include <skalibs/buffer.h>
 #include <skalibs/strerr2.h>
@@ -43,7 +43,7 @@ int main (int argc, char const *const *argv)
       {
         if (!all || !d->d_name[1] || ((d->d_name[1] == '.') && !d->d_name[2])) continue ;
       }
-      if (exclude && !str_diff(exclude, d->d_name)) continue ;
+      if (exclude && !strcmp(exclude, d->d_name)) continue ;
       if ((buffer_puts(buffer_1, d->d_name) < 0)
        || (buffer_put(buffer_1, &delim, 1) < 0))
         strerr_diefu1sys(111, "write to stdout") ;

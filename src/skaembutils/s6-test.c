@@ -424,7 +424,7 @@ static int run (struct node const *tree, unsigned int root)
       unsigned int fd ;
       if (!uint0_scan(tree[tree[root].arg1].data, &fd))
         strerr_dief2x(100, tree[root].data, " requires an integer argument") ;
-      return isatty((int)fd) ;
+      return isatty(fd) ;
     }
     case T_NONZERO :
       return tree[tree[root].arg1].data[0] ;
