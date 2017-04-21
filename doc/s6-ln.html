@@ -25,7 +25,7 @@
 <h2> Interface </h2>
 
 <pre>
-     s6-ln [ -s ] [ -f ] [ -L ] [ -P ] <em>old</em> <em>new</em>
+     s6-ln [ -n ] [ -s ] [ -f ] [ -L ] [ -P ] <em>source...</em> <em>target</em>
 </pre>
 
 <p>
@@ -33,12 +33,31 @@
 <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ln.html">ln</a> utility.
 </p>
 
+<h2> Options </h2>
+
+<ul>
+ <li> <tt>-s</tt>&nbsp;: create a symbolic link instead of a hard link </li>
+ <li> <tt>-f</tt>&nbsp;: force replacement of an existing <em>target</em> </li>
+ <li> <tt>-L</tt>&nbsp;: link targets of symlinks in <em>source...</em> </li>
+ <li> <tt>-P</tt>&nbsp;: link symlinks in <em>source...</em> themselves </li>
+ <li> <tt>-n</tt>&nbsp;: if <em>target</em> is a symlink to a directory, replace
+it instead of adding a link in the directory </li>
+</ul>
+
 <h2> Posixness </h2>
 
 <p>
- s6-ln <strong>is</strong> suitable as a Single Unix
+ s6-ln <strong>would be</strong> suitable as a Single Unix
 <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ln.html">ln</a>
-program.
+program, except that POSIX mandates that a preexisting <em>target</em> must first
+be <tt>unlink()</tt>ed and then (<tt>sym</tt>)<tt>link()</tt>ed, which prevents
+atomic replacements.
+ <tt>s6-ln</tt> aims to be reliable and allow for atomic replacements, so it
+deviates from POSIX on that point: when <em>target</em> exists and needs to
+be replaced, <tt>s6-ln</tt> first creates a (sym)link to a unique temporary
+name, then <tt>rename()</tt>s the temporary name to <em>target</em>. This
+behaviour makes sure that <em>target</em> is atomically replaced - there's
+no point in time where it does not exist.
 </p>
 
 </body>

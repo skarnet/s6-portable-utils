@@ -19,7 +19,7 @@
 #include <skalibs/random.h>
 #include <skalibs/skamisc.h>
 
-#define USAGE "s6-ln [ -s ] [ -f ] [ -L ] [ -P ] src... dest"
+#define USAGE "s6-ln [ -n ] [ -s ] [ -f ] [ -L ] [ -P ] src... dest"
 
 typedef int linkfunc_t (char const *, char const *) ;
 typedef linkfunc_t *linkfunc_t_ref ;
@@ -78,15 +78,17 @@ int main (int argc, char const *const *argv)
 {
   linkfunc_t_ref mylink = &link ; /* default to system behaviour */
   ln_t_ref f = &noforce ;
+  int nodir = 0 ;
   PROG = "s6-ln" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
     for (;;)
     {
-      int opt = subgetopt_r(argc, argv, "sfLP", &l) ;
+      int opt = subgetopt_r(argc, argv, "nsfLP", &l) ;
       if (opt == -1) break ;
       switch (opt)
       {
+        case 'n' : nodir = 1 ; break ;
         case 's': mylink = &symlink ; break ;
         case 'f': f = &force ; break ;
         case 'L': if (mylink != &symlink) mylink = &linkderef ; break ;
@@ -120,7 +122,7 @@ int main (int argc, char const *const *argv)
 
   {
     struct stat st ;
-    if (stat(argv[1], &st) < 0)
+    if (nodir ? lstat(argv[1], &st) : stat(argv[1], &st) < 0)
     {
       if (errno != ENOENT) strerr_diefu2sys(111, "stat ", argv[1]) ;
       (*f)(argv[0], argv[1], mylink) ;
