@@ -1,5 +1,13 @@
 Changelog for s6-portable-utils.
 
+In 2.2.1.0
+----------
+
+ - s6-ln now accepts the non-standard -n option, with a meaning
+similar to the one in GNU ln. This is used to atomically update
+symbolic links to directories.
+
+
 In 2.2.0.0
 ----------
 
