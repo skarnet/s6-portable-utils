@@ -14,7 +14,7 @@
 
 int main (int argc, char const *const *argv, char const *const *envp)
 {
-  mode_t mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH ;
+  unsigned int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH ;
   size_t dirlen ;
 
   PROG = "s6-dumpenv" ;
