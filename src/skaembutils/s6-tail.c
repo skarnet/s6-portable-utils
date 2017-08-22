@@ -56,9 +56,7 @@ static int pluschars (int fd, size_t n)
     if (nil < 0) return 0 ;
     if (!fd_catn(fd, nil, n))
     {
-      int e = errno ;
       fd_close(nil) ;
-      errno = e ;
       return 0 ;
     }
     fd_close(nil) ;

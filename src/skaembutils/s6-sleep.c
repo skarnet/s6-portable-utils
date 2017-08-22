@@ -40,6 +40,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
     deepsleepuntil_g(&deadline) ;
   }
 
-  pathexec0_run(argv+1, envp) ;
-  strerr_dieexec(111, argv[1]) ;
+  xpathexec0_run(argv+1, envp) ;
 }

@@ -40,6 +40,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
     if (strict) strerr_diefu2sys(111, "nice to ", fmt) ;
     else strerr_warnwu2sys("nice to ", fmt) ;
   }
-  pathexec_run(argv[0], argv, envp) ;
-  strerr_dieexec((errno == ENOENT) ? 127 : 126, argv[0]) ;
+  xpathexec_run(argv[0], argv, envp) ;
 }

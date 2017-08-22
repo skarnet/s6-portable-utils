@@ -36,6 +36,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
   fd_close(fdw) ;
   if (fd_move(0, fdr) < 0)
     strerr_diefu1sys(111, "move fdr to stdin") ;
-  pathexec_run(argv[2], argv+2, envp) ;
-  strerr_dieexec(111, argv[2]) ;
+  xpathexec_run(argv[2], argv+2, envp) ;
 }

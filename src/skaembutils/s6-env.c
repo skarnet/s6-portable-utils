@@ -37,7 +37,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
       strerr_diefu1sys(111, "stralloc_cats") ;
   }
   if (!argc) argv = arg_zero ;
-  pathexec_r(argv, envp, env_len(envp), modifs.s, modifs.len) ;
-  stralloc_free(&modifs) ;
-  strerr_dieexec((errno == ENOENT) ? 127 : 126, argv[0]) ;
+  xpathexec_r(argv, envp, env_len(envp), modifs.s, modifs.len) ;
 }
