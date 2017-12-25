@@ -1,6 +1,7 @@
 /* ISC license. */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr2.h>
@@ -8,7 +9,7 @@
 
 #define USAGE "s6-chown [ -U ] [ -u uid ] [ -g gid ] file"
 
-int main (int argc, char const *const *argv, char const *const *envp)
+int main (int argc, char const *const *argv)
 {
   uid_t uid = -1 ;
   gid_t gid = -1 ;
@@ -33,10 +34,10 @@ int main (int argc, char const *const *argv, char const *const *envp)
         }
         case 'U':
         {
-          char const *s = env_get2(envp, "UID") ;
+          char const *s = getenv("UID") ;
           if (!s) strerr_dienotset(100, "UID") ;
           if (!uid0_scan(s, &uid)) strerr_dieinvalid(100, "UID") ;
-          s = env_get2(envp, "GID") ;
+          s = getenv("GID") ;
           if (!s) strerr_dienotset(100, "GID") ;
           if (!gid0_scan(s, &gid)) strerr_dieinvalid(100, "GID") ;
           break ;

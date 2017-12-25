@@ -3,9 +3,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr2.h>
-#include <skalibs/env.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-test expression...  or  [ expression... ]"
@@ -491,7 +491,7 @@ static int run (struct node const *tree, unsigned int root)
       return n1 <= n2 ;
     }
     case T_ENV :
-      return !!env_get(tree[tree[root].arg1].data) ;
+      return !!getenv(tree[tree[root].arg1].data) ;
     default:
       strerr_dief1x(111, "operation not implemented") ;
   }
