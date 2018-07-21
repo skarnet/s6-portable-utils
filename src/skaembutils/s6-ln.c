@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
+#include <skalibs/posixplz.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
@@ -61,7 +62,7 @@ static void force (char const *old, char const *new, linkfunc_t_ref doit)
       strerr_diefu3sys(111, "make a link", " to ", old) ;
     if (rename(satmp.s + base, new) == -1)
     {
-      unlink(satmp.s + base) ;
+      unlink_void(satmp.s + base) ;
       strerr_diefu2sys(111, "atomically replace ", new) ;
     }
     satmp.len = base ;

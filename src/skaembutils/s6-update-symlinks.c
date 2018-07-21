@@ -97,10 +97,8 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
       r = sareadlink(&blah->src, blah->dst.s + dstpos) ;
       if ((r == -1) && (errno != EINVAL))
       {
-        int e = errno ;
         blah->dst.len = dstbase ;
         dir_close(dir) ;
-        errno = e ;
         return ERROR ;
       }
       if (r < 0)
@@ -117,11 +115,9 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         }
         if (errno)
         {
-          int e = errno ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
           dir_close(dir) ;
-          errno = e ;
           return ERROR ;
         }
       }
@@ -129,11 +125,9 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
             || (mkdir(blah->dst.s + dstpos, 0777) == -1)
             || !stralloc_catb(&blah->src, "/", 1))
       {
-        int e = errno ;
         blah->src.len = srcbase ;
         blah->dst.len = dstbase ;
         dir_close(dir) ;
-        errno = e ;
         return ERROR ;
       }
       else         /* expand */
@@ -154,21 +148,17 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
            || !stralloc_cats(&blah->src, d->d_name) || !stralloc_0(&blah->src)
            || (symlink(blah->src.s + srcbase, blah->dst.s + dstbase) == -1))
           {
-            int e = errno ;
             blah->src.len = srcbase ;
             blah->dst.len = dstbase ;
             dir_close(dir) ;
-            errno = e ;
             return ERROR ;
           }
         }
         if (errno)
         {
-          int e = errno ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
           dir_close(dir) ;
-          errno = e ;
           return ERROR ;
         }
       }
@@ -214,23 +204,19 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
           continue ;
         if (!stralloc_cats(&blah->tmp, d->d_name) || !stralloc_0(&blah->tmp))
         {
-          int e = errno ;
           blah->tmp.len = tmpbase ;
           blah->src.len = srcbase ;
           blah->dst.len = dstbase ;
           dir_close(dir) ;
-          errno = e ;
           return ERROR ;
         }
       }
       if (errno)
       {
-        int e = errno ;
         blah->tmp.len = tmpbase ;
         blah->src.len = srcbase ;
         blah->dst.len = dstbase ;
         dir_close(dir) ;
-        errno = e ;
         return ERROR ;
       }
       dir_close(dir) ;

@@ -13,6 +13,7 @@
 #include <skalibs/skamisc.h>
 
 #define USAGE "s6-grep [ -E | -F ] [ -i ] [ -c ] [ -n ] [ -q ] [ -v ] pattern"
+#define dieusage() strerr_dieusage(100, USAGE)
 
 typedef struct flags_s flags_t, *flags_t_ref ;
 struct flags_s
@@ -26,6 +27,12 @@ struct flags_s
   unsigned int not : 1 ;
 } ;
 #define FLAGS_ZERO { .extended = 0, .ignorecase = 0, .fixed = 0, .count = 0, .num = 0, .quiet = 0, .not = 0 }
+
+static void xout (char const *s, size_t len)
+{
+  if (buffer_put(buffer_1, s, len) < 0)
+    strerr_diefu1sys(111, "write to stdout") ;
+}
 
 int main (int argc, char const *const *argv)
 {
@@ -47,12 +54,12 @@ int main (int argc, char const *const *argv)
         case 'n': flags.num = 1 ; break ;
         case 'q': flags.quiet = 1 ; break ;
         case 'v': flags.not = 1 ; break ;
-        default : strerr_dieusage(100, USAGE) ;
+        default : dieusage() ;
       }
     }
     argc -= l.ind ; argv += l.ind ;
   }
-  if (!argc) strerr_dieusage(100, USAGE) ;
+  if (!argc) dieusage() ;
   {
     stralloc line = STRALLOC_ZERO ;
     regex_t re ;
@@ -109,11 +116,9 @@ int main (int argc, char const *const *argv)
             char fmt[UINT_FMT] ;
             size_t n = uint_fmt(fmt, num) ;
             fmt[n++] = ':' ;
-            if (buffer_put(buffer_1, fmt, n) < (ssize_t)n)
-              strerr_diefu1sys(111, "write to stdout") ;
+            xout(fmt, n) ;
           }
-          if (buffer_put(buffer_1, line.s, line.len) < (ssize_t)line.len)
-            strerr_diefu1sys(111, "write to stdout") ;
+          xout(line.s, line.len) ;
         }
       }
     }
@@ -126,8 +131,7 @@ int main (int argc, char const *const *argv)
     char fmt[UINT_FMT] ;
     size_t n = uint_fmt(fmt, count) ;
     fmt[n++] = '\n' ;
-    if (buffer_put(buffer_1, fmt, n) < (ssize_t)n)
-      strerr_diefu1sys(111, "write to stdout") ;
+    xout(fmt, n) ;
   }
   return !count ;
 }
