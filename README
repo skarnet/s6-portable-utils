@@ -7,7 +7,7 @@ but optimized for simplicity and small size. They were
 designed for embedded systems and other constrained
 environments, but they work everywhere.
 
- See http://skarnet.org/software/s6-portable-utils/ for details.
+ See https://skarnet.org/software/s6-portable-utils/ for details.
 
 
 * Installation
