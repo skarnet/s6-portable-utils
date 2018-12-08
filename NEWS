@@ -1,5 +1,12 @@
 Changelog for s6-portable-utils.
 
+In 2.2.1.3
+----------
+
+ - s6-ln doesn't use potentially blocking random anymore, so it's
+usable in early boot. This needs skalibs-2.8.0.0, however.
+
+
 In 2.2.1.2
 ----------
 

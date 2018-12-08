@@ -12,21 +12,16 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
+
 #include <skalibs/posixplz.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/stralloc.h>
 #include <skalibs/djbunix.h>
-#include <skalibs/random.h>
 #include <skalibs/skamisc.h>
 
 #define USAGE "s6-ln [ -n ] [ -s ] [ -f ] [ -L ] [ -P ] src... dest"
-
-typedef int linkfunc_t (char const *, char const *) ;
-typedef linkfunc_t *linkfunc_t_ref ;
-
-typedef void ln_t (char const *, char const *, linkfunc_t_ref) ;
-typedef ln_t *ln_t_ref ;
+#define SUFFIX ":s6-ln:XXXXXX"
 
 #ifdef SKALIBS_HASLINKAT
 
@@ -47,38 +42,34 @@ static int linkderef (char const *old, char const *new)
 
 #endif
 
-static void force (char const *old, char const *new, linkfunc_t_ref doit)
+static void doit (char const *old, char const *new, linkfunc_t_ref mylink, int force)
 {
-  if ((*doit)(old, new) == -1)
+  if ((*mylink)(old, new) == -1)
   {
-    size_t base = satmp.len ;
-    if (errno != EEXIST)
+    if (!force || errno != EEXIST)
       strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
-    if (!stralloc_cats(&satmp, new)
-     || !random_sauniquename(&satmp, 8)
-     || !stralloc_0(&satmp))
-      strerr_diefu2sys(111, "make a unique name for ", old) ;
-    if ((*doit)(old, satmp.s + base) == -1)
-      strerr_diefu3sys(111, "make a link", " to ", old) ;
-    if (rename(satmp.s + base, new) == -1)
     {
-      unlink_void(satmp.s + base) ;
-      strerr_diefu2sys(111, "atomically replace ", new) ;
+      size_t newlen = strlen(new) ;
+      char fn[newlen + sizeof(SUFFIX)] ;
+      memcpy(fn, new, newlen) ;
+      memcpy(fn + newlen, SUFFIX, sizeof(SUFFIX)) ;
+      if (mklinktemp(old, fn, mylink) == -1)
+        strerr_diefu3sys(111, "make a link", " to ", old) ;
+      if (rename(fn, new) == -1)
+      {
+        unlink_void(fn) ;
+        strerr_diefu2sys(111, "atomically replace ", new) ;
+      }
+     /* if old == new, rename() didn't remove fn */
+      unlink_void(fn) ;
     }
-    satmp.len = base ;
   }
-}
-
-static void noforce (char const *old, char const *new, linkfunc_t_ref doit)
-{
-  if ((*doit)(old, new) == -1)
-    strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
 }
 
 int main (int argc, char const *const *argv)
 {
   linkfunc_t_ref mylink = &link ; /* default to system behaviour */
-  ln_t_ref f = &noforce ;
+  int force = 0 ;
   int nodir = 0 ;
   PROG = "s6-ln" ;
   {
@@ -91,7 +82,7 @@ int main (int argc, char const *const *argv)
       {
         case 'n' : nodir = 1 ; break ;
         case 's': mylink = &symlink ; break ;
-        case 'f': f = &force ; break ;
+        case 'f': force = 1 ; break ;
         case 'L': if (mylink != &symlink) mylink = &linkderef ; break ;
         case 'P': if (mylink != &symlink) mylink = &linknoderef ; break ;
         default : strerr_dieusage(100, USAGE) ;
@@ -100,8 +91,6 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (argc < 2) strerr_dieusage(100, USAGE) ;
-  if (!random_init())
-    strerr_diefu1sys(111, "init random generator") ;
   if (argc > 2)
   {
     stralloc sa = STRALLOC_ZERO ;
@@ -116,7 +105,7 @@ int main (int argc, char const *const *argv)
       if (!sabasename(&sa, argv[i], strlen(argv[i])))
         strerr_diefu1sys(111, "sabasename") ;
       if (!stralloc_0(&sa)) strerr_diefu1sys(111, "stralloc_0") ;
-      (*f)(argv[i], sa.s, mylink) ;
+      doit(argv[i], sa.s, mylink, force) ;
     }
     return 0 ;
   }
@@ -126,12 +115,12 @@ int main (int argc, char const *const *argv)
     if (nodir ? lstat(argv[1], &st) : stat(argv[1], &st) < 0)
     {
       if (errno != ENOENT) strerr_diefu2sys(111, "stat ", argv[1]) ;
-      (*f)(argv[0], argv[1], mylink) ;
+      doit(argv[0], argv[1], mylink, force) ;
       return 0 ;
     }
     if (!S_ISDIR(st.st_mode))
     {
-      (*f)(argv[0], argv[1], mylink) ;
+      doit(argv[0], argv[1], mylink, force) ;
       return 0 ;
     }
   }
@@ -143,7 +132,7 @@ int main (int argc, char const *const *argv)
       || !sabasename(&sa, argv[0], strlen(argv[0]))
       || !stralloc_0(&sa))
         strerr_diefu1sys(111, "stralloc_catb") ;
-      (*f)(argv[0], sa.s, mylink) ;
+      doit(argv[0], sa.s, mylink, force) ;
   }
   return 0 ;
 }
