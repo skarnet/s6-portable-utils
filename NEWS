@@ -5,6 +5,7 @@ In 2.2.1.3
 
  - s6-ln doesn't use potentially blocking random anymore, so it's
 usable in early boot. This needs skalibs-2.8.0.0, however.
+ - Everything now builds as PIC by default.
 
 
 In 2.2.1.2
