@@ -4,6 +4,8 @@
 #include <errno.h>
 #include <regex.h>
 #include <string.h>
+
+#include <skalibs/posixplz.h>
 #include <skalibs/bytestr.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
@@ -67,7 +69,7 @@ int main (int argc, char const *const *argv)
     size_t arglen = strlen(argv[0]) ;
     if (!flags.fixed)
     {
-      int e = regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
+      int e = skalibs_regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
       if (e)
       {
         char buf[256] ;
