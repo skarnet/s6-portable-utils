@@ -59,6 +59,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
 
   pid = child_spawn0(argv[1], argv+1, envp) ;
   if (!pid) strerr_diefu2sys(111, "spawn ", argv[1]) ;
+  tain_now_set_stopwatch() ;
   tain_now_g() ;
   tain_add_g(&deadline, &deadline) ;
 

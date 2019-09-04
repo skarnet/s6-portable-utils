@@ -35,6 +35,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
     tain_t deadline ;
     if (milli) tain_from_millisecs(&deadline, n) ;
     else tain_uint(&deadline, n) ;
+    tain_now_set_stopwatch() ;
     tain_now_g() ;
     tain_add_g(&deadline, &deadline) ;
     deepsleepuntil_g(&deadline) ;
