@@ -80,11 +80,11 @@ s6-hiercopy: EXTRA_LIBS :=
 s6-hiercopy: src/skaembutils/s6-hiercopy.o -lskarnet
 s6-linkname: EXTRA_LIBS :=
 s6-linkname: src/skaembutils/s6-linkname.o -lskarnet
-s6-ln: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-ln: EXTRA_LIBS := ${SOCKET_LIB} ${SYSCLOCK_LIB}
 s6-ln: src/skaembutils/s6-ln.o -lskarnet
 s6-ls: EXTRA_LIBS :=
 s6-ls: src/skaembutils/s6-ls.o -lskarnet
-s6-maximumtime: EXTRA_LIBS := ${TAINNOW_LIB} ${SPAWN_LIB}
+s6-maximumtime: EXTRA_LIBS := ${SYSCLOCK_LIB} ${SPAWN_LIB}
 s6-maximumtime: src/skaembutils/s6-maximumtime.o -lskarnet
 s6-mkdir: EXTRA_LIBS :=
 s6-mkdir: src/skaembutils/s6-mkdir.o -lskarnet
@@ -108,7 +108,7 @@ s6-rmrf: EXTRA_LIBS :=
 s6-rmrf: src/skaembutils/s6-rmrf.o -lskarnet
 s6-seq: EXTRA_LIBS :=
 s6-seq: src/skaembutils/s6-seq.o -lskarnet
-s6-sleep: EXTRA_LIBS := ${TAINNOW_LIB}
+s6-sleep: EXTRA_LIBS := ${SYSCLOCK_LIB}
 s6-sleep: src/skaembutils/s6-sleep.o -lskarnet
 s6-sort: EXTRA_LIBS :=
 s6-sort: src/skaembutils/s6-sort.o -lskarnet
@@ -122,13 +122,13 @@ s6-touch: EXTRA_LIBS :=
 s6-touch: src/skaembutils/s6-touch.o -lskarnet
 s6-true: EXTRA_LIBS :=
 s6-true: src/skaembutils/s6-true.o
-s6-uniquename: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-uniquename: EXTRA_LIBS := ${SOCKET_LIB} ${SYSCLOCK_LIB}
 s6-uniquename: src/skaembutils/s6-uniquename.o -lskarnet
 s6-unquote: EXTRA_LIBS :=
 s6-unquote: src/skaembutils/s6-unquote.o -lskarnet
 s6-unquote-filter: EXTRA_LIBS :=
 s6-unquote-filter: src/skaembutils/s6-unquote-filter.o -lskarnet
-s6-update-symlinks: EXTRA_LIBS := ${SOCKET_LIB} ${TAINNOW_LIB}
+s6-update-symlinks: EXTRA_LIBS := ${SOCKET_LIB} ${SYSCLOCK_LIB}
 s6-update-symlinks: src/skaembutils/s6-update-symlinks.o -lskarnet
 seekablepipe: EXTRA_LIBS :=
 seekablepipe: src/skaembutils/seekablepipe.o -lskarnet
