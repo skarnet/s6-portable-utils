@@ -71,6 +71,7 @@ int main (int argc, char const *const *argv)
     }
     argc -= l.ind ; argv += l.ind ;
   }
+  umask(0) ;
   for ( ; *argv ; argv++)
     e |= parents ? doparents(*argv, mode, verbose) :
                    doit(*argv, mode, verbose, 1) ;
