@@ -1,5 +1,12 @@
 Changelog for s6-portable-utils.
 
+In 2.2.2.4
+----------
+
+ - Bugfixes of the bugs introduced in the previous bugfixes
+(that's what all software development is about, isn't it?)
+
+
 In 2.2.2.3
 ----------
 

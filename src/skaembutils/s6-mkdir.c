@@ -10,6 +10,7 @@
 #include <skalibs/strerr2.h>
 
 #define USAGE "s6-mkdir [ -p ] [ -v ] [ -m mode ] dir"
+#define dieusage() strerr_dieusage(100, USAGE)
 
 static int doit (char const *s, unsigned int mode, int verbose, int ee)
 {
@@ -54,6 +55,7 @@ int main (int argc, char const *const *argv)
   int parents = 0, verbose = 0 ;
   unsigned int mode = 0777 ;
   int e = 0 ;
+  int noumask = 0 ;
   PROG = "s6-mkdir" ;
   {
     subgetopt_t l = SUBGETOPT_ZERO ;
@@ -65,13 +67,13 @@ int main (int argc, char const *const *argv)
       {
         case 'p': parents = 1 ; break ;
         case 'v': verbose = 1 ; break ;
-        case 'm': if (uint_oscan(l.arg, &mode)) break ;
+        case 'm': if (!uint_oscan(l.arg, &mode)) dieusage() ; noumask = 1 ; break ;
         default : strerr_dieusage(100, USAGE) ;
       }
     }
     argc -= l.ind ; argv += l.ind ;
   }
-  umask(0) ;
+  if (noumask) umask(0) ;
   for ( ; *argv ; argv++)
     e |= parents ? doparents(*argv, mode, verbose) :
                    doit(*argv, mode, verbose, 1) ;
