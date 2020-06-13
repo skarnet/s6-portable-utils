@@ -1,5 +1,13 @@
 Changelog for s6-portable-utils.
 
+In 2.2.2.5
+----------
+
+ - Bugfixes that have nothing to do with 2.2.2.4 but that
+were reported *right after* 2.2.2.4 was released, because
+things do be like that
+
+
 In 2.2.2.4
 ----------
 

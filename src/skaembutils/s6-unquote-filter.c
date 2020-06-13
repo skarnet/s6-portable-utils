@@ -46,7 +46,7 @@ static int doit (char const *s, size_t len)
       }
       return 1 ;
     }
-    if (!memchr(delim, delimlen, *s))
+    if (!memchr(delim, *s, delimlen))
     {
       switch (strictness)
       {
