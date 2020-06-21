@@ -36,6 +36,7 @@ src/skaembutils/s6-seq.o src/skaembutils/s6-seq.lo: src/skaembutils/s6-seq.c
 src/skaembutils/s6-sleep.o src/skaembutils/s6-sleep.lo: src/skaembutils/s6-sleep.c
 src/skaembutils/s6-sort.o src/skaembutils/s6-sort.lo: src/skaembutils/s6-sort.c
 src/skaembutils/s6-sync.o src/skaembutils/s6-sync.lo: src/skaembutils/s6-sync.c
+src/skaembutils/s6-tai64ndiff.o src/skaembutils/s6-tai64ndiff.lo: src/skaembutils/s6-tai64ndiff.c
 src/skaembutils/s6-tail.o src/skaembutils/s6-tail.lo: src/skaembutils/s6-tail.c
 src/skaembutils/s6-test.o src/skaembutils/s6-test.lo: src/skaembutils/s6-test.c
 src/skaembutils/s6-touch.o src/skaembutils/s6-touch.lo: src/skaembutils/s6-touch.c
@@ -114,6 +115,8 @@ s6-sort: EXTRA_LIBS := -lskarnet
 s6-sort: src/skaembutils/s6-sort.o
 s6-sync: EXTRA_LIBS :=
 s6-sync: src/skaembutils/s6-sync.o
+s6-tai64ndiff: EXTRA_LIBS := -lskarnet
+s6-tai64ndiff: src/skaembutils/s6-tai64ndiff.o
 s6-tail: EXTRA_LIBS := -lskarnet
 s6-tail: src/skaembutils/s6-tail.o
 s6-test: EXTRA_LIBS := -lskarnet

@@ -32,6 +32,7 @@ s6-seq			0755
 s6-sleep		0755
 s6-sort			0755
 s6-sync			0755
+s6-tai64ndiff		0755
 s6-tail			0755
 s6-test			0755
 s6-touch		0755

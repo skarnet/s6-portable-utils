@@ -33,6 +33,7 @@ s6-seq \
 s6-sleep \
 s6-sort \
 s6-sync \
+s6-tai64ndiff \
 s6-tail \
 s6-test \
 s6-touch \

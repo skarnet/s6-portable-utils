@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-tai64ndiff program</title>
+    <meta name="Description" content="s6-portable-utils: the s6-tai64ndiff program" />
+    <meta name="Keywords" content="s6 command s6-tai64ndiff filter timestamp TAI64 TAI64N diff time difference log line" />
+    <!-- <link rel="stylesheet" type="text/css" href="//skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="//skarnet.org/software/">Software</a><br />
+<a href="//skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The s6-tai64ndiff program </h1>
+
+<p>
+s6-tai64ndiff acts as a filter, reading from stdin and writing to stdout.
+It expects every line of its input to begin with a
+<a href="//skarnet.org/software/skalibs/libstddjb/tai.html#timestamp">TAI64N
+timestamp</a>. It replaces this timestamp with a prefix showing the time
+difference between this line and the previous line.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-tai64ndiff
+</pre>
+
+<ul>
+ <li> s6-tai64ndiff exits 0 when it sees the end of stdin. If there's an
+unfinished line, s6-tai64ndiff processes it and writes it before exiting. </li>
+ <li> The prefix it prints is of the form <tt>[ <em>seconds</em>.<em>microseconds</em> ]</tt>,
+in decimal. It can be interpreted as a fixed-point decimal number of seconds that
+elapsed between the timestamp on the previous line and the timestamp on the
+current line. </li>
+ <li> If the difference isn't defined, <em>seconds</em> and <em>microseconds</em>
+are just whitespace. The difference is not defined on the first line of stdin or
+on non-timestamped lines. Following non-timestamped lines, the difference may not
+be accurate. </li>
+</ul>
+
+<h2> Notes </h2>
+
+<ul>
+ <li> The typical use case of s6-tai64ndiff is to read files that have
+been filtered through <a href="s6-tai64n.html">s6-tai64n</a>, or log files
+that have been produced by <a href="s6-log.html">s6-log</a> with the <tt>t</tt>
+directive. </li>
+ <li> The difference is a signed number. Negative numbers probably indicate
+a backwards clock jump, which is a bad thing to have on a system. </li>
+</ul>
+
+</body>
+</html>

@@ -1,11 +1,12 @@
 Changelog for s6-portable-utils.
 
-In 2.2.2.5
+In 2.2.3.0
 ----------
 
  - Bugfixes that have nothing to do with 2.2.2.4 but that
 were reported *right after* 2.2.2.4 was released, because
 things do be like that
+ - New binary: s6-tai64ndiff
 
 
 In 2.2.2.4
