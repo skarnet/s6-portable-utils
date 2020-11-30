@@ -4,12 +4,12 @@
 #include <skalibs/strerr2.h>
 #include <skalibs/types.h>
 #include <skalibs/tai.h>
-#include <skalibs/djbunix.h>
 #include <skalibs/iopause.h>
+#include <skalibs/exec.h>
 
 #define USAGE "s6-sleep [ -m ] duration prog..."
 
-int main (int argc, char const *const *argv, char const *const *envp)
+int main (int argc, char const *const *argv)
 {
   unsigned int n ;
   int milli = 0 ;
@@ -40,5 +40,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
     deepsleepuntil_g(&deadline) ;
   }
 
-  xpathexec0_run(argv+1, envp) ;
+  xexec0(argv+1) ;
 }

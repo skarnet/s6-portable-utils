@@ -2,10 +2,12 @@
 
 #include <string.h>
 #include <errno.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/env.h>
-#include <skalibs/djbunix.h>
+#include <skalibs/exec.h>
+
 #include <s6-portable-utils/config.h>
 
 #define USAGE "s6-env [ -i ] [ name=value... ] prog..."
@@ -37,5 +39,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
       strerr_diefu1sys(111, "stralloc_cats") ;
   }
   if (!argc) argv = arg_zero ;
-  xpathexec_r(argv, envp, env_len(envp), modifs.s, modifs.len) ;
+  xmexec_em(argv, envp, modifs.s, modifs.len) ;
 }

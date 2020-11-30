@@ -2,14 +2,15 @@
 
 #include <unistd.h>
 #include <errno.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr2.h>
-#include <skalibs/djbunix.h>
+#include <skalibs/exec.h>
 
 #define USAGE "s6-nice [ -I | -i ] [ -n value ] prog..."
 
-int main (int argc, char const *const *argv, char const *const *envp)
+int main (int argc, char const *const *argv)
 {
   int incr = 10 ;
   int strict = 0 ;
@@ -40,5 +41,5 @@ int main (int argc, char const *const *argv, char const *const *envp)
     if (strict) strerr_diefu2sys(111, "nice to ", fmt) ;
     else strerr_warnwu2sys("nice to ", fmt) ;
   }
-  xpathexec_run(argv[0], argv, envp) ;
+  xexec(argv) ;
 }
