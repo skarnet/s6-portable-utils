@@ -42,7 +42,7 @@ static int linkderef (char const *old, char const *new)
 
 #endif
 
-static void doit (char const *old, char const *new, linkfunc_t_ref mylink, int force)
+static void doit (char const *old, char const *new, link_func_ref mylink, int force)
 {
   if ((*mylink)(old, new) == -1)
   {
@@ -68,12 +68,12 @@ static void doit (char const *old, char const *new, linkfunc_t_ref mylink, int f
 
 int main (int argc, char const *const *argv)
 {
-  linkfunc_t_ref mylink = &link ; /* default to system behaviour */
+  link_func_ref mylink = &link ; /* default to system behaviour */
   int force = 0 ;
   int nodir = 0 ;
   PROG = "s6-ln" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "nsfLP", &l) ;

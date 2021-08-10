@@ -18,14 +18,14 @@
 
 int main (int argc, char const *const *argv, char const *const *envp)
 {
-  tain_t deadline ;
+  tain deadline ;
   iopause_fd x[1] = { { .fd = -1, .events = IOPAUSE_READ, .revents = 0 } } ;
   pid_t pid = 0 ;
   int tosend = SIGTERM ;
   unsigned int timeout ;
   PROG = "s6-maximumtime" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "0abikqtx12", &l) ;

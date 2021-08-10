@@ -13,7 +13,7 @@ int main (int argc, char const *const *argv)
   int doterm = 0, dohangup = 0, dokill = 0 ;
   PROG = "s6-nuke" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "htk", &l) ;

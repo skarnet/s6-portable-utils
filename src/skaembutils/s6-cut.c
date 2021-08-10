@@ -148,7 +148,7 @@ int main (int argc, char const *const *argv)
   unsigned int what = 0 ;
   PROG = "s6-cut" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     int flagnodel = 1 ;
     for (;;)
     {

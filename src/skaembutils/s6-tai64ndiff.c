@@ -15,7 +15,7 @@
 int main (int argc, char const *const *argv)
 {
   stralloc sa = STRALLOC_ZERO ;
-  tain_t prev ;
+  tain prev ;
   int defined = 0 ;
   PROG = "s6-tai64ndiff" ;
 
@@ -31,13 +31,13 @@ int main (int argc, char const *const *argv)
     else if (!r) break ;
     if (sa.len > TIMESTAMP)
     {
-      tain_t cur ;
+      tain cur ;
       p = timestamp_scan(sa.s, &cur) ;
       if (p)
       {
         if (defined)
         {
-          tain_t diff ;
+          tain diff ;
           int64_t secs ;
           size_t len ;
           tain_sub(&diff, &cur, &prev) ;

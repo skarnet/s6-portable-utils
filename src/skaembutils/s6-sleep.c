@@ -15,7 +15,7 @@ int main (int argc, char const *const *argv)
   int milli = 0 ;
   PROG = "s6-sleep" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "m", &l) ;
@@ -32,7 +32,7 @@ int main (int argc, char const *const *argv)
   if (!uint0_scan(argv[0], &n)) strerr_dieusage(100, USAGE) ;
 
   {
-    tain_t deadline ;
+    tain deadline ;
     if (milli) tain_from_millisecs(&deadline, n) ;
     else tain_uint(&deadline, n) ;
     tain_now_set_stopwatch_g() ;

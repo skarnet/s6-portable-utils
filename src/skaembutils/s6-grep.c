@@ -42,7 +42,7 @@ int main (int argc, char const *const *argv)
   flags_t flags = FLAGS_ZERO ;
   PROG = "s6-grep" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "EFicnqv", &l) ;

@@ -17,7 +17,7 @@ int main (int argc, char const *const *argv)
   char fmt[UINT_FMT] ;
   PROG = "s6-seq" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "ws:", &l) ;

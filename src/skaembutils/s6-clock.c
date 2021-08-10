@@ -18,7 +18,7 @@ static int getit (void)
 
 static int setit (char const *h)
 {
-  tain_t a ;
+  tain a ;
   if (!timestamp_scan(h, &a)) strerr_dieusage(100, USAGE) ;
   if (!tain_setnow(&a)) strerr_diefu1sys(111, "taia_setnow") ;
   return 0 ;

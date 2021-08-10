@@ -13,7 +13,7 @@ int main (int argc, char const *const *argv)
   unsigned int mode = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH ;
   PROG = "s6-mkfifo" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "m:", &l) ;

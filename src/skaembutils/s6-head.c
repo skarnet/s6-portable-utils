@@ -15,8 +15,8 @@
 #define USAGE "s6-head [ -S ] [ -1..9 | -n lines | -c chars ] [ file... ]"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-typedef int headfunc_t (int, size_t) ;
-typedef headfunc_t *headfunc_t_ref ;
+typedef int hea$1_func (int, size_t) ;
+typedef hea$1_func *hea$1_func_ref ;
 
 static int dolines (int fd, size_t lines)
 {
@@ -76,12 +76,12 @@ static int safedochars (int fd, size_t chars)
 
 int main (int argc, char const *const *argv)
 {
-  headfunc_t_ref f ;
+  hea$1_func_ref f ;
   unsigned int lines = 10 ;
   int islines = 1, safe = 0 ;
   PROG = "s6-head" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     int done = 0 ;
     for (;;)
     {

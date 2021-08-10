@@ -19,7 +19,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
   char const *env_zero[1] = { 0 } ;
   PROG = "s6-env" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "i", &l) ;

@@ -14,8 +14,8 @@
 
 #define USAGE "s6-tail [ -c chars | -n lines | -1..9 ] [ file ]"
 
-typedef int tailfunc_t (int, size_t) ;
-typedef tailfunc_t *tailfunc_t_ref ;
+typedef int tai$1_func (int, size_t) ;
+typedef tai$1_func *tai$1_func_ref ;
 
 static int pluslines (int fd, size_t n)
 {
@@ -121,12 +121,12 @@ static int minuschars (int fd, size_t n)
 
 int main (int argc, char const *const *argv)
 {
-  tailfunc_t_ref f = &minuslines ;
+  tai$1_func_ref f = &minuslines ;
   unsigned int n = 10 ;
   int gotit = 0 ;
   PROG = "s6-tail" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "123456789n:c:", &l) ;

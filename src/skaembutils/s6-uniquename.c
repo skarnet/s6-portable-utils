@@ -17,7 +17,7 @@ int main (int argc, char const *const *argv)
   unsigned int n = 8 ;
   PROG = "s6-uniquename" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "n:", &l) ;

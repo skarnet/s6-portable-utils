@@ -19,7 +19,7 @@ int main (int argc, char const *const *argv)
   size_t startquote = 1 ;
   PROG = "s6-quote-filter" ;
   {
-    subgetopt_t l = SUBGETOPT_ZERO ;
+    subgetopt l = SUBGETOPT_ZERO ;
     for (;;)
     {
       int opt = subgetopt_r(argc, argv, "ud:", &l) ;
