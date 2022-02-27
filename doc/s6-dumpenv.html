@@ -25,7 +25,7 @@
 <h2> Interface </h2>
 
 <pre>
-     s6-dumpenv [ -m <em>mode</em> ] <em>dir</em>
+     s6-dumpenv [ -N | -n ] [ -m <em>mode</em> ] <em>dir</em>
 </pre>
 
 <ul>
@@ -40,6 +40,12 @@ that it has, it creates a file <em>dir</em>/<em>x</em> containing
 <h2> Options </h2>
 
 <ul>
+ <li> <tt>-N</tt>&nbsp;: chomp. Write the environment variables with an
+extra newline at the end, so the environment can be retrieved via
+<tt>s6-envdir -Lf <em>dir</em></tt>. </li>
+ <li> <tt>-n</tt>&nbsp;: Write the environment variables as is; the
+environment will be retrieved via <tt>s6-envdir -Lfn <em>dir</em></tt>.
+This is the default. </li>
  <li> <tt>-m</tt>&nbsp;<em>mode</em>&nbsp;: create <em>dir</em> with
 mode <em>mode</em> if it doesn't exist yet. Default is 0755. </li>
 </ul>

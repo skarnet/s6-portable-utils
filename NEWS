@@ -1,5 +1,11 @@
 Changelog for s6-portable-utils.
 
+In 2.2.4.0
+----------
+
+ - New -N option to s6-dumpenv, for chomping retrieval.
+
+
 In 2.2.3.4
 ----------
 
