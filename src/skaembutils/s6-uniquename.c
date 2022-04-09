@@ -31,10 +31,8 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (argc < 1) usage() ;
-  if (!random_init())
-    strerr_diefu1sys(111, "init random generator") ;
   if (!stralloc_cats(&sa, argv[0])) strerr_diefu1sys(111, "stralloc_cats") ;
-  if (!(n ? random_sauniquename(&sa, n) : sauniquename(&sa)))
+  if (!(n ? random_sauniquename_early(&sa, n) : sauniquename(&sa)))
     strerr_diefu1sys(111, "make unique name") ;
   if (!stralloc_catb(&sa, "\n", 1)) strerr_diefu1sys(111, "stralloc_cats") ;
   if (allwrite(1, sa.s, sa.len) < sa.len) strerr_diefu1sys(111, "write to stdout") ;
