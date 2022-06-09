@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <regex.h>
+
+#include <skalibs/posixplz.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr2.h>
 #include <skalibs/djbunix.h>
@@ -53,7 +56,8 @@ enum opnum
   T_NUMGREATERE,
   T_NUMLESSER,
   T_NUMLESSERE,
-  T_ENV
+  T_ENV,
+  T_MATCH
 } ;
 
 struct token
@@ -74,7 +78,7 @@ struct node
 
 static unsigned int lex (struct node *tree, char const *const *argv)
 {
-  static struct token const tokens[45] =
+  static struct token const tokens[46] =
   {
     { "-n", T_NONZERO, 2 },
     { "-z", T_ZERO, 2 },
@@ -120,6 +124,7 @@ static unsigned int lex (struct node *tree, char const *const *argv)
     { ">", T_STRGREATER, 3 },
     { ">=", T_STRGREATERE, 3 },
     { "-v", T_ENV, 2 },
+    { "=~", T_MATCH, 3 },
     { 0, 0, 0 }
   } ;
   unsigned int pos = 0 ;
@@ -492,8 +497,22 @@ static int run (struct node const *tree, unsigned int root)
     }
     case T_ENV :
       return !!getenv(tree[tree[root].arg1].data) ;
+    case T_MATCH :
+    {
+      regex_t re ;
+      int r = skalibs_regcomp(&re, tree[tree[root].arg2].data, REG_EXTENDED | REG_NOSUB) ;
+      if (r)
+      {
+        char buf[256] ;
+        regerror(r, &re, buf, 256) ;
+        strerr_diefu5x(r == REG_ESPACE ? 111 : 100, "compile ", tree[tree[root].arg2].data, " into a", " regular expression: ", buf) ;
+      }
+      r = regexec(&re, tree[tree[root].arg1].data, 0, 0, 0) ;
+      regfree(&re) ;
+      return !r ;
+    }
     default:
-      strerr_dief1x(111, "operation not implemented") ;
+      strerr_dief1x(101, "operation not implemented") ;
   }
 
 errorint:

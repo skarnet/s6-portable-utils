@@ -41,6 +41,16 @@ disambiguation technique that has unfortunately not been chosen by the standard.
  s6-test accepts an arbitrary number of arguments.
 </p>
 
+<h2> Exit codes </h2>
+
+<ul>
+ <li> 0: the test is true </li>
+ <li> 1: the test is false </li>
+ <li> 100: wrong usage </li>
+ <li> 101: internal error (should never happen, warrants a bug-report) </li>
+ <li> 111: system call failure </li>
+</ul>
+
 <h2> Posixness </h2>
 
 <p>
@@ -55,6 +65,11 @@ exact same behaviour.
 <ul>
  <li> <tt>-v&nbsp;<em>VAR</em></tt>&nbsp;: tests whether the
 <em>VAR</em> variable is defined in the current environment. </li>
+ <li> <tt><em>string</em>&nbsp;=~&nbsp;<em>pattern</em></tt>&nbsp;:
+tries to match <em>string</em> against extended regular expression
+<em>pattern</em>. True if any part of <em>string</em> matches <em>pattern</em>;
+in order to match whole strings, you must anchor <em>pattern</em> with
+<tt>^</tt> and <tt>$</tt> markers. </li>
 </ul>
 
 </body>
