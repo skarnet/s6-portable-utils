@@ -505,7 +505,7 @@ static int run (struct node const *tree, unsigned int root)
       {
         char buf[256] ;
         regerror(r, &re, buf, 256) ;
-        strerr_diefu5x(r == REG_ESPACE ? 111 : 100, "compile ", tree[tree[root].arg2].data, " into a", " regular expression: ", buf) ;
+        strerr_diefu4x(r == REG_ESPACE ? 111 : 100, "compile ", tree[tree[root].arg2].data, " into a regular expression: ", buf) ;
       }
       r = regexec(&re, tree[tree[root].arg1].data, 0, 0, 0) ;
       regfree(&re) ;
