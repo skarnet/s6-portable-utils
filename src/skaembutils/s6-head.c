@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <errno.h>
+
 #include <skalibs/allreadwrite.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/bytestr.h>
@@ -60,8 +61,10 @@ static int safedolines (int fd, size_t lines)
   char tmp[lines] ;
   while (lines)
   {
-    size_t r = allread(fd, tmp, lines) ;
-    if ((r < lines) && (errno != EPIPE)) return 0 ;
+    size_t r ;
+    errno = 0 ;
+    r = allread(fd, tmp, lines) ;
+    if (r < lines && errno) return 0 ;
     lines -= byte_count(tmp, r, '\n') ;
     if (buffer_put(buffer_1, tmp, r) < (ssize_t)r) return 0 ;
   }
