@@ -42,28 +42,36 @@ static int linkderef (char const *old, char const *new)
 
 #endif
 
-static void doit (char const *old, char const *new, link_func_ref mylink, int force)
+static int doit (char const *old, char const *new, link_func_ref mylink, int force)
 {
   if ((*mylink)(old, new) == -1)
   {
     if (!force || errno != EEXIST)
-      strerr_diefu5sys(111, "make a link", " from ", new, " to ", old) ;
+    {
+      strerr_warnwu5sys("make a link", " from ", new, " to ", old) ;
+      return 1 ;
+    }
     {
       size_t newlen = strlen(new) ;
       char fn[newlen + sizeof(SUFFIX)] ;
       memcpy(fn, new, newlen) ;
       memcpy(fn + newlen, SUFFIX, sizeof(SUFFIX)) ;
       if (mklinktemp(old, fn, mylink) == -1)
-        strerr_diefu3sys(111, "make a link", " to ", old) ;
+      {
+        strerr_warnwu3sys("make a link", " to ", old) ;
+        return 1 ;
+      }
       if (rename(fn, new) == -1)
       {
         unlink_void(fn) ;
-        strerr_diefu2sys(111, "atomically replace ", new) ;
+        strerr_warnwu2sys("atomically replace ", new) ;
+        return 1 ;
       }
      /* if old == new, rename() didn't remove fn */
       unlink_void(fn) ;
     }
   }
+  return 0 ;
 }
 
 int main (int argc, char const *const *argv)
@@ -95,6 +103,7 @@ int main (int argc, char const *const *argv)
   {
     stralloc sa = STRALLOC_ZERO ;
     unsigned int i = 0 ;
+    int e = 0 ;
     size_t base ;
     if (!stralloc_cats(&sa, argv[argc-1]) || !stralloc_catb(&sa, "/", 1))
       strerr_diefu1sys(111, "stralloc_cats") ;
@@ -103,11 +112,20 @@ int main (int argc, char const *const *argv)
     {
       sa.len = base ;
       if (!sabasename(&sa, argv[i], strlen(argv[i])))
-        strerr_diefu1sys(111, "sabasename") ;
-      if (!stralloc_0(&sa)) strerr_diefu1sys(111, "stralloc_0") ;
-      doit(argv[i], sa.s, mylink, force) ;
+      {
+        strerr_warnwu1sys("sabasename") ;
+        e++ ;
+        continue ;
+      }
+      if (!stralloc_0(&sa))
+      {
+        strerr_warnwu1sys("stralloc_0") ;
+        e++ ;
+        continue ;
+      }
+      e += doit(argv[i], sa.s, mylink, force) ;
     }
-    return 0 ;
+    return e ;
   }
 
   {
@@ -115,14 +133,10 @@ int main (int argc, char const *const *argv)
     if (nodir ? lstat(argv[1], &st) : stat(argv[1], &st) < 0)
     {
       if (errno != ENOENT) strerr_diefu2sys(111, "stat ", argv[1]) ;
-      doit(argv[0], argv[1], mylink, force) ;
-      return 0 ;
+      return doit(argv[0], argv[1], mylink, force) ;
     }
     if (!S_ISDIR(st.st_mode))
-    {
-      doit(argv[0], argv[1], mylink, force) ;
-      return 0 ;
-    }
+      return doit(argv[0], argv[1], mylink, force) ;
   }
 
   {
@@ -132,7 +146,6 @@ int main (int argc, char const *const *argv)
       || !sabasename(&sa, argv[0], strlen(argv[0]))
       || !stralloc_0(&sa))
         strerr_diefu1sys(111, "stralloc_catb") ;
-      doit(argv[0], sa.s, mylink, force) ;
+    return doit(argv[0], sa.s, mylink, force) ;
   }
-  return 0 ;
 }
