@@ -3,7 +3,7 @@
 #include <string.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/netstring.h>
 
 #define USAGE "s6-printenv [ -n ] [ -0 | -d delimchar ]"

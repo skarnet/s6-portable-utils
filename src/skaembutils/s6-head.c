@@ -10,7 +10,7 @@
 #include <skalibs/types.h>
 #include <skalibs/buffer.h>
 #include <skalibs/siovec.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-head [ -S ] [ -1..9 | -n lines | -c chars ] [ file... ]"

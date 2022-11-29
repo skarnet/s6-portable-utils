@@ -1,7 +1,7 @@
 /* ISC license. */
 
 #include <sys/stat.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-hiercopy src dst"

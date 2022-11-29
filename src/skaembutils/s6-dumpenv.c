@@ -8,7 +8,7 @@
 #include <skalibs/types.h>
 #include <skalibs/bytestr.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-dumpenv [ -N | -n ] [ -m mode ] envdir"

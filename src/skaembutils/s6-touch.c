@@ -1,7 +1,7 @@
 /* ISC license. */
 
 #include <skalibs/posixplz.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-touch file ..."
 

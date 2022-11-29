@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-mkfifo [ -m mode ] fifo..."

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-chown [ -U ] [ -u uid ] [ -g gid ] file"

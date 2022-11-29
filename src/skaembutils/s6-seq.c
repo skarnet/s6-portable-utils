@@ -4,7 +4,7 @@
 #include <skalibs/types.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/buffer.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-seq [ -w ] [ -s separator ] limits"
 #define dieusage() strerr_dieusage(100, USAGE)

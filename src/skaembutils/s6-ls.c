@@ -4,7 +4,7 @@
 #include <skalibs/sgetopt.h>
 #include <skalibs/direntry.h>
 #include <skalibs/buffer.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-ls [ -0 ] [ -a | -A ] [ -x exclude ] dir"
 

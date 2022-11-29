@@ -5,7 +5,7 @@
 
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/exec.h>
 
 #define USAGE "s6-nice [ -I | -i ] [ -n value ] prog..."

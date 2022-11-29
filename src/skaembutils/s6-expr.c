@@ -3,7 +3,7 @@
 #include <string.h>
 #include <skalibs/allreadwrite.h>
 #include <skalibs/types.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-expr arithmetic expression"
 #define bail() strerr_dief1x(2, "invalid expression")

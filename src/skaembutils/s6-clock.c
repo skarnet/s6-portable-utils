@@ -1,7 +1,7 @@
 /* ISC license. */
 
 #include <skalibs/allreadwrite.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/tai.h>
 
 #define USAGE "s6-clock [ tai64nlabel ]"

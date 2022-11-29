@@ -2,7 +2,7 @@
 
 #include <sys/stat.h>
 #include <skalibs/types.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-chmod mode file"
 

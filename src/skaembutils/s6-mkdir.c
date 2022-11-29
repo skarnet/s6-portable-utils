@@ -7,7 +7,7 @@
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/buffer.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 
 #define USAGE "s6-mkdir [ -p ] [ -v ] [ -m mode ] dir"
 #define dieusage() strerr_dieusage(100, USAGE)

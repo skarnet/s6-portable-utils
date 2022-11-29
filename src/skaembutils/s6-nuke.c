@@ -3,7 +3,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <skalibs/sgetopt.h>
-#include <skalibs/strerr2.h>
+#include <skalibs/strerr.h>
 #include <skalibs/sig.h>
 
 #define USAGE "s6-nuke [ -h | -t | -k ]"
