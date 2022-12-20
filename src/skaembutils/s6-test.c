@@ -522,6 +522,7 @@ errorint:
 int main (int argc, char const *const *argv)
 {
   PROG = "s6-test" ;
+  strerr_warnw1x("this program is now deprecated. Please use execline's eltest instead.") ;
   if (argc <= 1) return 1 ;
   {
     struct node tree[argc + 2] ;
