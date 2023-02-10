@@ -39,6 +39,5 @@ int main (int argc, char const *const *argv)
    || (!buffer_flush(buffer_1small)))
     strerr_diefu1sys(111, "write to stdout") ;
 
- /* stralloc_free(&sa) ; */
   return 0 ;
 }

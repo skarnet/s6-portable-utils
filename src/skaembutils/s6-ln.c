@@ -42,7 +42,7 @@ static int linkderef (char const *old, char const *new)
 
 #endif
 
-static int doit (char const *old, char const *new, link_func_ref mylink, int force)
+static int ln_doit (char const *old, char const *new, link_func_ref mylink, int force)
 {
   if ((*mylink)(old, new) == -1)
   {
@@ -123,7 +123,7 @@ int main (int argc, char const *const *argv)
         e++ ;
         continue ;
       }
-      e += doit(argv[i], sa.s, mylink, force) ;
+      e += ln_doit(argv[i], sa.s, mylink, force) ;
     }
     return e ;
   }
@@ -133,10 +133,10 @@ int main (int argc, char const *const *argv)
     if (nodir ? lstat(argv[1], &st) : stat(argv[1], &st) < 0)
     {
       if (errno != ENOENT) strerr_diefu2sys(111, "stat ", argv[1]) ;
-      return doit(argv[0], argv[1], mylink, force) ;
+      return ln_doit(argv[0], argv[1], mylink, force) ;
     }
     if (!S_ISDIR(st.st_mode))
-      return doit(argv[0], argv[1], mylink, force) ;
+      return ln_doit(argv[0], argv[1], mylink, force) ;
   }
 
   {
@@ -146,6 +146,6 @@ int main (int argc, char const *const *argv)
       || !sabasename(&sa, argv[0], strlen(argv[0]))
       || !stralloc_0(&sa))
         strerr_diefu1sys(111, "stralloc_catb") ;
-    return doit(argv[0], sa.s, mylink, force) ;
+    return ln_doit(argv[0], sa.s, mylink, force) ;
   }
 }

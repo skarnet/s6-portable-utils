@@ -1,6 +1,7 @@
 /* ISC license. */
 
 #include <sys/stat.h>
+
 #include <skalibs/strerr.h>
 #include <skalibs/djbunix.h>
 

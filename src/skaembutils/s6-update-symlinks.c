@@ -14,38 +14,34 @@
 
 #define USAGE "s6-update-symlinks /destdir /srcdir [ /srcdir ... ]"
 
-#define MAGICNEW ":s6-update-symlinks-new"
-#define MAGICOLD ":s6-update-symlinks-old"
+#define UPDATESYMLINKS_MAGICNEW ":s6-update-symlinks-new"
+#define UPDATESYMLINKS_MAGICOLD ":s6-update-symlinks-old"
 
 #define CONFLICT -2
 #define ERROR -1
 #define MODIFIED 0
 #define OVERRIDEN 1
 
-static stralloc errdst = STRALLOC_ZERO ;
-static stralloc errsrc = STRALLOC_ZERO ;
-
-
-typedef struct stralloc3 stralloc3, *stralloc3_ref ;
-struct stralloc3
+typedef struct stralloc5 stralloc5, *stralloc5_ref ;
+struct stralloc5
 {
   stralloc dst ;
   stralloc src ;
   stralloc tmp ;
+  stralloc errdst ;
+  stralloc errsrc ;
 } ;
 
-#define STRALLOC3_ZERO { STRALLOC_ZERO, STRALLOC_ZERO, STRALLOC_ZERO }
+#define STRALLOC5_ZERO { STRALLOC_ZERO, STRALLOC_ZERO, STRALLOC_ZERO, STRALLOC_ZERO, STRALLOC_ZERO }
 
-
-static void cleanup (stralloc *sa, unsigned int pos)
+static void updatesymlinks_cleanup (stralloc *sa, unsigned int pos)
 {
   int e = errno ;
   rm_rf_in_tmp(sa, pos) ;
   errno = e ;
 }
 
-
-static int makeuniquename (stralloc *sa, char const *path, char const *magic)
+static int updatesymlinks_makeuniquename (stralloc *sa, char const *path, char const *magic)
 {
   size_t base = sa->len ;
   int wasnull = !sa->s ;
@@ -60,8 +56,7 @@ err:
   return 0 ;
 }
 
-
-static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
+static int updatesymlinks_addlink (stralloc5 *blah, unsigned int dstpos, unsigned int srcpos)
 {
   if (symlink(blah->src.s + srcpos, blah->dst.s + dstpos) >= 0) return MODIFIED ;
   if (errno != EEXIST) return ERROR ;
@@ -189,9 +184,9 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
         blah->src.len = srcbase ;
         blah->dst.len = dstbase ;
         if (errno != ENOTDIR) return ERROR ;
-        errdst.len = errsrc.len = 0 ;
-        if (!stralloc_cats(&errdst, blah->dst.s + dstpos) || !stralloc_0(&errdst)
-         || !stralloc_cats(&errsrc, blah->src.s + srcpos) || !stralloc_0(&errsrc))
+        blah->errdst.len = blah->errsrc.len = 0 ;
+        if (!stralloc_cats(&blah->errdst, blah->dst.s + dstpos) || !stralloc_0(&blah->errdst)
+         || !stralloc_cats(&blah->errsrc, blah->src.s + srcpos) || !stralloc_0(&blah->errsrc))
           return ERROR ;
         return CONFLICT ; /* dst is a dir but src is not */
       }
@@ -245,7 +240,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
           }
           i += n ;
         }
-        switch (addlink(blah, dstbase, srcbase))
+        switch (updatesymlinks_addlink(blah, dstbase, srcbase))
         {
           case ERROR :
             blah->tmp.len = tmpbase ;
@@ -281,7 +276,7 @@ static int addlink (stralloc3 *blah, unsigned int dstpos, unsigned int srcpos)
 
 int main (int argc, char *const *argv)
 {
-  stralloc3 blah = STRALLOC3_ZERO ;
+  stralloc5 blah = STRALLOC5_ZERO ;
   PROG = "s6-update-symlinks" ;
   if (argc < 3) strerr_dieusage(100, USAGE) ;
   {
@@ -293,7 +288,7 @@ int main (int argc, char *const *argv)
     while (i && (argv[1][i-1] == '/')) argv[1][--i] = 0 ;
     if (!i) strerr_diefu1x(100, "replace root directory") ;
   }
-  if (!makeuniquename(&blah.dst, argv[1], MAGICNEW))
+  if (!updatesymlinks_makeuniquename(&blah.dst, argv[1], UPDATESYMLINKS_MAGICNEW))
     strerr_diefu2sys(111, "make random unique name based on ", argv[1]) ;
   if ((unlink(blah.dst.s) == -1) && (errno != ENOENT))
     strerr_diefu2sys(111, "unlink ", blah.dst.s) ;
@@ -306,15 +301,15 @@ int main (int argc, char *const *argv)
       blah.src.len = 0 ;
       if (!stralloc_cats(&blah.src, *p) || !stralloc_0(&blah.src))
         strerr_diefu1sys(111, "make stralloc") ;
-      r = addlink(&blah, 0, 0) ;
+      r = updatesymlinks_addlink(&blah, 0, 0) ;
       if (r < 0)
       {
         stralloc_free(&blah.tmp) ;
         stralloc_free(&blah.src) ;
-        cleanup(&blah.dst, 0) ;
+        updatesymlinks_cleanup(&blah.dst, 0) ;
         stralloc_free(&blah.dst) ;
         if (r == CONFLICT)
-          strerr_dief4x(100, "destination ", errdst.s, " conflicts with source ", errsrc.s) ;
+          strerr_dief4x(100, "destination ", blah.errdst.s, " conflicts with source ", blah.errsrc.s) ;
         else
           strerr_dief2sys(111, "error processing ", *p) ;
       }
@@ -325,22 +320,22 @@ int main (int argc, char *const *argv)
   if (rename(blah.dst.s, argv[1]) == -1) /* be atomic if possible */
   {
     blah.src.len = 0 ;
-    if (!makeuniquename(&blah.src, argv[1], MAGICOLD))
+    if (!updatesymlinks_makeuniquename(&blah.src, argv[1], UPDATESYMLINKS_MAGICOLD))
     {
-      cleanup(&blah.dst, 0) ;
+      updatesymlinks_cleanup(&blah.dst, 0) ;
       strerr_diefu2sys(111, "make random unique name based on ", argv[1]) ;
     }
 
     if (rename(argv[1], blah.src.s) == -1)
     {
-      cleanup(&blah.dst, 0) ;
+      updatesymlinks_cleanup(&blah.dst, 0) ;
       strerr_diefu4sys(111, "rename ", argv[1], " to ", blah.src.s) ;
     }
    /* XXX: unavoidable race condition here: argv[1] does not exist */
     if (rename(blah.dst.s, argv[1]) == -1)
     {
       rename(blah.src.s, argv[1]) ;
-      cleanup(&blah.dst, 0) ;
+      updatesymlinks_cleanup(&blah.dst, 0) ;
       strerr_diefu4sys(111, "rename ", blah.dst.s, " to ", argv[1]) ;
     }
     stralloc_free(&blah.dst) ;

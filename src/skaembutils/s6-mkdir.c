@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/buffer.h>
@@ -12,7 +13,7 @@
 #define USAGE "s6-mkdir [ -p ] [ -v ] [ -m mode ] dir"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-static int doit (char const *s, unsigned int mode, int verbose, int ee)
+static int mkdir_doit (char const *s, unsigned int mode, int verbose, int ee)
 {
   if (mkdir(s, mode) == -1)
   {
@@ -32,7 +33,7 @@ static int doit (char const *s, unsigned int mode, int verbose, int ee)
   return 0 ;
 }
 
-static int doparents (char const *s, unsigned int mode, int verbose)
+static int mkdir_doparents (char const *s, unsigned int mode, int verbose)
 {
   size_t n = strlen(s), i = 0 ;
   char tmp[n+1] ;
@@ -42,12 +43,12 @@ static int doparents (char const *s, unsigned int mode, int verbose)
     {
       int e ;
       tmp[i] = 0 ;
-      e = doit(tmp, mode, verbose, 0) ;
+      e = mkdir_doit(tmp, mode, verbose, 0) ;
       if (e) return e ;
     }
     tmp[i] = s[i] ;
   }
-  return doit(s, mode, verbose, 0) ;
+  return mkdir_doit(s, mode, verbose, 0) ;
 }
 
 int main (int argc, char const *const *argv)
@@ -75,7 +76,7 @@ int main (int argc, char const *const *argv)
   }
   if (noumask) umask(0) ;
   for ( ; *argv ; argv++)
-    e |= parents ? doparents(*argv, mode, verbose) :
-                   doit(*argv, mode, verbose, 1) ;
+    e |= parents ? mkdir_doparents(*argv, mode, verbose) :
+                   mkdir_doit(*argv, mode, verbose, 1) ;
   return e ;
 }

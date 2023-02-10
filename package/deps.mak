@@ -38,7 +38,6 @@ src/skaembutils/s6-sort.o src/skaembutils/s6-sort.lo: src/skaembutils/s6-sort.c
 src/skaembutils/s6-sync.o src/skaembutils/s6-sync.lo: src/skaembutils/s6-sync.c
 src/skaembutils/s6-tai64ndiff.o src/skaembutils/s6-tai64ndiff.lo: src/skaembutils/s6-tai64ndiff.c
 src/skaembutils/s6-tail.o src/skaembutils/s6-tail.lo: src/skaembutils/s6-tail.c
-src/skaembutils/s6-test.o src/skaembutils/s6-test.lo: src/skaembutils/s6-test.c
 src/skaembutils/s6-touch.o src/skaembutils/s6-touch.lo: src/skaembutils/s6-touch.c
 src/skaembutils/s6-true.o src/skaembutils/s6-true.lo: src/skaembutils/s6-true.c
 src/skaembutils/s6-uniquename.o src/skaembutils/s6-uniquename.lo: src/skaembutils/s6-uniquename.c
@@ -119,8 +118,6 @@ s6-tai64ndiff: EXTRA_LIBS := -lskarnet
 s6-tai64ndiff: src/skaembutils/s6-tai64ndiff.o
 s6-tail: EXTRA_LIBS := -lskarnet
 s6-tail: src/skaembutils/s6-tail.o
-s6-test: EXTRA_LIBS := -lskarnet
-s6-test: src/skaembutils/s6-test.o
 s6-touch: EXTRA_LIBS := -lskarnet
 s6-touch: src/skaembutils/s6-touch.o
 s6-true: EXTRA_LIBS :=

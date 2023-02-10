@@ -1,6 +1,7 @@
 /* ISC license. */
 
 #include <string.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr.h>

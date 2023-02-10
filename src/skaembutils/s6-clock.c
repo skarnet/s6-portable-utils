@@ -6,7 +6,7 @@
 
 #define USAGE "s6-clock [ tai64nlabel ]"
 
-static int getit (void)
+static int s6clock_getit (void)
 {
   char fmt[TIMESTAMP+1] ;
   timestamp(fmt) ;
@@ -16,7 +16,7 @@ static int getit (void)
   return 0 ;
 }
 
-static int setit (char const *h)
+static int s6clock_setit (char const *h)
 {
   tain a ;
   if (!timestamp_scan(h, &a)) strerr_dieusage(100, USAGE) ;
@@ -27,5 +27,5 @@ static int setit (char const *h)
 int main (int argc, char const *const *argv)
 {
   PROG = "s6-clock" ;
-  return (argc < 2) ? getit() : setit(argv[1]) ;
+  return (argc < 2) ? s6clock_getit() : s6clock_setit(argv[1]) ;
 }

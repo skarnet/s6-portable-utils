@@ -34,7 +34,7 @@ static void disizealloc_normalize (genalloc *list)
   genalloc_setlen(disize, list, cur+1) ;
 }
 
-static void scanlist (genalloc *list, char const *s)
+static void s6cut_scanlist (genalloc *list, char const *s)
 {
   size_t i = 0 ;
   genalloc_setlen(disize, list, 0) ;
@@ -72,7 +72,7 @@ static void scanlist (genalloc *list, char const *s)
   }
 }
 
-static int doit (int fd, disize const *s, size_t len, unsigned int flags, char delim)
+static int s6cut_doit (int fd, disize const *s, size_t len, unsigned int flags, char delim)
 {
   char buf[BUFFER_INSIZE] ;
   buffer b = BUFFER_INIT(&buffer_flush1read, fd, buf, BUFFER_INSIZE) ;
@@ -164,14 +164,14 @@ int main (int argc, char const *const *argv)
         {
           if (what) strerr_dieusage(100, USAGE) ;
           what = 2 ;
-          scanlist(&list, l.arg) ;
+          s6cut_scanlist(&list, l.arg) ;
           break ;
         }
         case 'f':
         {
           if (what) strerr_dieusage(100, USAGE) ;
           what = 4 ;
-          scanlist(&list, l.arg) ;
+          s6cut_scanlist(&list, l.arg) ;
           break ;
         }
         default : strerr_dieusage(100, USAGE) ;
@@ -185,7 +185,7 @@ int main (int argc, char const *const *argv)
 
   if (!argc)
   {
-    if (!doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
+    if (!s6cut_doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
       strerr_diefu1sys(111, "cut stdin") ;
   }
   else
@@ -194,7 +194,7 @@ int main (int argc, char const *const *argv)
     {
       if ((argv[0][0] == '-') && !argv[0][1])
       {
-        if (!doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
+        if (!s6cut_doit(0, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
           strerr_diefu1sys(111, "process stdin") ;
       }
       else
@@ -202,7 +202,7 @@ int main (int argc, char const *const *argv)
         int fd = open_readb(*argv) ;
         if (fd == -1)
           strerr_diefu3sys(111, "open ", *argv, " for reading") ;
-        if (!doit(fd, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
+        if (!s6cut_doit(fd, genalloc_s(disize, &list), genalloc_len(disize, &list), what, delim))
           strerr_diefu2sys(111, "cut ", *argv) ;
         fd_close(fd) ;
       }

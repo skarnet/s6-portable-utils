@@ -14,10 +14,10 @@
 
 #define USAGE "s6-tail [ -c chars | -n lines | -1..9 ] [ file ]"
 
-typedef int tai$1_func (int, size_t) ;
-typedef tai$1_func *tai$1_func_ref ;
+typedef int tail_func (int, size_t) ;
+typedef tail_func *tail_func_ref ;
 
-static int pluslines (int fd, size_t n)
+static int tail_pluslines (int fd, size_t n)
 {
   if (n) n-- ;
   {
@@ -48,7 +48,7 @@ static int pluslines (int fd, size_t n)
   return (fd_cat(fd, 1) >= 0) ;
 }
 
-static int pluschars (int fd, size_t n)
+static int tail_pluschars (int fd, size_t n)
 {
   if (n-- > 1)
   {
@@ -64,7 +64,7 @@ static int pluschars (int fd, size_t n)
   return (fd_cat(fd, 1) >= 0) ;
 }
 
-static int minuslines (int fd, size_t n)
+static int tail_minuslines (int fd, size_t n)
 {
   char buf[BUFFER_INSIZE] ;
   buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
@@ -102,7 +102,7 @@ static int minuslines (int fd, size_t n)
   return 0 ;
 }
 
-static int minuschars (int fd, size_t n)
+static int tail_minuschars (int fd, size_t n)
 {
   char buf[BUFFER_INSIZE + n] ;
   buffer b = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE + n) ;
@@ -121,7 +121,7 @@ static int minuschars (int fd, size_t n)
 
 int main (int argc, char const *const *argv)
 {
-  tai$1_func_ref f = &minuslines ;
+  tail_func_ref f = &tail_minuslines ;
   unsigned int n = 10 ;
   int gotit = 0 ;
   PROG = "s6-tail" ;
@@ -145,7 +145,7 @@ int main (int argc, char const *const *argv)
         {
           if (gotit) strerr_dieusage(100, USAGE) ;
           gotit = 1 ;
-          f = &minuslines ;
+          f = &tail_minuslines ;
           n = opt - '0' ;
           break ;
         }
@@ -153,11 +153,11 @@ int main (int argc, char const *const *argv)
         {
           if (gotit) strerr_dieusage(100, USAGE) ;
           gotit = 1 ;
-          f = &minuslines ;
+          f = &tail_minuslines ;
           if (*l.arg == '-') l.arg++ ;
           else if (*l.arg == '+')
           {
-            f = &pluslines ;
+            f = &tail_pluslines ;
             l.arg++ ;
           }
           if (!uint0_scan(l.arg, &n)) strerr_dieusage(100, USAGE) ;
@@ -167,11 +167,11 @@ int main (int argc, char const *const *argv)
         {
           if (gotit) strerr_dieusage(100, USAGE) ;
           gotit = 1 ;
-          f = &minuschars ;
+          f = &tail_minuschars ;
           if (*l.arg == '-') l.arg++ ;
           else if (*l.arg == '+')
           {
-            f = &pluschars ;
+            f = &tail_pluschars ;
             l.arg++ ;
           }
           if (!uint0_scan(l.arg, &n)) strerr_dieusage(100, USAGE) ;

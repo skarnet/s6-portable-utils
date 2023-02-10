@@ -10,12 +10,12 @@
 #define USAGE "s6-pause [ -t ] [ -h ] [ -a ] [ -q ] [ -b ] [ -i ] [ -p signal,signal... ]"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-#define MAX 64
+#define PAUSE_MAX 64
 
 int main (int argc, char const *const *argv)
 {
   PROG = "s6-pause" ;
-  unsigned int sigs[MAX] ;
+  unsigned int sigs[PAUSE_MAX] ;
   size_t nsig = 0 ;
   {
     subgetopt l = SUBGETOPT_ZERO ;
@@ -25,16 +25,16 @@ int main (int argc, char const *const *argv)
       if (opt == -1) break ;
       switch (opt)
       {
-        case 't' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGTERM ; break ;
-        case 'h' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGHUP ; break ;
-        case 'a' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGALRM ; break ;
-        case 'q' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGQUIT ; break ;
-        case 'b' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGABRT ; break ;
-        case 'i' : if (nsig >= MAX) dieusage() ; sigs[nsig++] = SIGINT ; break ;
+        case 't' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGTERM ; break ;
+        case 'h' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGHUP ; break ;
+        case 'a' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGALRM ; break ;
+        case 'q' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGQUIT ; break ;
+        case 'b' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGABRT ; break ;
+        case 'i' : if (nsig >= PAUSE_MAX) dieusage() ; sigs[nsig++] = SIGINT ; break ;
         case 'p' :
         {
           size_t n ;
-          if (!uint_scanlist(sigs + nsig, MAX - nsig, l.arg, &n)) dieusage() ;
+          if (!uint_scanlist(sigs + nsig, PAUSE_MAX - nsig, l.arg, &n)) dieusage() ;
           nsig += n ;
           break ;
         }

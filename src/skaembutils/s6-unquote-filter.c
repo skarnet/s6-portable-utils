@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <errno.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/strerr.h>
@@ -11,11 +12,7 @@
 
 #define USAGE "s6-unquote-filter [ -q | -Q | -v | -w ] [ -d delim ]"
 
-static unsigned int strictness = 1 ;
-static char const *delim = "\"" ;
-static size_t delimlen = 1 ;
-
-static void fillfmt (char *fmt, char const *s, size_t len)
+static void unquotefilter_fillfmt (char *fmt, char const *s, size_t len)
 {
   size_t n = len < 39 ? len+1 : 36 ;
   memcpy(fmt, s, n) ;
@@ -27,7 +24,7 @@ static void fillfmt (char *fmt, char const *s, size_t len)
   fmt[n] = 0 ;
 }
 
-static int doit (char const *s, size_t len)
+static int unquotefilter_doit (char const *s, size_t len, unsigned int strictness, char const *delim, size_t delimlen)
 {
   if (delimlen)
   {
@@ -59,7 +56,7 @@ static int doit (char const *s, size_t len)
         case 2 :
         {
           char fmt[40] ;
-          fillfmt(fmt, s, len) ;
+          unquotefilter_fillfmt(fmt, s, len) ;
           strerr_warnw3x("invalid starting quote character", " in line: ", fmt) ;
           return 0 ;
         }
@@ -88,7 +85,7 @@ static int doit (char const *s, size_t len)
         case 2 :
         {
           char fmt[40] ;
-          fillfmt(fmt, s, len) ;
+          unquotefilter_fillfmt(fmt, s, len) ;
           strerr_warnwu3sys("unquote", " line: ", fmt) ;
           return 0 ;
         }
@@ -117,7 +114,7 @@ static int doit (char const *s, size_t len)
           case 2 :
           {
             char fmt[40] ;
-            fillfmt(fmt, s, len) ;
+            unquotefilter_fillfmt(fmt, s, len) ;
             strerr_warnwu5x("unquote", ": no ending quote character", " in ", "line: ", fmt) ;
             return 0 ;
           }
@@ -136,7 +133,7 @@ static int doit (char const *s, size_t len)
         char fmtnum[SIZE_FMT] ;
         char fmtden[SIZE_FMT] ;
         char fmt[40] ;
-        fillfmt(fmt, s, len) ;
+        unquotefilter_fillfmt(fmt, s, len) ;
         fmtnum[size_fmt(fmtnum, r+1)] = 0 ;
         fmtden[size_fmt(fmtden, len-1)] = 0 ;
         strerr_warnw7x("found ending quote character at position ", fmtnum, "/", fmtden, ", ignoring remainder of ", "line: ", fmt) ;
@@ -152,6 +149,9 @@ static int doit (char const *s, size_t len)
 int main (int argc, char const *const *argv)
 {
   stralloc src = STRALLOC_ZERO ;
+  unsigned int strictness = 1 ;
+  char const *delim = "\"" ;
+  size_t delimlen = 1 ;
   PROG = "s6-unquote-filter" ;
   {
     subgetopt l = SUBGETOPT_ZERO ;
@@ -183,7 +183,7 @@ int main (int argc, char const *const *argv)
       if (errno != EPIPE) strerr_diefu1sys(111, "read from stdin") ;
     }
     else src.len-- ;
-    if (!doit(src.s, src.len))
+    if (!unquotefilter_doit(src.s, src.len, strictness, delim, delimlen))
     {
       if (buffer_put(buffer_1, src.s, src.len) < (ssize_t)src.len)
         strerr_diefu1sys(111, "write to stdout") ;

@@ -8,7 +8,7 @@
 #define USAGE "s6-expr arithmetic expression"
 #define bail() strerr_dief1x(2, "invalid expression")
 
-enum opnum
+enum expr_opnum_e
 {
   T_DATA,
   T_AND,
@@ -28,25 +28,25 @@ enum opnum
   T_MOD
 } ;
 
-struct token
+struct expr_token_s
 {
   char const *string ;
-  enum opnum op ;
+  enum expr_opnum_e op ;
   unsigned int type ;
 } ;
 
-struct node
+struct expr_node_s
 {
-  enum opnum op ;
+  enum expr_opnum_e op ;
   unsigned int type ;
   unsigned int arg1 ;
   unsigned int arg2 ;
   long data ;
 } ;
 
-static unsigned int lex (struct node *tree, char const *const *argv)
+static unsigned int expr_lex (struct expr_node_s *tree, char const *const *argv)
 {
-  static struct token const tokens[16] =
+  static struct expr_token_s const tokens[16] =
   {
     { "+", T_PLUS, 3 },
     { "-", T_MINUS, 3 },
@@ -87,7 +87,7 @@ static unsigned int lex (struct node *tree, char const *const *argv)
   return pos ;
 }
 
-static void reduce (struct node *tree, unsigned int *stack, unsigned int *sp, unsigned int type)
+static void expr_reduce (struct expr_node_s *tree, unsigned int *stack, unsigned int *sp, unsigned int type)
 {
   if (tree[stack[*sp-1]].type == type)
   {
@@ -99,7 +99,7 @@ static void reduce (struct node *tree, unsigned int *stack, unsigned int *sp, un
   tree[stack[*sp]].type = type + 7 ;
 }
 
-static unsigned int parse (struct node *tree, unsigned int n)
+static unsigned int expr_parse (struct expr_node_s *tree, unsigned int n)
 {
   static char const table[9][15] =
   {
@@ -130,11 +130,11 @@ static unsigned int parse (struct node *tree, unsigned int n)
         if (tree[stack[sp-2]].type != 7) bail() ;
         stack[sp-2] = stack[sp-1] ;
         sp -= 2 ;
-      case 'm' :  reduce(tree, stack, &sp, 2) ; break ;
-      case 'a' :  reduce(tree, stack, &sp, 3) ; break ;
-      case 'c' :  reduce(tree, stack, &sp, 4) ; break ;
-      case 'A' :  reduce(tree, stack, &sp, 5) ; break ;
-      case 'O' :  reduce(tree, stack, &sp, 6) ; break ;
+      case 'm' :  expr_reduce(tree, stack, &sp, 2) ; break ;
+      case 'a' :  expr_reduce(tree, stack, &sp, 3) ; break ;
+      case 'c' :  expr_reduce(tree, stack, &sp, 4) ; break ;
+      case 'A' :  expr_reduce(tree, stack, &sp, 5) ; break ;
+      case 'O' :  expr_reduce(tree, stack, &sp, 6) ; break ;
       case 'E' :  tree[stack[sp]].type = 14 ; break ;
       case 'z' : 
       default : strerr_dief1x(101, "internal error in parse, please submit a bug-report.") ; /* can't happen */
@@ -144,7 +144,7 @@ static unsigned int parse (struct node *tree, unsigned int n)
   return stack[1] ;
 }
 
-static long run (struct node const *tree, unsigned int root)
+static long expr_run (struct expr_node_s const *tree, unsigned int root)
 {
   switch (tree[root].op)
   {
@@ -152,37 +152,37 @@ static long run (struct node const *tree, unsigned int root)
       return tree[root].data ;
     case T_OR :
     {
-      long r = run(tree, tree[root].arg1) ;
-      return r ? r : run(tree, tree[root].arg2) ;
+      long r = expr_run(tree, tree[root].arg1) ;
+      return r ? r : expr_run(tree, tree[root].arg2) ;
     }
     case T_AND :
     {
-      long r = run(tree, tree[root].arg1) ;
-      return r ? run(tree, tree[root].arg2) ? r : 0 : 0 ;
+      long r = expr_run(tree, tree[root].arg1) ;
+      return r ? expr_run(tree, tree[root].arg2) ? r : 0 : 0 ;
     }
     case T_EQUAL :
-      return run(tree, tree[root].arg1) == run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) == expr_run(tree, tree[root].arg2) ;
     case T_NEQUAL :
-      return run(tree, tree[root].arg1) != run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) != expr_run(tree, tree[root].arg2) ;
     case T_GREATER :
-      return run(tree, tree[root].arg1) > run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) > expr_run(tree, tree[root].arg2) ;
     case T_GREATERE :
-      return run(tree, tree[root].arg1) >= run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) >= expr_run(tree, tree[root].arg2) ;
     case T_LESSER :
-      return run(tree, tree[root].arg1) < run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) < expr_run(tree, tree[root].arg2) ;
     case T_LESSERE :
-      return run(tree, tree[root].arg1) <= run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) <= expr_run(tree, tree[root].arg2) ;
     case T_PLUS :
-      return run(tree, tree[root].arg1) + run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) + expr_run(tree, tree[root].arg2) ;
     case T_MINUS :
-      return run(tree, tree[root].arg1) - run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) - expr_run(tree, tree[root].arg2) ;
     case T_TIMES :
-      return run(tree, tree[root].arg1) * run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) * expr_run(tree, tree[root].arg2) ;
     case T_DIV :
-      return run(tree, tree[root].arg1) / run(tree, tree[root].arg2) ;
+      return expr_run(tree, tree[root].arg1) / expr_run(tree, tree[root].arg2) ;
     case T_MOD :
-      return run(tree, tree[root].arg1) % run(tree, tree[root].arg2) ;
-    default : strerr_dief1x(101, "internal error in run, please submit a bug-report") ;
+      return expr_run(tree, tree[root].arg1) % expr_run(tree, tree[root].arg2) ;
+    default : strerr_dief1x(101, "internal error in expr_run, please submit a bug-report") ;
   }
 }
 
@@ -194,8 +194,8 @@ int main (int argc, char const *const *argv)
   PROG = "s6-expr" ;
   if (argc <= 1) return 2 ;
   {
-    struct node tree[argc + 1] ;
-    val = run(tree, parse(tree, lex(tree, argv+1))) ;
+    struct expr_node_s tree[argc + 1] ;
+    val = expr_run(tree, expr_parse(tree, expr_lex(tree, argv+1))) ;
   }
   len = long_fmt(fmt, val) ;
   fmt[len++] = '\n' ;

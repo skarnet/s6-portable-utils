@@ -17,8 +17,8 @@
 #define USAGE "s6-grep [ -E | -F ] [ -i ] [ -c ] [ -n ] [ -q ] [ -v ] pattern"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-typedef struct flags_s flags_t, *flags_t_ref ;
-struct flags_s
+typedef struct grep_flags_s grep_flags_t, *grep_flags_t_ref ;
+struct grep_flags_s
 {
   unsigned int extended : 1 ;
   unsigned int ignorecase: 1 ;
@@ -28,9 +28,9 @@ struct flags_s
   unsigned int quiet : 1 ;
   unsigned int not : 1 ;
 } ;
-#define FLAGS_ZERO { .extended = 0, .ignorecase = 0, .fixed = 0, .count = 0, .num = 0, .quiet = 0, .not = 0 }
+#define GREP_FLAGS_ZERO { .extended = 0, .ignorecase = 0, .fixed = 0, .count = 0, .num = 0, .quiet = 0, .not = 0 }
 
-static void xout (char const *s, size_t len)
+static void grep_xout (char const *s, size_t len)
 {
   if (buffer_put(buffer_1, s, len) < 0)
     strerr_diefu1sys(111, "write to stdout") ;
@@ -39,7 +39,7 @@ static void xout (char const *s, size_t len)
 int main (int argc, char const *const *argv)
 {
   unsigned int count = 0 ;
-  flags_t flags = FLAGS_ZERO ;
+  grep_flags_t flags = GREP_FLAGS_ZERO ;
   PROG = "s6-grep" ;
   {
     subgetopt l = SUBGETOPT_ZERO ;
@@ -118,9 +118,9 @@ int main (int argc, char const *const *argv)
             char fmt[UINT_FMT] ;
             size_t n = uint_fmt(fmt, num) ;
             fmt[n++] = ':' ;
-            xout(fmt, n) ;
+            grep_xout(fmt, n) ;
           }
-          xout(line.s, line.len) ;
+          grep_xout(line.s, line.len) ;
         }
       }
     }
@@ -133,7 +133,7 @@ int main (int argc, char const *const *argv)
     char fmt[UINT_FMT] ;
     size_t n = uint_fmt(fmt, count) ;
     fmt[n++] = '\n' ;
-    xout(fmt, n) ;
+    grep_xout(fmt, n) ;
   }
   return !count ;
 }

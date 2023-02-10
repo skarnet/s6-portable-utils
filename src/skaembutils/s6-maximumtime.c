@@ -4,6 +4,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
+
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/error.h>

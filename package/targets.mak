@@ -35,7 +35,6 @@ s6-sort \
 s6-sync \
 s6-tai64ndiff \
 s6-tail \
-s6-test \
 s6-touch \
 s6-true \
 s6-uniquename \

@@ -16,10 +16,10 @@
 #define USAGE "s6-head [ -S ] [ -1..9 | -n lines | -c chars ] [ file... ]"
 #define dieusage() strerr_dieusage(100, USAGE)
 
-typedef int hea$1_func (int, size_t) ;
-typedef hea$1_func *hea$1_func_ref ;
+typedef int head_func (int, size_t) ;
+typedef head_func *head_func_ref ;
 
-static int dolines (int fd, size_t lines)
+static int head_dolines (int fd, size_t lines)
 {
   char buf[BUFFER_INSIZE] ;
   buffer in = BUFFER_INIT(&buffer_read, fd, buf, BUFFER_INSIZE) ;
@@ -56,7 +56,7 @@ static int dolines (int fd, size_t lines)
   return 1 ;
 }
 
-static int safedolines (int fd, size_t lines)
+static int head_safedolines (int fd, size_t lines)
 {
   char tmp[lines] ;
   while (lines)
@@ -72,14 +72,14 @@ static int safedolines (int fd, size_t lines)
   return 1 ;
 }
 
-static int safedochars (int fd, size_t chars)
+static int head_safedochars (int fd, size_t chars)
 {
   return (fd_catn(fd, 1, chars) >= chars) ;
 }
 
 int main (int argc, char const *const *argv)
 {
-  hea$1_func_ref f ;
+  head_func_ref f ;
   unsigned int lines = 10 ;
   int islines = 1, safe = 0 ;
   PROG = "s6-head" ;
@@ -131,7 +131,7 @@ int main (int argc, char const *const *argv)
     argc -= l.ind ; argv += l.ind ;
   }
   if (argc) safe = 0 ;
-  f = islines ? safe ? &safedolines : &dolines : &safedochars ;
+  f = islines ? safe ? &head_safedolines : &head_dolines : &head_safedochars ;
   if (!argc)
   {
     if (!(*f)(0, lines))

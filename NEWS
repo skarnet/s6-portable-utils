@@ -1,5 +1,11 @@
 Changelog for s6-portable-utils.
 
+In 2.3.0.0
+----------
+
+ - s6-test removed.
+
+
 In 2.2.5.1
 ----------
 

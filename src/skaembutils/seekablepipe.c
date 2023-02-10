@@ -9,8 +9,6 @@
 
 #define USAGE "seekablepipe tempfile prog..."
 
-#define N 8192
-
 int main (int argc, char const *const *argv)
 {
   int fdr, fdw ;

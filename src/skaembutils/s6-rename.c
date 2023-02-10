@@ -1,6 +1,7 @@
 /* ISC license. */
 
 #include <stdio.h>
+
 #include <skalibs/strerr.h>
 
 #define USAGE "s6-rename old new"
