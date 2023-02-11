@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en" />
+    <title>s6-portable-utils: the s6-portable-utils multicall binary</title>
+    <meta name="Description" content="s6-portable-utils: the s6-portable-utils multicall binary" />
+    <meta name="Keywords" content="s6-portable-utils command multicall" />
+    <!-- <link rel="stylesheet" type="text/css" href="//skarnet.org/default.css" /> -->
+  </head>
+<body>
+
+<p>
+<a href="index.html">s6-portable-utils</a><br />
+<a href="//skarnet.org/software/">Software</a><br />
+<a href="//skarnet.org/">skarnet.org</a>
+</p>
+
+<h1> The <tt>s6-portable-utils</tt> multicall binary </h1>
+
+<p>
+The <tt>s6-portable-utils</tt> program is only available when the
+<tt>--enable-multicall</tt> option has been given to the <tt>configure</tt>
+program at build time. In this configuration, <tt>s6-portable-utils</tt> is
+a multicall binary implementing the functionality of <em>all</em>
+the programs in the s6-portable-utils package; and the other programs, instead
+of being executables of their own, are symbolic links to the
+s6-portable-utils binary.
+</p>
+
+<h2> Interface </h2>
+
+<pre>
+     s6-portable-utils <em>subcommand</em> <em>subcommand_arguments...</em>
+</pre>
+
+<p>
+ s6-portable-utils will run the <em>subcommand</em> will its arguments. For
+instance, <tt>s6-portable-utils s6-seq 1 10</tt> will run the equivalent of the
+<a href="s6-seq.html">program</a>, so this command will list natural numbers
+from 1 to 10.
+</p>
+
+<p>
+ Alternatively, if s6-portable-utils is called with the name of an existing
+command, it will run the equivalent of that command. For instance,
+if the <tt>/usr/bin/s6-seq</tt> file is a (hard or symbolic) link to
+the <tt>s6-portable-utils</tt> binary, <tt>/usr/bin/s6-seq 1 10</tt> will list
+natural numbers from 1 to 10.
+</p>
+
+</body>
+</html>

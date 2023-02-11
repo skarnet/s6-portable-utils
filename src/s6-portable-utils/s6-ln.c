@@ -21,7 +21,7 @@
 #include <skalibs/skamisc.h>
 
 #define USAGE "s6-ln [ -n ] [ -s ] [ -f ] [ -L ] [ -P ] src... dest"
-#define SUFFIX ":s6-ln:XXXXXX"
+#define LN_SUFFIX ":s6-ln:XXXXXX"
 
 #ifdef SKALIBS_HASLINKAT
 
@@ -53,9 +53,9 @@ static int ln_doit (char const *old, char const *new, link_func_ref mylink, int 
     }
     {
       size_t newlen = strlen(new) ;
-      char fn[newlen + sizeof(SUFFIX)] ;
+      char fn[newlen + sizeof(LN_SUFFIX)] ;
       memcpy(fn, new, newlen) ;
-      memcpy(fn + newlen, SUFFIX, sizeof(SUFFIX)) ;
+      memcpy(fn + newlen, LN_SUFFIX, sizeof(LN_SUFFIX)) ;
       if (mklinktemp(old, fn, mylink) == -1)
       {
         strerr_warnwu3sys("make a link", " to ", old) ;

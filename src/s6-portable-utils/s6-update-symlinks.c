@@ -274,27 +274,25 @@ static int updatesymlinks_addlink (stralloc5 *blah, unsigned int dstpos, unsigne
   return MODIFIED ;
 }
 
-int main (int argc, char *const *argv)
+int main (int argc, char const *const *argv)
 {
-  stralloc5 blah = STRALLOC5_ZERO ;
   PROG = "s6-update-symlinks" ;
   if (argc < 3) strerr_dieusage(100, USAGE) ;
   {
-    char *const *p = argv + 1 ;
-    for (; *p ; p++) if (**p != '/') strerr_dieusage(100, USAGE) ;
-  }
-  {
+    stralloc5 blah = STRALLOC5_ZERO ;
+    char const *const *p = argv + 1 ;
     size_t i = strlen(argv[1]) ;
-    while (i && (argv[1][i-1] == '/')) argv[1][--i] = 0 ;
+    char target[i+1] ;
+    for (; *p ; p++) if (**p != '/') strerr_dieusage(100, USAGE) ;
+    p = argv + 2 ;
+    memcpy(target, argv[1], i+1) ;
+    while (i && (target[i-1] == '/')) target[--i] = 0 ;
     if (!i) strerr_diefu1x(100, "replace root directory") ;
-  }
-  if (!updatesymlinks_makeuniquename(&blah.dst, argv[1], UPDATESYMLINKS_MAGICNEW))
-    strerr_diefu2sys(111, "make random unique name based on ", argv[1]) ;
-  if ((unlink(blah.dst.s) == -1) && (errno != ENOENT))
-    strerr_diefu2sys(111, "unlink ", blah.dst.s) ;
+    if (!updatesymlinks_makeuniquename(&blah.dst, target, UPDATESYMLINKS_MAGICNEW))
+      strerr_diefu2sys(111, "make random unique name based on ", target) ;
+    if ((unlink(blah.dst.s) == -1) && (errno != ENOENT))
+      strerr_diefu2sys(111, "unlink ", blah.dst.s) ;
 
-  {
-    char *const *p = argv + 2 ;
     for (; *p ; p++)
     {
       int r ;
@@ -314,35 +312,34 @@ int main (int argc, char *const *argv)
           strerr_dief2sys(111, "error processing ", *p) ;
       }
     }
+    stralloc_free(&blah.tmp) ;
+
+    if (rename(blah.dst.s, target) == -1) /* be atomic if possible */
+    {
+      blah.src.len = 0 ;
+      if (!updatesymlinks_makeuniquename(&blah.src, target, UPDATESYMLINKS_MAGICOLD))
+      {
+        updatesymlinks_cleanup(&blah.dst, 0) ;
+        strerr_diefu2sys(111, "make random unique name based on ", target) ;
+      }
+
+      if (rename(target, blah.src.s) == -1)
+      {
+        updatesymlinks_cleanup(&blah.dst, 0) ;
+        strerr_diefu4sys(111, "rename ", target, " to ", blah.src.s) ;
+      }
+     /* XXX: unavoidable race condition here: target does not exist */
+      if (rename(blah.dst.s, target) == -1)
+      {
+        rename(blah.src.s, target) ;
+        updatesymlinks_cleanup(&blah.dst, 0) ;
+        strerr_diefu4sys(111, "rename ", blah.dst.s, " to ", target) ;
+      }
+      stralloc_free(&blah.dst) ;
+      if (rm_rf_in_tmp(&blah.src, 0) == -1)
+        strerr_warnwu2sys("remove old directory ", blah.src.s) ;
+      stralloc_free(&blah.src) ;
+    }
   }
-  stralloc_free(&blah.tmp) ;
-
-  if (rename(blah.dst.s, argv[1]) == -1) /* be atomic if possible */
-  {
-    blah.src.len = 0 ;
-    if (!updatesymlinks_makeuniquename(&blah.src, argv[1], UPDATESYMLINKS_MAGICOLD))
-    {
-      updatesymlinks_cleanup(&blah.dst, 0) ;
-      strerr_diefu2sys(111, "make random unique name based on ", argv[1]) ;
-    }
-
-    if (rename(argv[1], blah.src.s) == -1)
-    {
-      updatesymlinks_cleanup(&blah.dst, 0) ;
-      strerr_diefu4sys(111, "rename ", argv[1], " to ", blah.src.s) ;
-    }
-   /* XXX: unavoidable race condition here: argv[1] does not exist */
-    if (rename(blah.dst.s, argv[1]) == -1)
-    {
-      rename(blah.src.s, argv[1]) ;
-      updatesymlinks_cleanup(&blah.dst, 0) ;
-      strerr_diefu4sys(111, "rename ", blah.dst.s, " to ", argv[1]) ;
-    }
-    stralloc_free(&blah.dst) ;
-    if (rm_rf_in_tmp(&blah.src, 0) == -1)
-      strerr_warnwu2sys("remove old directory ", blah.src.s) ;
-    stralloc_free(&blah.src) ;
-  }
-
   return 0 ;
 }

@@ -1,46 +1,24 @@
-BIN_TARGETS := \
-s6-basename \
-s6-cat \
-s6-chmod \
-s6-chown \
-s6-clock \
-s6-cut \
-s6-dirname \
-s6-dumpenv \
-s6-echo \
-s6-env \
-s6-expr \
-s6-false \
-s6-format-filter \
-s6-grep \
-s6-head \
-s6-hiercopy \
-s6-linkname \
-s6-ln \
-s6-ls \
-s6-maximumtime \
-s6-mkdir \
-s6-mkfifo \
-s6-nice \
-s6-nuke \
-s6-pause \
-s6-printenv \
-s6-quote \
-s6-quote-filter \
-s6-rename \
-s6-rmrf \
-s6-seq \
-s6-sleep \
-s6-sort \
-s6-sync \
-s6-tai64ndiff \
-s6-tail \
-s6-touch \
-s6-true \
-s6-uniquename \
-s6-unquote \
-s6-unquote-filter \
-s6-update-symlinks \
-seekablepipe
-
 LIBEXEC_TARGETS :=
+
+ifeq ($(MULTICALL),1)
+
+BIN_TARGETS := $(package)
+BIN_SYMLINKS := $(notdir $(wildcard src/$(package)/deps-exe/*))
+EXTRA_TEMP := src/multicall/$(package).c
+
+define symlink_definition
+SYMLINK_TARGET_$(1) := $(package)
+endef
+$(foreach name,$(BIN_SYMLINKS),$(eval $(call symlink_definition,$(name))))
+
+src/multicall/$(package).c: tools/gen-multicall.sh src/$(package)/deps-exe
+	./tools/gen-multicall.sh $(package) > src/multicall/$(package).c
+
+src/multicall/$(package).o: src/multicall/$(package).c src/include/$(package)/config.h
+
+else
+
+BIN_TARGETS := $(notdir $(wildcard src/$(package)/deps-exe/*))
+BIN_SYMLINKS :=
+
+endif

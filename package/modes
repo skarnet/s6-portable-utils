@@ -41,3 +41,4 @@ s6-unquote		0755
 s6-unquote-filter	0755
 s6-update-symlinks	0755
 seekablepipe		0755
+s6-portable-utils	0755
