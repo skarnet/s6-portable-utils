@@ -61,13 +61,13 @@ cat <<EOF
 } ;
 
 #define USAGE "$P subcommand [ arguments... ]"
-#define dieusage() strerr_dief1x(100, USAGE)
+#define dieusage() strerr_dieusage(100, USAGE)
 
 static int ${p}_main (int argc, char const *const *argv, char const *const *envp)
 {
   multicall_app const *p ;
   PROG = "$P" ;
-  if (!argc) dieusage() ;
+  if (argc < 2) dieusage() ;
   p = bsearch(argv[1], multicall_apps, sizeof(multicall_apps) / sizeof(multicall_app), sizeof(multicall_app), &multicall_app_cmp) ;
   if (!p) strerr_dief2x(100, "unknown subcommand: ", argv[1]) ;
   return (*(p->mainf))(argc-1, argv+1, envp) ;

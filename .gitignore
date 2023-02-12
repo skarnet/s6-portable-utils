@@ -5,6 +5,8 @@
 *.so.*
 /config.mak
 /src/include/s6-portable-utils/config.h
+/src/multicall/s6-portable-utils.c
+/s6-portable-utils
 /s6-basename
 /s6-cat
 /s6-chmod
@@ -49,4 +51,3 @@
 /s6-unquote-filter
 /s6-update-symlinks
 /seekablepipe
-/s6-portable-utils
