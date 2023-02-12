@@ -11,7 +11,7 @@ SYMLINK_TARGET_$(1) := $(package)
 endef
 $(foreach name,$(BIN_SYMLINKS),$(eval $(call symlink_definition,$(name))))
 
-src/multicall/$(package).c: tools/gen-multicall.sh src/$(package)/deps-exe
+src/multicall/$(package).c: tools/gen-multicall.sh $(BIN_SYMLINKS:%=src/$(package)/%.c)
 	./tools/gen-multicall.sh $(package) > src/multicall/$(package).c
 
 src/multicall/$(package).o: src/multicall/$(package).c src/include/$(package)/config.h
