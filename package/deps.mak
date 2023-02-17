@@ -134,3 +134,4 @@ s6-update-symlinks: EXTRA_LIBS := -lskarnet
 s6-update-symlinks: src/s6-portable-utils/s6-update-symlinks.o
 seekablepipe: EXTRA_LIBS := -lskarnet
 seekablepipe: src/s6-portable-utils/seekablepipe.o
+INTERNAL_LIBS :=
