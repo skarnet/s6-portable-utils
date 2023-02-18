@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+LC_ALL=C ; export LC_ALL
+
 P="$1"
 p=`echo $P | tr - _`
 
