@@ -170,7 +170,6 @@ the s6-portable-utils binary will be built, and other programs will be
 created as symbolic links to s6-portable-utils at installation time.
 
  The multicall setup saves a lot of disk space, at the price of
-am unnoticeable amount of CPU usage. RAM usage is about equivalent
+an unnoticeable amount of CPU usage. RAM usage is about equivalent
 and difficult to assess. The setup is meant for embedded devices
 or small distributions with a focus on saving disk space.
-
