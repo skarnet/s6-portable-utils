@@ -65,6 +65,7 @@ static int head_safedolines (int fd, size_t lines)
     errno = 0 ;
     r = allread(fd, tmp, lines) ;
     if (r < lines && errno) return 0 ;
+    if (!r) break ;
     lines -= byte_count(tmp, r, '\n') ;
     if (buffer_put(buffer_1, tmp, r) < (ssize_t)r) return 0 ;
   }
