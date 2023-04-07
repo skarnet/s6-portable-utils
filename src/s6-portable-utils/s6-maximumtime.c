@@ -56,7 +56,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
   x[0].fd = selfpipe_init() ;
   if (x[0].fd < 0) strerr_diefu1sys(111, "selfpipe_init") ;
   
-  if (selfpipe_trap(SIGCHLD) < 0) strerr_diefu1sys(111, "selfpipe_trap") ;
+  if (!selfpipe_trap(SIGCHLD)) strerr_diefu1sys(111, "selfpipe_trap") ;
 
   pid = child_spawn0(argv[1], argv+1, envp) ;
   if (!pid) strerr_diefu2sys(111, "spawn ", argv[1]) ;
