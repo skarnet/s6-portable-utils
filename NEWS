@@ -3,6 +3,7 @@ Changelog for s6-portable-utils.
 In 2.3.0.3
 ----------
 
+ - Adaptation to skalibs-2.14.0.0.
  - Bugfixes.
 
 
