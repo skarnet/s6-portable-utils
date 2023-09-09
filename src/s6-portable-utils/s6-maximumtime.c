@@ -13,6 +13,7 @@
 #include <skalibs/iopause.h>
 #include <skalibs/selfpipe.h>
 #include <skalibs/strerr.h>
+#include <skalibs/cspawn.h>
 #include <skalibs/djbunix.h>
 
 #define USAGE "s6-maximumtime [ -0 | -a | -b | -i | -k | -q | -t | -x | -1 | -2 ] milliseconds prog..."
@@ -58,7 +59,7 @@ int main (int argc, char const *const *argv, char const *const *envp)
   
   if (!selfpipe_trap(SIGCHLD)) strerr_diefu1sys(111, "selfpipe_trap") ;
 
-  pid = child_spawn0(argv[1], argv+1, envp) ;
+  pid = cspawn(argv[1], argv+1, envp, CSPAWN_FLAGS_SELFPIPE_FINISH, 0, 0) ;
   if (!pid) strerr_diefu2sys(111, "spawn ", argv[1]) ;
   tain_now_set_stopwatch_g() ;
   tain_add_g(&deadline, &deadline) ;
