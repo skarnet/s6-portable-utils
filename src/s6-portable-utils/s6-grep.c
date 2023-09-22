@@ -1,9 +1,10 @@
 /* ISC license. */
 
+#include <skalibs/nonposix.h>
+
 #include <string.h>
 #include <errno.h>
 #include <regex.h>
-#include <string.h>
 
 #include <skalibs/posixplz.h>
 #include <skalibs/bytestr.h>
@@ -66,7 +67,6 @@ int main (int argc, char const *const *argv)
     stralloc line = STRALLOC_ZERO ;
     regex_t re ;
     unsigned int num = 0 ;
-    size_t arglen = strlen(argv[0]) ;
     if (!flags.fixed)
     {
       int e = skalibs_regcomp(&re, argv[0], REG_NOSUB | (flags.extended ? REG_EXTENDED : 0) | (flags.ignorecase ? REG_ICASE : 0)) ;
@@ -93,7 +93,7 @@ int main (int argc, char const *const *argv)
       if (flags.fixed)
       {
         if (flags.ignorecase)
-          r = case_str(line.s, argv[0]) >= arglen ;
+          r = !strcasestr(line.s, argv[0]) ;
         else
           r = !strstr(line.s, argv[0]) ;
       }
