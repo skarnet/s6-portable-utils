@@ -4,7 +4,7 @@ ifeq ($(MULTICALL),1)
 
 BIN_TARGETS := $(package)
 BIN_SYMLINKS := $(notdir $(wildcard src/$(package)/deps-exe/*))
-EXTRA_TEMP := src/multicall/$(package).c
+EXTRA_TARGETS += src/multicall/$(package).c
 
 define symlink_definition
 SYMLINK_TARGET_$(1) := $(package)
