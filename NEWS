@@ -1,5 +1,11 @@
 Changelog for s6-portable-utils.
 
+In 2.3.0.4
+----------
+
+ - Align configure defaults to the rest of skaware.
+
+
 In 2.3.0.3
 ----------
 
