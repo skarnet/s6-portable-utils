@@ -1,9 +1,10 @@
 Changelog for s6-portable-utils.
 
-In 2.3.0.5
+In 2.3.1.0
 ----------
 
  - Bugfixes.
+ - pkg-config support.
 
 
 In 2.3.0.4

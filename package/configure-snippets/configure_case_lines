@@ -1,0 +1,2 @@
+    --enable-multicall|--enable-multicall=yes) multicall=true ;;
+    --disable-multicall|--enable-multicall=no) multicall=false ;;

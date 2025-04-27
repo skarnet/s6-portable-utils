@@ -1,0 +1,5 @@
+if $multicall ; then
+  echo "MULTICALL := 1"
+else
+  echo "MULTICALL :="
+fi
