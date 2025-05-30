@@ -17,14 +17,14 @@ cat <<EOF
 
 #include <$P/config.h>
 
-typedef int main_func (int, char const *const *, char const *const *) ;
-typedef main_func *main_func_ref ;
+typedef int emain_func (int, char const *const *, char const *const *) ;
+typedef emain_func *emain_func_ref ;
 
 typedef struct multicall_app_s multicall_app, *multicall_app_ref ;
 struct multicall_app_s
 {
   char const *name ;
-  main_func_ref mainf ;
+  emain_func_ref mainf ;
 } ;
 
 static int multicall_app_cmp (void const *a, void const *b)
